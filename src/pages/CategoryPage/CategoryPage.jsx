@@ -76,7 +76,16 @@ export default function CategoryPage() {
         </button>
 
         <h2>
-          Original Parts for <em>{name}</em>
+          Original Parts for{" "}
+          <em>
+            {name
+              .split(" ")
+              .map(
+                (word) =>
+                  word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+              )
+              .join(" ")}
+          </em>
         </h2>
         {isLoading ? (
           <p>Loading parts…</p>
@@ -120,7 +129,16 @@ export default function CategoryPage() {
         )}
 
         <h2>
-          Replacement Parts for <em>{name}</em>
+          Replacement Parts for{" "}
+          <em>
+            {name
+              .split(" ")
+              .map(
+                (word) =>
+                  word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+              )
+              .join(" ")}
+          </em>
         </h2>
         {isLoading ? (
           <p>Loading parts…</p>
