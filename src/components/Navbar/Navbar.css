@@ -43,13 +43,7 @@
 }
 
 .search-input {
-  padding: 0 12px;
   height: 40px;
-  border: 1px solid #dfe6e9;
-  border-radius: 8px;
-  flex: 1;
-  transition: border 0.3s ease;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
 
 .search-input:focus {

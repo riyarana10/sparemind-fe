@@ -1689,6 +1689,7 @@ button:hover {
   margin: 15px 0;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   font-family: Arial, sans-serif;
+  background: #fff;
 }
 
 .autocomplete-list {
