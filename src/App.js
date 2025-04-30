@@ -276,7 +276,16 @@ function App() {
                     })
                   }
                 >
-                  <h3>{cat.name}</h3>
+                  <h3>
+                    {cat.name
+                      .split(" ")
+                      .map(
+                        (word) =>
+                          word.charAt(0).toUpperCase() +
+                          word.slice(1).toLowerCase()
+                      )
+                      .join(" ")}
+                  </h3>
                   <p>
                     <strong>View parts from this category</strong>
                   </p>

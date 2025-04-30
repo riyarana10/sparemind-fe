@@ -327,25 +327,8 @@ export default function ReplacementDetails() {
             </div>
           )}
 
-        {/* ── Differences / Notes ── */}
-        <div className="differences-card">
-          <h2>Differences / Additional Info</h2>
-          <div className="difference-item">
-            <h3>Additions &amp; Subtractions</h3>
-            <p>{original.addition_subtraction || "No info available"}</p>
-          </div>
-          <div className="difference-item">
-            <h3>Reasons for Replacement</h3>
-            <p>{original.reason_for_replacement || "None specified"}</p>
-          </div>
-          <div className="difference-item highlighted">
-            <h3>Key Notes</h3>
-            <p>{original.key_differences_notes || "No special notes"}</p>
-          </div>
-        </div>
-
         {/* ── Comment / Accept / Reject ── */}
-        <div className="card" style={{ marginBottom: 20 }}>
+        <div className="card" style={{ margin: "20px 0px" }}>
           {decision === null && lastComment && (
             <div className="saved-comment">
               <strong>Last comment:</strong> {lastComment}
@@ -448,6 +431,24 @@ export default function ReplacementDetails() {
               />
               <PartDetailsCard title="Replacement Part" part={original} />
             </div>
+
+            {/* ── Differences / Notes ── */}
+            <div className="differences-card">
+              <h2>Differences / Additional Info</h2>
+              <div className="difference-item">
+                <h3>Additions &amp; Subtractions</h3>
+                <p>{original.addition_subtraction || "No info available"}</p>
+              </div>
+              <div className="difference-item">
+                <h3>Reasons for Replacement</h3>
+                <p>{original.reason_for_replacement || "None specified"}</p>
+              </div>
+              <div className="difference-item highlighted">
+                <h3>Key Notes</h3>
+                <p>{original.key_differences_notes || "No special notes"}</p>
+              </div>
+            </div>
+
             <SpecsComparison
               originalSpecs={origSpecsJson}
               replacementSpecs={replSpecsJson}
@@ -506,6 +507,30 @@ export default function ReplacementDetails() {
                           part={other}
                         />
                       </div>
+
+                      {/* ── Differences / Notes ── */}
+                      <div className="differences-card">
+                        <h2>Differences / Additional Info</h2>
+                        <div className="difference-item">
+                          <h3>Additions &amp; Subtractions</h3>
+                          <p>
+                            {other.addition_subtraction || "No info available"}
+                          </p>
+                        </div>
+                        <div className="difference-item">
+                          <h3>Reasons for Replacement</h3>
+                          <p>
+                            {other.reason_for_replacement || "None specified"}
+                          </p>
+                        </div>
+                        <div className="difference-item highlighted">
+                          <h3>Key Notes</h3>
+                          <p>
+                            {other.key_differences_notes || "No special notes"}
+                          </p>
+                        </div>
+                      </div>
+
                       <SpecsComparison
                         originalSpecs={origSpecsJson}
                         replacementSpecs={replSpecsJson}
