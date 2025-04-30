@@ -60,7 +60,7 @@ function App() {
       try {
         setIsLoadingCategory(true);
         const resp = await axios.get(
-          "http://localhost:8000/categories?size=8",
+          "/api/categories?size=8",
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setRecentCategories(resp.data.categories || []);
@@ -98,7 +98,7 @@ function App() {
           codes.map((code) => {
             console.log(`[DEBUG popular] fetching code ${code}`);
             return axios.get(
-              `http://localhost:8000/search?original_part_item_code=${encodeURIComponent(
+              `/api/search?original_part_item_code=${encodeURIComponent(
                 code
               )}`,
               { headers: { Authorization: `Bearer ${token}` } }
@@ -136,7 +136,7 @@ function App() {
       const params = new URLSearchParams();
       params.append("username", username);
       params.append("password", password);
-      const res = await axios.post("http://localhost:8000/login", params, {
+      const res = await axios.post("/api/login", params, {
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
       });
       setToken(res.data.access_token);
@@ -158,7 +158,7 @@ function App() {
     setCreateUserSuccess("");
     try {
       await axios.post(
-        "http://localhost:8000/users",
+        "/api/users",
         { username: newUsername, password: newPassword, role: newRole },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -178,7 +178,7 @@ function App() {
     setError("");
     try {
       const res = await axios.get(
-        `http://localhost:8000/search?original_part_item_code=${encodeURIComponent(
+        `/api/search?original_part_item_code=${encodeURIComponent(
           query
         )}`,
         { headers: { Authorization: `Bearer ${token}` } }

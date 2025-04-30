@@ -103,7 +103,7 @@ export default function OriginalDetails() {
     const token = localStorage.getItem("access_token");
 
     axios
-      .get(`http://localhost:8000/search_exact?q=${encodeURIComponent(code)}`, {
+      .get(`/api/search_exact?q=${encodeURIComponent(code)}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
@@ -143,7 +143,7 @@ export default function OriginalDetails() {
     try {
       const token = localStorage.getItem("access_token");
       await axios.post(
-        "http://localhost:8000/decision",
+        "/api/decision",
         {
           original_part_item_code: original.original_part_item_code,
           replacement_part_item_code: "",

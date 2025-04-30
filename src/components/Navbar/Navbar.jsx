@@ -2,8 +2,16 @@ import React, { useState, useEffect, useRef } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
-import { Select, Input, Button, Avatar, Menu, Dropdown, Drawer } from "antd";
-import { UserOutlined, DownOutlined, MenuOutlined } from "@ant-design/icons";
+import {
+  Select,
+  Button,
+  Avatar,
+  Menu,
+  Dropdown,
+  Drawer,
+  AutoComplete,
+} from "antd";
+import { UserOutlined, MenuOutlined } from "@ant-design/icons";
 import ChatBot from "../Chatbot/ConversationBot";
 import "./Navbar.css";
 
@@ -74,7 +82,7 @@ const Navbar = () => {
     }
     const handle = setTimeout(async () => {
       try {
-        const url = `http://localhost:8000/autocomplete?query=${encodeURIComponent(
+        const url = `/api/autocomplete?query=${encodeURIComponent(
           searchTerm
         )}`;
         const config = token
@@ -125,7 +133,7 @@ const Navbar = () => {
       <Menu.Item key="1" onClick={() => navigate("/")}>
         Home
       </Menu.Item>
-      <Menu.Item key="2" onClick={() => navigate("/dashboard")}>
+      <Menu.Item key="2" onClick={() => window.open("/dashboard", "_blank")}>
         Dashboard
       </Menu.Item>
       <Menu.Item key="3" onClick={() => navigate("/profile")}>
@@ -154,7 +162,7 @@ const Navbar = () => {
               setSearchTerm("");
               try {
                 const resp = await axios.get(
-                  `http://localhost:8000/search?original_part_item_code=`
+                  `/api/search?original_part_item_code=`
                 );
                 const hits = resp.data.results || [];
                 const sorted = [...hits].sort(
@@ -225,7 +233,7 @@ const Navbar = () => {
         >
           <div
             className={`search-form ${isDashboard ? "hide-on-dashboard" : ""}`}
-            style={{ width: "80%" }}
+            style={{ width: "80%", display: "flex", gap: "10px" }}
           >
             {ENABLE_CATEGORY_DROPDOWN && (
               <Select
@@ -243,13 +251,37 @@ const Navbar = () => {
                 ))}
               </Select>
             )}
-            <Input
+
+            <AutoComplete
               className="search-input"
-              placeholder="Enter part code or exact name…"
+              style={{ flex: 1 }}
+              options={suggestions.map((s) => ({
+                value: s.original_part_item_code,
+                label: (
+                  <div>
+                    <strong>{s.original_part_item_code}</strong> —{" "}
+                    <small>{s.original_part_name}</small>
+                  </div>
+                ),
+              }))}
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              onFocus={() => searchTerm.length >= 2 && setShowSuggestions(true)}
+              onChange={(value) => setSearchTerm(value)}
+              onSelect={(value) => {
+                setSearchTerm(value);
+                setShowSuggestions(false);
+                navigate(`/search?query=${encodeURIComponent(value)}`);
+              }}
+              onSearch={(value) => {
+                setSearchTerm(value);
+                if (value.length >= 2) {
+                  setShowSuggestions(true);
+                } else {
+                  setShowSuggestions(false);
+                }
+              }}
+              placeholder="Enter part code or exact name…"
             />
+
             <Button
               type="primary"
               htmlType="submit"
@@ -260,28 +292,6 @@ const Navbar = () => {
             >
               {isLoading ? "…" : "Search"}
             </Button>
-
-            {showSuggestions && suggestions.length > 0 && (
-              <ul className="autocomplete-list">
-                {suggestions.map((s, i) => (
-                  <li
-                    key={i}
-                    onClick={() => {
-                      setSearchTerm(s.original_part_item_code);
-                      setShowSuggestions(false);
-                      navigate(
-                        `/search?query=${encodeURIComponent(
-                          s.original_part_item_code
-                        )}`
-                      );
-                    }}
-                  >
-                    <strong>{s.original_part_item_code}</strong> —{" "}
-                    <small>{s.original_part_name}</small>
-                  </li>
-                ))}
-              </ul>
-            )}
           </div>
         </form>
 

@@ -21,7 +21,7 @@ export default function SearchPage() {
     setError("");
 
     axios
-      .get(`http://localhost:8000/search_exact?q=${encodeURIComponent(q)}`, {
+      .get(`/api/search_exact?q=${encodeURIComponent(q)}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
@@ -33,7 +33,7 @@ export default function SearchPage() {
           return null;
         }
         return axios.get(
-          `http://localhost:8000/search_all?query=${encodeURIComponent(q)}`,
+          `/api/search_all?query=${encodeURIComponent(q)}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
       })
