@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./App.css";
 import SpecsComparison from "./components/SpecsComp/SpecsComp";
-import ChatBot from "./components/Chatbot/Chatbot";
+import ChatBot from "./components/Chatbot/ConversationBot";
 
 export default function ReplacementDetails() {
   const { code } = useParams();

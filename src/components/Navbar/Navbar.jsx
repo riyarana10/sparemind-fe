@@ -4,7 +4,7 @@ import { useLocation } from "react-router-dom";
 import axios from "axios";
 import { Select, Input, Button, Avatar, Menu, Dropdown, Drawer } from "antd";
 import { UserOutlined, DownOutlined, MenuOutlined } from "@ant-design/icons";
-import ChatBot from "../Chatbot/Chatbot";
+import ChatBot from "../Chatbot/ConversationBot";
 import "./Navbar.css";
 
 const { Option } = Select;

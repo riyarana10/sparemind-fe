@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./App.css";
 import { useNavigate, useLocation } from "react-router-dom";
-import ChatBot from "./components/Chatbot/Chatbot";
+import ChatBot from "./components/Chatbot/ConversationBot";
 
 const formatPrice = (price) => {
   const num = typeof price === "string" ? parseFloat(price) : price;

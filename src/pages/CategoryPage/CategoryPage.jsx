@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-import ChatBot from "../../components/Chatbot/Chatbot";
+import ChatBot from "../../components/Chatbot/ConversationBot";
 import "../../App.css";
 
 export default function CategoryPage() {
