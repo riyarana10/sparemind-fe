@@ -6,6 +6,7 @@ import "./App.css";
 import SpecsComparison from "./components/SpecsComp/SpecsComp";
 import ChatBot from "./components/Chatbot/ConversationBot";
 import NoImage from "./assets/img/no_image.jpg";
+import ZoomImage from "./components/ZoomImage";
 
 export default function ReplacementDetails() {
   const { code } = useParams();
@@ -323,14 +324,7 @@ export default function ReplacementDetails() {
           <div className="card-header">
             <h2>{original.replacement_part_name}</h2>
             <div className="card-meta">
-              {original.original_part_image === null ? (
-                <img src={NoImage} style={{ height: "200px" }} />
-              ) : (
-                <img
-                  src={original.replacement_part_image}
-                  style={{ height: "200px" }}
-                />
-              )}
+            <ZoomImage src={original.original_part_image} />
             </div>
             <div className="card-meta card-meta-main">
               <p>
