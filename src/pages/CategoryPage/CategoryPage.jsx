@@ -22,7 +22,7 @@ export default function CategoryPage() {
       setError("");
       try {
         const resp = await axios.get(
-          `/api/search_by_category?category=${encodeURIComponent(
+          `http://localhost:8000/search_by_category?category=${encodeURIComponent(
             name
           )}&size=100`,
           {

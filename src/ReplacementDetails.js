@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { Modal, Button, List } from "antd";
 import "./App.css";
 import SpecsComparison from "./components/SpecsComp/SpecsComp";
 import ChatBot from "./components/Chatbot/ConversationBot";
@@ -20,6 +21,7 @@ export default function ReplacementDetails() {
   const [lastComment, setLastComment] = useState("");
   const [decision, setDecision] = useState(null);
   const [busy, setBusy] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [showCompareOriginal, setShowCompareOriginal] = useState(false);
   const [compareOther, setCompareOther] = useState({});
@@ -93,7 +95,7 @@ export default function ReplacementDetails() {
     const token = localStorage.getItem("access_token");
 
     axios
-      .get(`/api/search_exact?q=${encodeURIComponent(code)}`, {
+      .get(`http://localhost:8000/search_exact?q=${encodeURIComponent(code)}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
@@ -151,7 +153,7 @@ export default function ReplacementDetails() {
     try {
       const token = localStorage.getItem("access_token");
       await axios.post(
-        "/api/decision",
+        "http://localhost:8000/decision",
         {
           original_part_item_code: original.original_part_item_code,
           replacement_part_item_code: code,
@@ -172,7 +174,16 @@ export default function ReplacementDetails() {
   };
 
   const PartDetailsCard = ({ title, part, isOriginal = false }) => (
-    <div>
+    <div
+      className="part-details-card"
+      style={{
+        flex: 1,
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        borderRadius: "8px",
+      }}
+    >
       <div className="compare-col">
         <h3>{title}</h3>
         <p>
@@ -230,27 +241,61 @@ export default function ReplacementDetails() {
     </div>
   );
 
+  // const pdfLinks = {
+  //   "AIR LUBRICATOR":
+  //     "https://www.smcworld.com/assets/manual/en-jp/files/AL-OMX0056.pdf",
+  //   "PRESSURE SWITCH":
+  //     "https://www.smcworld.com/assets/manual/en-jp/files/ZISE30A.eng.pdf",
+  //   "AIR FILTER":
+  //     "https://ca01.smcworld.com/catalog/New-products-en/mpv/es30-22-AFF-D/data/es30-22-AFF-D.pdf",
+  //   "SPEED CONTROLLER":
+  //     "https://ca01.smcworld.com/catalog/New-products-en/mpv/es30-22-AFF-D/data/es30-22-AFF-D.pdf",
+  //   "RODLESS CYLINDER":
+  //     "https://ca01.smcworld.com/catalog/New-products-en/mpv/es20-261-MY1/data/es20-261-MY1.pdf",
+  //   "PNEUMATIC SEAL KIT":
+  //     "https://ca01.smcworld.com/catalog/en/actuator/MGP-Z-E/6-2-2-p0423-0494-mgp_en/data/6-2-2-p0423-0494-mgp_en.pdf",
+  //   "REED SWITCH":
+  //     "https://ca01.smcworld.com/catalog/BEST-5-2-en/pdf/2-p1574-1651-sw2mu.pdf",
+  //   "PNEUMATIC FITTING":
+  //     "https://ca01.smcworld.com/catalog/BEST-5-6-en/pdf/es50-37-kq2.pdf",
+  //   "AIR CYLINDER":
+  //     "https://ca01.smcworld.com/catalog/BEST-Guide-en/pdf/2-m27-49_en.pdf",
+  //   "SOLENOID VALVE":
+  //     "https://content2.smcetech.com/pdf/VP300-500-700-A_EU.pdf",
+  // };
+
   const pdfLinks = {
-    "AIR LUBRICATOR":
+    "AIR LUBRICATOR": [
       "https://www.smcworld.com/assets/manual/en-jp/files/AL-OMX0056.pdf",
-    "PRESSURE SWITCH":
+      "https://example.com/air-lubricator-extra.pdf",
+    ],
+    "PRESSURE SWITCH": [
       "https://www.smcworld.com/assets/manual/en-jp/files/ZISE30A.eng.pdf",
-    "AIR FILTER":
+    ],
+    "AIR FILTER": [
       "https://ca01.smcworld.com/catalog/New-products-en/mpv/es30-22-AFF-D/data/es30-22-AFF-D.pdf",
-    "SPEED CONTROLLER":
+    ],
+    "SPEED CONTROLLER": [
       "https://ca01.smcworld.com/catalog/New-products-en/mpv/es30-22-AFF-D/data/es30-22-AFF-D.pdf",
-    "RODLESS CYLINDER":
+    ],
+    "RODLESS CYLINDER": [
       "https://ca01.smcworld.com/catalog/New-products-en/mpv/es20-261-MY1/data/es20-261-MY1.pdf",
-    "PNEUMATIC SEAL KIT":
+    ],
+    "PNEUMATIC SEAL KIT": [
       "https://ca01.smcworld.com/catalog/en/actuator/MGP-Z-E/6-2-2-p0423-0494-mgp_en/data/6-2-2-p0423-0494-mgp_en.pdf",
-    "REED SWITCH":
+    ],
+    "REED SWITCH": [
       "https://ca01.smcworld.com/catalog/BEST-5-2-en/pdf/2-p1574-1651-sw2mu.pdf",
-    "PNEUMATIC FITTING":
+    ],
+    "PNEUMATIC FITTING": [
       "https://ca01.smcworld.com/catalog/BEST-5-6-en/pdf/es50-37-kq2.pdf",
-    "AIR CYLINDER":
+    ],
+    "AIR CYLINDER": [
       "https://ca01.smcworld.com/catalog/BEST-Guide-en/pdf/2-m27-49_en.pdf",
-    "SOLENOID VALVE":
+    ],
+    "SOLENOID VALVE": [
       "https://content2.smcetech.com/pdf/VP300-500-700-A_EU.pdf",
+    ],
   };
 
   const category = original.category?.toUpperCase().trim();
@@ -311,15 +356,23 @@ export default function ReplacementDetails() {
               </p>
             </div>
 
-            {resourceLink && (
+            {resourceLink && resourceLink.length === 1 && (
               <div className="resource-link">
                 <a
-                  href={resourceLink}
+                  href={resourceLink[0]}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
                   <button style={{ padding: "12px" }}>Attachments</button>
                 </a>
+              </div>
+            )}
+
+            {resourceLink && resourceLink.length > 1 && (
+              <div className="resource-link">
+                <Button type="primary" onClick={() => setIsModalOpen(true)}>
+                  Attachments
+                </Button>
               </div>
             )}
             <div
@@ -688,6 +741,28 @@ export default function ReplacementDetails() {
           setStage={setStage}
         />
       </div>
+
+      <Modal
+        title={`${category} - Attachments`}
+        open={isModalOpen}
+        onCancel={() => setIsModalOpen(false)}
+        footer={[
+          <Button key="close" onClick={() => setIsModalOpen(false)}>
+            Close
+          </Button>,
+        ]}
+      >
+        <List
+          dataSource={resourceLink}
+          renderItem={(link, index) => (
+            <List.Item>
+              <a href={link} target="_blank" rel="noopener noreferrer">
+                {link}
+              </a>
+            </List.Item>
+          )}
+        />
+      </Modal>
     </div>
   );
 }

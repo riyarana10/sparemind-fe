@@ -82,7 +82,7 @@ const Navbar = () => {
     }
     const handle = setTimeout(async () => {
       try {
-        const url = `/api/autocomplete?query=${encodeURIComponent(
+        const url = `http://localhost:8000/autocomplete?query=${encodeURIComponent(
           searchTerm
         )}`;
         const config = token
@@ -162,7 +162,7 @@ const Navbar = () => {
               setSearchTerm("");
               try {
                 const resp = await axios.get(
-                  `/api/search?original_part_item_code=`
+                  `http://localhost:8000/search?original_part_item_code=`
                 );
                 const hits = resp.data.results || [];
                 const sorted = [...hits].sort(

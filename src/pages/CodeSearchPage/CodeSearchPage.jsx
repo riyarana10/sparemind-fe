@@ -21,7 +21,7 @@ export default function CodeSearchPage() {
       setError("");
       try {
         const resp = await axios.get(
-          `/api/search?original_part_item_code=${encodeURIComponent(
+          `http://localhost:8000/search?original_part_item_code=${encodeURIComponent(
             query
           )}`,
           { headers: { Authorization: `Bearer ${token}` } }

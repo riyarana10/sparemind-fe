@@ -17,7 +17,7 @@ export default function HomePage() {
       setLoadingCats(true);
       try {
         const { data } = await axios.get(
-          "/api/categories?size=5",
+          "http://localhost:8000/categories?size=5",
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setCats(data.categories || []);
@@ -39,7 +39,7 @@ export default function HomePage() {
     setLoadingParts(true);
     Promise.all(
       codes.map((c) =>
-        axios.get(`/api/search?original_part_item_code=${c}`, {
+        axios.get(`http://localhost:8000/search?original_part_item_code=${c}`, {
           headers: { Authorization: `Bearer ${token}` },
         })
       )
