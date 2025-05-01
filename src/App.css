@@ -379,17 +379,36 @@ button:hover {
 }
 
 /* Compare grid is 2 columns side by side */
-.compare-grid {
-  display: grid;
+/* .compare-grid {
+  display: flex;
   grid-template-columns: 1fr 1fr;
   gap: 24px;
   margin-bottom: 20px;
+} */
+
+.compare-grid {
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+  align-items: stretch;
 }
-.compare-col {
+/* .compare-col {
   background-color: #f9f9f9;
   border: 1px solid #dfe6e9;
   border-radius: 8px;
   padding: 20px;
+} */
+
+.compare-col {
+  flex: 1;
+  background-color: #f9f9f9;
+   /* or your grey */
+   border: 1px solid #dfe6e9;
+  padding: 16px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .compare-col-img{
@@ -1936,6 +1955,13 @@ chat-choose button[disabled] {
   .comment-button-section{
     flex-direction: column;
   }
+  .compare-col-img{
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 1260px) {
   .compare-grid{
     display: flex;
     flex-direction: column;
