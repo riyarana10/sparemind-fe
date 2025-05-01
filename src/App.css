@@ -392,6 +392,15 @@ button:hover {
   padding: 20px;
 }
 
+.compare-col-img{
+  border: 1px solid #dfe6e9;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 20px 0px;
+  display: flex;
+  gap: 40px;
+}
+
 /* Price difference color classes */
 .price-positive {
   color: #27ae60;
@@ -435,7 +444,7 @@ button:hover {
   margin-bottom: 20px;
 }
 
-.other-compare button {
+.other-compare-button {
   padding: 8px 16px;
   background-color: #34495e;
   color: #fff;
@@ -443,7 +452,7 @@ button:hover {
   border-radius: 8px;
   cursor: pointer;
 }
-.other-compare button:hover {
+.other-compare-button:hover {
   background-color: #2c3e50;
 }
 

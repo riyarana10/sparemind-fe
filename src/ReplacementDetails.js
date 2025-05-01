@@ -4,6 +4,7 @@ import axios from "axios";
 import "./App.css";
 import SpecsComparison from "./components/SpecsComp/SpecsComp";
 import ChatBot from "./components/Chatbot/ConversationBot";
+import NoImage from "./assets/img/no_image.jpg";
 
 export default function ReplacementDetails() {
   const { code } = useParams();
@@ -171,40 +172,61 @@ export default function ReplacementDetails() {
   };
 
   const PartDetailsCard = ({ title, part, isOriginal = false }) => (
-    <div className="compare-col">
-      <h3>{title}</h3>
-      <p>
-        <strong>Code:</strong>{" "}
-        {isOriginal
-          ? part.original_part_item_code
-          : part.replacement_part_item_code}
-      </p>
-      <p>
-        <strong>Name:</strong>{" "}
-        {isOriginal ? part.original_part_name : part.replacement_part_name}
-      </p>
-      <p>
-        <strong>Description:</strong>{" "}
-        {isOriginal
-          ? part.original_part_name_breakdown_definition
-          : part.replacement_part_name_breakdown_definition}
-      </p>
-      <p>
-        <strong>Location:</strong>{" "}
-        {isOriginal
-          ? part.original_part_location
-          : part.replacement_part_location}
-      </p>
-      <p>
-        <strong>In Stock:</strong>{" "}
-        {isOriginal ? part.original_part_stock : part.replacement_part_stock}
-      </p>
-      <p>
-        <strong>Price:</strong> ₹
-        {formatPrice(
-          isOriginal ? part.original_part_price : part.replacement_part_price
-        )}
-      </p>
+    <div>
+      <div className="compare-col">
+        <h3>{title}</h3>
+        <p>
+          <strong>Code:</strong>{" "}
+          {isOriginal
+            ? part.original_part_item_code
+            : part.replacement_part_item_code}
+        </p>
+        <p>
+          <strong>Name:</strong>{" "}
+          {isOriginal ? part.original_part_name : part.replacement_part_name}
+        </p>
+        <p>
+          <strong>Description:</strong>{" "}
+          {isOriginal
+            ? part.original_part_name_breakdown_definition
+            : part.replacement_part_name_breakdown_definition}
+        </p>
+        <p>
+          <strong>Location:</strong>{" "}
+          {isOriginal
+            ? part.original_part_location
+            : part.replacement_part_location}
+        </p>
+        <p>
+          <strong>In Stock:</strong>{" "}
+          {isOriginal ? part.original_part_stock : part.replacement_part_stock}
+        </p>
+        <p>
+          <strong>Price:</strong> ₹
+          {formatPrice(
+            isOriginal ? part.original_part_price : part.replacement_part_price
+          )}
+        </p>
+      </div>
+      <div className="compare-col-img">
+        <p>
+          <strong>
+            {isOriginal ? "Original Part" : "Replacement Part"} Image:
+          </strong>
+        </p>
+        <img
+          src={
+            isOriginal
+              ? part.original_part_image === null
+                ? NoImage
+                : part.original_part_image
+              : part.replacement_part_image === null
+              ? NoImage
+              : part.replacement_part_image
+          }
+          style={{ height: "200px" }}
+        />
+      </div>
     </div>
   );
 
@@ -255,6 +277,16 @@ export default function ReplacementDetails() {
         <div className="replacement-card">
           <div className="card-header">
             <h2>{original.replacement_part_name}</h2>
+            <div className="card-meta">
+              {original.original_part_image === null ? (
+                <img src={NoImage} style={{ height: "200px" }} />
+              ) : (
+                <img
+                  src={original.replacement_part_image}
+                  style={{ height: "200px" }}
+                />
+              )}
+            </div>
             <div className="card-meta card-meta-main">
               <p>
                 <strong>Code:</strong> {code}
@@ -267,8 +299,6 @@ export default function ReplacementDetails() {
                 <strong>Description:</strong>{" "}
                 {original.replacement_part_name_breakdown_definition}
               </p>
-            </div>
-            <div className="card-meta">
               <p className={diffColor(original.price_difference)}>
                 <strong>Savings:</strong> ₹
                 {formatPrice(original.price_difference)}
@@ -280,6 +310,7 @@ export default function ReplacementDetails() {
                 <strong>Category:</strong> {original.category}
               </p>
             </div>
+
             {resourceLink && (
               <div className="resource-link">
                 <a
@@ -344,77 +375,6 @@ export default function ReplacementDetails() {
           ) : null}
         </div>
 
-        {/* ── Comment / Accept / Reject ── */}
-        <div className="card" style={{ margin: "20px 0px" }}>
-          {decision === null && lastComment && (
-            <div className="saved-comment">
-              <strong>Last comment:</strong> {lastComment}
-            </div>
-          )}
-          <div className="comment-box-section">
-            <textarea
-              className="comment-box"
-              placeholder="Add a comment…"
-              value={commentText}
-              onChange={(e) => setCommentText(e.target.value)}
-              disabled={!!decision || busy}
-            />
-          </div>
-          {decision === null ? (
-            <div className="comment-button-section">
-              <button
-                className="comment-button"
-                onClick={() => sendDecision(false, false, commentText)}
-                disabled={busy || !commentText.trim()}
-              >
-                Comment
-              </button>
-              <button
-                className="accept-button"
-                onClick={() => sendDecision(true, false, commentText)}
-                disabled={busy}
-              >
-                Accept
-              </button>
-              <button
-                className="reject-button"
-                onClick={() => sendDecision(false, true, commentText)}
-                disabled={busy}
-              >
-                Reject
-              </button>
-            </div>
-          ) : (
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 12,
-                marginTop: 8,
-              }}
-            >
-              <span
-                className={
-                  decision === "accepted" ? "accepted-badge" : "rejected-badge"
-                }
-              >
-                {decision === "accepted" ? "✔ Accepted" : "✘ Rejected"}
-              </span>
-              <button
-                className="review-button"
-                onClick={() => {
-                  setDecision(null);
-                  setLastComment("");
-                  setCommentText("");
-                }}
-                disabled={busy}
-              >
-                Review
-              </button>
-            </div>
-          )}
-        </div>
-
         {/* ── Compare with Original ── */}
         <div className="compare-toggle">
           <button
@@ -470,6 +430,79 @@ export default function ReplacementDetails() {
               originalSpecs={origSpecsJson}
               replacementSpecs={replSpecsJson}
             />
+
+            {/* ── Comment / Accept / Reject ── */}
+            <div className="card" style={{ margin: "20px 0px" }}>
+              {decision === null && lastComment && (
+                <div className="saved-comment">
+                  <strong>Last comment:</strong> {lastComment}
+                </div>
+              )}
+              <div className="comment-box-section">
+                <textarea
+                  className="comment-box"
+                  placeholder="Add a comment…"
+                  value={commentText}
+                  onChange={(e) => setCommentText(e.target.value)}
+                  disabled={!!decision || busy}
+                />
+              </div>
+              {decision === null ? (
+                <div className="comment-button-section">
+                  <button
+                    className="comment-button"
+                    onClick={() => sendDecision(false, false, commentText)}
+                    disabled={busy || !commentText.trim()}
+                  >
+                    Comment
+                  </button>
+                  <button
+                    className="accept-button"
+                    onClick={() => sendDecision(true, false, commentText)}
+                    disabled={busy}
+                  >
+                    Accept
+                  </button>
+                  <button
+                    className="reject-button"
+                    onClick={() => sendDecision(false, true, commentText)}
+                    disabled={busy}
+                  >
+                    Reject
+                  </button>
+                </div>
+              ) : (
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 12,
+                    marginTop: 8,
+                  }}
+                >
+                  <span
+                    className={
+                      decision === "accepted"
+                        ? "accepted-badge"
+                        : "rejected-badge"
+                    }
+                  >
+                    {decision === "accepted" ? "✔ Accepted" : "✘ Rejected"}
+                  </span>
+                  <button
+                    className="review-button"
+                    onClick={() => {
+                      setDecision(null);
+                      setLastComment("");
+                      setCommentText("");
+                    }}
+                    disabled={busy}
+                  >
+                    Review
+                  </button>
+                </div>
+              )}
+            </div>
           </>
         )}
 
@@ -486,6 +519,7 @@ export default function ReplacementDetails() {
                   className="other-compare"
                 >
                   <button
+                    className="other-compare-button"
                     onClick={() =>
                       setCompareOther((prev) => ({
                         ...prev,
@@ -552,6 +586,87 @@ export default function ReplacementDetails() {
                         originalSpecs={origSpecsJson}
                         replacementSpecs={replSpecsJson}
                       />
+
+                      {/* ── Comment / Accept / Reject ── */}
+                      <div className="card" style={{ margin: "20px 0px" }}>
+                        {decision === null && lastComment && (
+                          <div className="saved-comment">
+                            <strong>Last comment:</strong> {lastComment}
+                          </div>
+                        )}
+                        <div className="comment-box-section">
+                          <textarea
+                            className="comment-box"
+                            placeholder="Add a comment…"
+                            value={commentText}
+                            onChange={(e) => setCommentText(e.target.value)}
+                            disabled={!!decision || busy}
+                          />
+                        </div>
+                        {decision === null ? (
+                          <div className="comment-button-section">
+                            <button
+                              className="comment-button"
+                              onClick={() =>
+                                sendDecision(false, false, commentText)
+                              }
+                              disabled={busy || !commentText.trim()}
+                            >
+                              Comment
+                            </button>
+                            <button
+                              className="accept-button"
+                              onClick={() =>
+                                sendDecision(true, false, commentText)
+                              }
+                              disabled={busy}
+                            >
+                              Accept
+                            </button>
+                            <button
+                              className="reject-button"
+                              onClick={() =>
+                                sendDecision(false, true, commentText)
+                              }
+                              disabled={busy}
+                            >
+                              Reject
+                            </button>
+                          </div>
+                        ) : (
+                          <div
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: 12,
+                              marginTop: 8,
+                            }}
+                          >
+                            <span
+                              className={
+                                decision === "accepted"
+                                  ? "accepted-badge"
+                                  : "rejected-badge"
+                              }
+                            >
+                              {decision === "accepted"
+                                ? "✔ Accepted"
+                                : "✘ Rejected"}
+                            </span>
+                            <button
+                              className="review-button"
+                              onClick={() => {
+                                setDecision(null);
+                                setLastComment("");
+                                setCommentText("");
+                              }}
+                              disabled={busy}
+                            >
+                              Review
+                            </button>
+                          </div>
+                        )}
+                      </div>
                     </>
                   )}
                 </div>
