@@ -387,29 +387,46 @@ export default function ReplacementDetails() {
               </p>
             </div>
           </div>
-        </div>
-
-        {/* ── Replacement Specs ── */}
-        {parsedReplacementSpecs &&
-          Object.keys(parsedReplacementSpecs).length > 0 && (
+          {/* ── Replacement Specs ── */}
+          {(replSpecsJson && Object.keys(replSpecsJson).length > 0) ||
+          (parsedReplacementSpecs &&
+            Object.keys(parsedReplacementSpecs).length > 0) ? (
             <div className="specs-section">
               <h3>Replacement Specs</h3>
               <div className="specs-grid">
-                {parseSpecs(original.top_specs_replacement_part).map(
-                  (blk, idx) => (
-                    <div key={idx} className="spec-block">
-                      <h4>{blk.heading}</h4>
-                      <ul>
-                        {blk.items.map((it, j) => (
-                          <li key={j}>{it}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  )
-                )}
+                {replSpecsJson && Object.keys(replSpecsJson).length > 0
+                  ? /* JSON version */
+                    Object.entries(replSpecsJson).map(
+                      ([heading, items], idx) => (
+                        <div key={idx} className="spec-block">
+                          <h4>{heading}</h4>
+                          <ul>
+                            {items.map((item, j) => (
+                              <li key={j}>
+                                {item.replace(/^[•\-]\s*/, "").trim()}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )
+                    )
+                  : /* Parsed text version */
+                    parseSpecs(original.top_specs_replacement_part)?.map(
+                      (blk, idx) => (
+                        <div key={idx} className="spec-block">
+                          <h4>{blk.heading}</h4>
+                          <ul>
+                            {blk.items.map((it, j) => (
+                              <li key={j}>{it}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      )
+                    )}
               </div>
             </div>
-          )}
+          ) : null}
+        </div>
 
         {/* ── Compare with Original ── */}
         <div className="compare-toggle">

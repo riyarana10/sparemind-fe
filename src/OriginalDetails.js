@@ -381,26 +381,43 @@ export default function OriginalDetails() {
             </div>
           </div>
 
-          {/* ── Show “Original Specs” table ── */}
-          {originalSpecsObj && Object.keys(originalSpecsObj).length > 0 && (
+          {/* ── Show "Original Specs" table ── */}
+          {(originalSpecsJson && Object.keys(originalSpecsJson).length > 0) ||
+          (originalSpecsObj && Object.keys(originalSpecsObj).length > 0) ? (
             <div className="specs-section">
               <h3>Original Specs</h3>
               <div className="specs-grid">
-                {parseSpecs(original.top_specs_original_part).map(
-                  (blk, idx) => (
-                    <div key={idx} className="spec-block">
-                      <h4>{blk.heading}</h4>
-                      <ul>
-                        {blk.items.map((it, j) => (
-                          <li key={j}>{it}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  )
-                )}
+                {originalSpecsJson && Object.keys(originalSpecsJson).length > 0
+                  ? /* JSON version */
+                    Object.entries(originalSpecsJson).map(
+                      ([heading, items], idx) => (
+                        <div key={idx} className="spec-block">
+                          <h4>{heading}</h4>
+                          <ul>
+                            {items.map((item, j) => (
+                              <li key={j}>
+                                {item.replace(/^[•\-]\s*/, "").trim()}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )
+                    )
+                  : parseSpecs(original.top_specs_original_part)?.map(
+                      (blk, idx) => (
+                        <div key={idx} className="spec-block">
+                          <h4>{blk.heading}</h4>
+                          <ul>
+                            {blk.items.map((it, j) => (
+                              <li key={j}>{it}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      )
+                    )}
               </div>
             </div>
-          )}
+          ) : null}
         </div>
 
         {/* ── Compare with Its Replacements ── */}
