@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./App.css";
@@ -6,6 +6,7 @@ import SpecsComparison from "./components/SpecsComp/SpecsComp";
 import ChatBot from "./components/Chatbot/ConversationBot";
 import NoImage from "./assets/img/no_image.jpg";
 import { Modal, Button, List } from "antd";
+import ZoomImage from "./components/ZoomImage";
 
 export default function OriginalDetails() {
   const { code } = useParams();
@@ -317,14 +318,7 @@ export default function OriginalDetails() {
           <div className="card-header">
             <h2>{original.original_part_name}</h2>
             <div className="card-meta">
-              {original.original_part_image === null ? (
-                <img src={NoImage} style={{ height: "200px" }} />
-              ) : (
-                <img
-                  src={original.original_part_image}
-                  style={{ height: "200px" }}
-                />
-              )}
+            <ZoomImage src={original.original_part_image} />
             </div>
             <div className="card-meta card-meta-main">
               <p>
