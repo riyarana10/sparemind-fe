@@ -463,7 +463,7 @@ export default function OriginalDetails() {
                         >
                           <strong>Savings:</strong> ₹{formatPrice(savings)}
                         </div>
-                        <div className="compare-grid">
+                        <div className={isChatOpen ? "compare-grid-chat-open" : "compare-grid"}>
                           <PartDetailsCard
                             title="Original Part"
                             part={original}
