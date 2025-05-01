@@ -453,7 +453,7 @@ export default function ReplacementDetails() {
               <strong>Savings:</strong> ₹
               {formatPrice(original.price_difference)}
             </div>
-            <div className="compare-grid">
+            <div className={isChatOpen ? "compare-grid-chat-open" : "compare-grid"}>
               <PartDetailsCard
                 title="Original Part"
                 part={original}
@@ -600,7 +600,7 @@ export default function ReplacementDetails() {
                         <strong>Savings:</strong> ₹
                         {formatPrice(other.price_difference)}
                       </div>
-                      <div className="compare-grid">
+                      <div className={isChatOpen ? "compare-grid-chat-open" : "compare-grid"}>
                         <PartDetailsCard
                           title="Original Part"
                           part={original}

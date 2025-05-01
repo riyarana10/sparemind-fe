@@ -386,12 +386,13 @@ button:hover {
   margin-bottom: 20px;
 } */
 
-.compare-grid {
+/* .compare-grid {
   display: flex;
   gap: 20px;
   justify-content: space-between;
   align-items: stretch;
-}
+} */
+
 /* .compare-col {
   background-color: #f9f9f9;
   border: 1px solid #dfe6e9;
@@ -481,6 +482,13 @@ button:hover {
   grid-template-columns: 1fr 1fr;
   gap: 20px;
   margin: 20px 0;
+}
+
+.compare-grid-chat-open{
+  display: grid;
+  gap: 20px;
+  margin: 20px 0;
+  flex-direction: column;
 }
 
 .compare-col {
