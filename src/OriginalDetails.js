@@ -103,7 +103,7 @@ export default function OriginalDetails() {
     const token = localStorage.getItem("access_token");
 
     axios
-      .get(`/api/search_exact?q=${encodeURIComponent(code)}`, {
+      .get(`http://localhost:8000/search_exact?q=${encodeURIComponent(code)}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
@@ -143,7 +143,7 @@ export default function OriginalDetails() {
     try {
       const token = localStorage.getItem("access_token");
       await axios.post(
-        "/api/decision",
+        "http://localhost:8000/decision",
         {
           original_part_item_code: original.original_part_item_code,
           replacement_part_item_code: "",
@@ -297,26 +297,43 @@ export default function OriginalDetails() {
             </div>
           </div>
 
-          {/* ── Show “Original Specs” table ── */}
-          {originalSpecsObj && Object.keys(originalSpecsObj).length > 0 && (
+          {/* ── Show "Original Specs" table ── */}
+          {(originalSpecsJson && Object.keys(originalSpecsJson).length > 0) ||
+          (originalSpecsObj && Object.keys(originalSpecsObj).length > 0) ? (
             <div className="specs-section">
               <h3>Original Specs</h3>
               <div className="specs-grid">
-                {parseSpecs(original.top_specs_original_part).map(
-                  (blk, idx) => (
-                    <div key={idx} className="spec-block">
-                      <h4>{blk.heading}</h4>
-                      <ul>
-                        {blk.items.map((it, j) => (
-                          <li key={j}>{it}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  )
-                )}
+                {originalSpecsJson && Object.keys(originalSpecsJson).length > 0
+                  ? /* JSON version */
+                    Object.entries(originalSpecsJson).map(
+                      ([heading, items], idx) => (
+                        <div key={idx} className="spec-block">
+                          <h4>{heading}</h4>
+                          <ul>
+                            {items.map((item, j) => (
+                              <li key={j}>
+                                {item.replace(/^[•\-]\s*/, "").trim()}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )
+                    )
+                  : parseSpecs(original.top_specs_original_part)?.map(
+                      (blk, idx) => (
+                        <div key={idx} className="spec-block">
+                          <h4>{blk.heading}</h4>
+                          <ul>
+                            {blk.items.map((it, j) => (
+                              <li key={j}>{it}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      )
+                    )}
               </div>
             </div>
-          )}
+          ) : null}
         </div>
 
         {/* ── Comment / Accept / Reject UI ── */}
