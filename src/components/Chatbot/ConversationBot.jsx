@@ -55,7 +55,7 @@ function ChatBot({ categoryId, isOpen, toggleChat, stage, setStage }) {
     setisExistingChatLoading(true);
     setIsLoading(true);
     try {
-      const res = await fetch("http://localhost:8000/chat/history", {
+      const res = await fetch("/api/chat/history", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -80,7 +80,7 @@ function ChatBot({ categoryId, isOpen, toggleChat, stage, setStage }) {
     setStage("chat");
     clearFrontendChat();
     try {
-      const res = await fetch("http://localhost:8000/chat/reset", {
+      const res = await fetch("/api/chat/reset", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -107,7 +107,7 @@ function ChatBot({ categoryId, isOpen, toggleChat, stage, setStage }) {
     setIsLoading(true);
 
     try {
-      const res = await fetch("http://localhost:8000/chat", {
+      const res = await fetch("/api/chat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
