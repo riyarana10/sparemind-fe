@@ -22,7 +22,7 @@ export default function CategoryPage() {
       setError("");
       try {
         const resp = await axios.get(
-          `http://localhost:8000/search_by_category?category=${encodeURIComponent(
+          `/api/search_by_category?category=${encodeURIComponent(
             name
           )}&size=100`,
           {
@@ -202,7 +202,11 @@ export default function CategoryPage() {
           }}
           onClick={() => setIsChatOpen(true)}
         >
-          Interact with Category PDF
+          Know more about {name
+                .toLowerCase()
+                .split(' ')
+                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(' ')}
         </button>
       </div>
 
