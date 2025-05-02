@@ -220,17 +220,10 @@ export default function OriginalDetails() {
             {isOriginal ? "Original Part" : "Replacement Part"} Image:
           </strong>
         </p>
-        <img
+        <ZoomImage
           src={
-            isOriginal
-              ? part.original_part_image === null
-                ? NoImage
-                : part.original_part_image
-              : part.replacement_part_image === null
-              ? NoImage
-              : part.replacement_part_image
+            isOriginal ? part.original_part_image : part.replacement_part_image
           }
-          style={{ height: "200px" }}
         />
       </div>
     </div>
