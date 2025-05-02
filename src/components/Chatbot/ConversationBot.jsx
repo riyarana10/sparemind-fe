@@ -114,7 +114,7 @@ function ChatBot({ categoryId, isOpen, toggleChat, stage, setStage }) {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },
         body: JSON.stringify({
-          page_context: categoryId,
+          page_context: categoryId.lower(),
           query: text,
         }),
       });
