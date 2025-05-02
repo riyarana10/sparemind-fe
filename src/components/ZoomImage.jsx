@@ -21,7 +21,7 @@ const ZoomImage = ({ src }) => {
         src={src || NoImage}
         style={{
           height: "200px",
-          width: "auto",
+          width: "200px",
           objectFit: "contain",
           cursor: src ? "zoom-in" : "default",
         }}
@@ -38,10 +38,10 @@ const ZoomImage = ({ src }) => {
         <div
           style={{
             position: "absolute",
-            left: "460px",
+            left: "462px",
             top: 0,
             height: "600px",
-            width: "800px",
+            width: "802px",
             border: "1px solid #ccc",
             backgroundImage: `url(${src})`,
             backgroundRepeat: "no-repeat",
