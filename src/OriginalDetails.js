@@ -294,8 +294,8 @@ export default function OriginalDetails() {
   };
 
   const category = original.category?.toUpperCase().trim();
-  localStorage.setItem("categoryId", category)
-  localStorage.getItem("categoryId")
+  localStorage.setItem("categoryId", category);
+  localStorage.getItem("categoryId");
   const resourceLink = pdfLinks[category];
 
   const handleChatToggle = () => {
@@ -320,7 +320,7 @@ export default function OriginalDetails() {
           <div className="card-header">
             <h2>{original.original_part_name}</h2>
             <div className="card-meta">
-            <ZoomImage src={original.original_part_image} />
+              <ZoomImage src={original.original_part_image} />
             </div>
             <div className="card-meta card-meta-main">
               <p>
@@ -459,7 +459,13 @@ export default function OriginalDetails() {
                         >
                           <strong>Savings:</strong> ₹{formatPrice(savings)}
                         </div>
-                        <div className={isChatOpen ? "compare-grid-chat-open" : "compare-grid"}>
+                        <div
+                          className={
+                            isChatOpen
+                              ? "compare-grid-chat-open"
+                              : "compare-grid"
+                          }
+                        >
                           <PartDetailsCard
                             title="Original Part"
                             part={original}
@@ -592,26 +598,33 @@ export default function OriginalDetails() {
 
         <button onClick={() => navigate(-1)}>← Back</button>
 
-            <button
-          style={{
-            position: "fixed",
-            bottom: "20px",
-            right: "20px",
-            padding: "12px 16px",
-            fontSize: "16px",
-            backgroundColor: "#007bff",
-            color: "white",
-            border: "none",
-            borderRadius: "8px",
-            cursor: "pointer",
-            zIndex: 1000,
-            boxShadow: "0 4px 8px rgba(0,0,0,0.2)",
-            display: isChatOpen ? "none" : "block",
-          }}
-          onClick={() => setIsChatOpen(true)}
-        >
-          Interact with Category PDF
-        </button>
+        {resourceLink && (
+          <button
+            style={{
+              position: "fixed",
+              bottom: "20px",
+              right: "20px",
+              padding: "12px 16px",
+              fontSize: "16px",
+              backgroundColor: "#007bff",
+              color: "white",
+              border: "none",
+              borderRadius: "8px",
+              cursor: "pointer",
+              zIndex: 1000,
+              boxShadow: "0 4px 8px rgba(0,0,0,0.2)",
+              display: isChatOpen ? "none" : "block",
+            }}
+            onClick={() => setIsChatOpen(true)}
+          >
+            Know more about{" "}
+            {category
+              .toLowerCase()
+              .split(" ")
+              .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+              .join(" ")}
+          </button>
+        )}
       </div>
 
       <div className={isChatOpen ? "chatbot-split-view" : "chat-view"}>

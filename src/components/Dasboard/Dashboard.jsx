@@ -12,10 +12,6 @@ const Dashboard = () => {
     setStage("choose");
   };
   return (
-    <div className={`all-page-style`} style={{ position: "relative" }}>
-    <div className={`app-container ${
-      isChatOpen ? "chat-split-screen-transition" : "screen-transition"
-    }`}>
       <div className="dashboard-content">
         <div className="dashboard-widgets">
           <iframe
@@ -28,39 +24,6 @@ const Dashboard = () => {
           ></iframe>
         </div>
       </div>
-
-      <button
-          style={{
-            position: "fixed",
-            bottom: "20px",
-            right: "20px",
-            padding: "12px 16px",
-            fontSize: "16px",
-            backgroundColor: "#007bff",
-            color: "white",
-            border: "none",
-            borderRadius: "8px",
-            cursor: "pointer",
-            zIndex: 1000,
-            boxShadow: "0 4px 8px rgba(0,0,0,0.2)",
-            display: isChatOpen ? "none" : "block",
-          }}
-          onClick={() => setIsChatOpen(true)}
-        >
-          Interact with Category PDF
-        </button>
-    </div>
-
-    <div className={isChatOpen ? "chatbot-split-view" : "chat-view"}>
-          <ChatBot
-            categoryId={categoryId}
-            isOpen={isChatOpen}
-            toggleChat={handleChatToggle}
-            stage={stage}
-            setStage={setStage}
-          />
-      </div>
-    </div>
   );
 };
 
