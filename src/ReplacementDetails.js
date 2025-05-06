@@ -23,13 +23,13 @@ export default function ReplacementDetails() {
   const [decision, setDecision] = useState(null);
   const [busy, setBusy] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [resourceLink, setResourceLink] = useState([]);
 
   const [showCompareOriginal, setShowCompareOriginal] = useState(false);
   const [compareOther, setCompareOther] = useState({});
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [stage, setStage] = useState("choose");
 
-  // ── new JSON specs state ────────────────────────────────────────────────────
   const [origSpecsJson, setOrigSpecsJson] = useState({});
   const [replSpecsJson, setReplSpecsJson] = useState({});
 
@@ -89,6 +89,19 @@ export default function ReplacementDetails() {
   const [parsedOriginalSpecs, setParsedOriginalSpecs] = useState({});
   const [parsedReplacementSpecs, setParsedReplacementSpecs] = useState({});
 
+  const fetchPdfLink = async (category) => {
+    try {
+      const token = localStorage.getItem("access_token");
+      const res = await axios.get("/api/pdf_link", {
+        params: { category_id: category.replace(/\s+/g, "-") },
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setResourceLink(res.data.pdf_links);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   useEffect(() => {
     if (!code) return;
     setLoading(true);
@@ -103,13 +116,7 @@ export default function ReplacementDetails() {
         const { original: orig, replacements: repls } = res.data;
         setOrigSpecsJson(orig.original_specs || {});
         setReplSpecsJson(orig.replacement_specs || {});
-        console.log("Full API Response:", res.data);
-        console.log("Original Part:", orig.top_specs_original_part);
-        console.log("Replacement Part:", orig.top_specs_replacement_part);
-        console.log("Replacements:", repls);
-        console.log("replacements[0] specs:", repls[0]);
 
-        // Parse the specs immediately after receiving data
         const originalSpecs = buildSpecsObject(orig?.top_specs_original_part);
         const replacementSpecs = buildSpecsObject(
           orig?.top_specs_replacement_part
@@ -123,6 +130,10 @@ export default function ReplacementDetails() {
         setDecision(
           orig?.accepted ? "accepted" : orig?.rejected ? "rejected" : null
         );
+
+        if (original.category) {
+          fetchPdfLink(original.category);
+        }
       })
       .catch((err) => {
         console.error("Load failed:", err);
@@ -235,67 +246,9 @@ export default function ReplacementDetails() {
     </div>
   );
 
-  // const pdfLinks = {
-  //   "AIR LUBRICATOR":
-  //     "https://www.smcworld.com/assets/manual/en-jp/files/AL-OMX0056.pdf",
-  //   "PRESSURE SWITCH":
-  //     "https://www.smcworld.com/assets/manual/en-jp/files/ZISE30A.eng.pdf",
-  //   "AIR FILTER":
-  //     "https://ca01.smcworld.com/catalog/New-products-en/mpv/es30-22-AFF-D/data/es30-22-AFF-D.pdf",
-  //   "SPEED CONTROLLER":
-  //     "https://ca01.smcworld.com/catalog/New-products-en/mpv/es30-22-AFF-D/data/es30-22-AFF-D.pdf",
-  //   "RODLESS CYLINDER":
-  //     "https://ca01.smcworld.com/catalog/New-products-en/mpv/es20-261-MY1/data/es20-261-MY1.pdf",
-  //   "PNEUMATIC SEAL KIT":
-  //     "https://ca01.smcworld.com/catalog/en/actuator/MGP-Z-E/6-2-2-p0423-0494-mgp_en/data/6-2-2-p0423-0494-mgp_en.pdf",
-  //   "REED SWITCH":
-  //     "https://ca01.smcworld.com/catalog/BEST-5-2-en/pdf/2-p1574-1651-sw2mu.pdf",
-  //   "PNEUMATIC FITTING":
-  //     "https://ca01.smcworld.com/catalog/BEST-5-6-en/pdf/es50-37-kq2.pdf",
-  //   "AIR CYLINDER":
-  //     "https://ca01.smcworld.com/catalog/BEST-Guide-en/pdf/2-m27-49_en.pdf",
-  //   "SOLENOID VALVE":
-  //     "https://content2.smcetech.com/pdf/VP300-500-700-A_EU.pdf",
-  // };
-
-  const pdfLinks = {
-    "AIR LUBRICATOR": [
-      "https://www.smcworld.com/assets/manual/en-jp/files/AL-OMX0056.pdf",
-      "https://example.com/air-lubricator-extra.pdf",
-    ],
-    "PRESSURE SWITCH": [
-      "https://www.smcworld.com/assets/manual/en-jp/files/ZISE30A.eng.pdf",
-    ],
-    "AIR FILTER": [
-      "https://ca01.smcworld.com/catalog/New-products-en/mpv/es30-22-AFF-D/data/es30-22-AFF-D.pdf",
-    ],
-    "SPEED CONTROLLER": [
-      "https://ca01.smcworld.com/catalog/New-products-en/mpv/es30-22-AFF-D/data/es30-22-AFF-D.pdf",
-    ],
-    "RODLESS CYLINDER": [
-      "https://ca01.smcworld.com/catalog/New-products-en/mpv/es20-261-MY1/data/es20-261-MY1.pdf",
-    ],
-    "PNEUMATIC SEAL KIT": [
-      "https://ca01.smcworld.com/catalog/en/actuator/MGP-Z-E/6-2-2-p0423-0494-mgp_en/data/6-2-2-p0423-0494-mgp_en.pdf",
-    ],
-    "REED SWITCH": [
-      "https://ca01.smcworld.com/catalog/BEST-5-2-en/pdf/2-p1574-1651-sw2mu.pdf",
-    ],
-    "PNEUMATIC FITTING": [
-      "https://ca01.smcworld.com/catalog/BEST-5-6-en/pdf/es50-37-kq2.pdf",
-    ],
-    "AIR CYLINDER": [
-      "https://ca01.smcworld.com/catalog/BEST-Guide-en/pdf/2-m27-49_en.pdf",
-    ],
-    "SOLENOID VALVE": [
-      "https://content2.smcetech.com/pdf/VP300-500-700-A_EU.pdf",
-    ],
-  };
-
   const category = original.category?.toUpperCase().trim();
   localStorage.setItem("categoryId", category);
   localStorage.getItem("categoryId");
-  const resourceLink = pdfLinks[category];
 
   const handleChatToggle = () => {
     setIsChatOpen(!isChatOpen);
@@ -774,7 +727,7 @@ export default function ReplacementDetails() {
         <List
           dataSource={resourceLink}
           renderItem={(link, index) => (
-            <List.Item>
+            <List.Item key={index}>
               <a href={link} target="_blank" rel="noopener noreferrer">
                 {link}
               </a>
