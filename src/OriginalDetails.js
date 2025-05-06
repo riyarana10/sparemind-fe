@@ -20,6 +20,7 @@ export default function OriginalDetails() {
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [stage, setStage] = useState("choose");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [resourceLink, setResourceLink] = useState([]);
 
   const [commentText, setCommentText] = useState("");
   const [lastComment, setLastComment] = useState("");
@@ -29,13 +30,8 @@ export default function OriginalDetails() {
   const originalSpecsJson = original?.original_specs || {};
   const replacementSpecsJson = original?.replacement_specs || {};
 
-  // ── Helpers ────────────────────────────────────────────────────────────────
-
-  // 1) Turn a raw TEXT block into an array of { heading, items[] }
   const parseSpecs = (raw) => {
     if (!raw) return null;
-
-    // First decode HTML entities (like &#10; to newlines)
     const decoded = raw.replace(/&#10;/g, "\n");
 
     const lines = decoded
@@ -45,13 +41,11 @@ export default function OriginalDetails() {
 
     const blocks = [];
     let curr = null;
-
     lines.forEach((line) => {
       if (line.endsWith(":")) {
         if (curr) blocks.push(curr);
         curr = { heading: line.slice(0, -1).trim(), items: [] };
       } else if (curr) {
-        // Handle both bullet and non-bullet lines
         const txt = line.replace(/^[•\-]\s*/, "").trim();
         if (txt) curr.items.push(txt);
       }
@@ -61,16 +55,13 @@ export default function OriginalDetails() {
     return blocks.length ? blocks : null;
   };
 
-  // 2) From parseSpecs' blocks into { [section]: { [attr]: val } }
   const buildSpecsObject = (raw) => {
     const blocks = parseSpecs(raw);
     if (!blocks) return {};
 
     return blocks.reduce((acc, { heading, items }) => {
       const section = {};
-
       items.forEach((line) => {
-        // Improved splitting that handles multiple colons
         const colonIndex = line.indexOf(":");
         if (colonIndex > 0) {
           const key = line.substring(0, colonIndex).trim();
@@ -89,17 +80,25 @@ export default function OriginalDetails() {
     }, {});
   };
 
-  // memoize original's parsed specs
   const originalSpecsObj = useMemo(() => {
     if (!original?.top_specs_original_part) return {};
-
-    // console.log('Original specs before parsing:', original.top_specs_original_part);
     const parsed = buildSpecsObject(original.top_specs_original_part);
-    // console.log('Parsed original specs:', parsed);
     return parsed;
   }, [original]);
 
-  // ── Fetch on mount / code change ────────────────────────────────────────────
+  const fetchPdfLink = async (category) => {
+    try {
+      const token = localStorage.getItem("access_token");
+      const res = await axios.get("/api/pdf_link", {
+        params: { category_id: category.replace(/\s+/g, "-") },
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setResourceLink(res.data.pdf_links);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   useEffect(() => {
     if (!code) return;
     setLoading(true);
@@ -119,6 +118,10 @@ export default function OriginalDetails() {
         setDecision(
           original.accepted ? "accepted" : original.rejected ? "rejected" : null
         );
+
+        if (original.category) {
+          fetchPdfLink(original.category);
+        }
       })
       .catch((err) => {
         console.error("Load failed:", err);
@@ -129,7 +132,7 @@ export default function OriginalDetails() {
 
   if (loading) return <p>Loading part…</p>;
   if (error) return <p className="error-message">{error}</p>;
-  if (!original)
+  if (!original) {
     return (
       <div className="app-container">
         <h1>Original Part Details</h1>
@@ -137,6 +140,7 @@ export default function OriginalDetails() {
         <button onClick={() => navigate(-1)}>← Back</button>
       </div>
     );
+  }
 
   const formatPrice = (p) => {
     const n = parseFloat(p);
@@ -229,67 +233,9 @@ export default function OriginalDetails() {
     </div>
   );
 
-  // const pdfLinks = {
-  //   "AIR LUBRICATOR":
-  //     "https://www.smcworld.com/assets/manual/en-jp/files/AL-OMX0056.pdf",
-  //   "PRESSURE SWITCH":
-  //     "https://www.smcworld.com/assets/manual/en-jp/files/ZISE30A.eng.pdf",
-  //   "AIR FILTER":
-  //     "https://ca01.smcworld.com/catalog/New-products-en/mpv/es30-22-AFF-D/data/es30-22-AFF-D.pdf",
-  //   "SPEED CONTROLLER":
-  //     "https://ca01.smcworld.com/catalog/New-products-en/mpv/es30-22-AFF-D/data/es30-22-AFF-D.pdf",
-  //   "RODLESS CYLINDER":
-  //     "https://ca01.smcworld.com/catalog/New-products-en/mpv/es20-261-MY1/data/es20-261-MY1.pdf",
-  //   "PNEUMATIC SEAL KIT":
-  //     "https://ca01.smcworld.com/catalog/en/actuator/MGP-Z-E/6-2-2-p0423-0494-mgp_en/data/6-2-2-p0423-0494-mgp_en.pdf",
-  //   "REED SWITCH":
-  //     "https://ca01.smcworld.com/catalog/BEST-5-2-en/pdf/2-p1574-1651-sw2mu.pdf",
-  //   "PNEUMATIC FITTING":
-  //     "https://ca01.smcworld.com/catalog/BEST-5-6-en/pdf/es50-37-kq2.pdf",
-  //   "AIR CYLINDER":
-  //     "https://ca01.smcworld.com/catalog/BEST-Guide-en/pdf/2-m27-49_en.pdf",
-  //   "SOLENOID VALVE":
-  //     "https://content2.smcetech.com/pdf/VP300-500-700-A_EU.pdf",
-  // };
-
-  const pdfLinks = {
-    "AIR LUBRICATOR": [
-      "https://www.smcworld.com/assets/manual/en-jp/files/AL-OMX0056.pdf",
-      "https://example.com/air-lubricator-extra.pdf",
-    ],
-    "PRESSURE SWITCH": [
-      "https://www.smcworld.com/assets/manual/en-jp/files/ZISE30A.eng.pdf",
-    ],
-    "AIR FILTER": [
-      "https://ca01.smcworld.com/catalog/New-products-en/mpv/es30-22-AFF-D/data/es30-22-AFF-D.pdf",
-    ],
-    "SPEED CONTROLLER": [
-      "https://ca01.smcworld.com/catalog/New-products-en/mpv/es30-22-AFF-D/data/es30-22-AFF-D.pdf",
-    ],
-    "RODLESS CYLINDER": [
-      "https://ca01.smcworld.com/catalog/New-products-en/mpv/es20-261-MY1/data/es20-261-MY1.pdf",
-    ],
-    "PNEUMATIC SEAL KIT": [
-      "https://ca01.smcworld.com/catalog/en/actuator/MGP-Z-E/6-2-2-p0423-0494-mgp_en/data/6-2-2-p0423-0494-mgp_en.pdf",
-    ],
-    "REED SWITCH": [
-      "https://ca01.smcworld.com/catalog/BEST-5-2-en/pdf/2-p1574-1651-sw2mu.pdf",
-    ],
-    "PNEUMATIC FITTING": [
-      "https://ca01.smcworld.com/catalog/BEST-5-6-en/pdf/es50-37-kq2.pdf",
-    ],
-    "AIR CYLINDER": [
-      "https://ca01.smcworld.com/catalog/BEST-Guide-en/pdf/2-m27-49_en.pdf",
-    ],
-    "SOLENOID VALVE": [
-      "https://content2.smcetech.com/pdf/VP300-500-700-A_EU.pdf",
-    ],
-  };
-
   const category = original.category?.toUpperCase().trim();
   localStorage.setItem("categoryId", category);
   localStorage.getItem("categoryId");
-  const resourceLink = pdfLinks[category];
 
   const handleChatToggle = () => {
     setIsChatOpen(!isChatOpen);
@@ -591,7 +537,7 @@ export default function OriginalDetails() {
 
         <button onClick={() => navigate(-1)}>← Back</button>
 
-        {resourceLink && (
+        {!!resourceLink.length && (
           <button
             style={{
               position: "fixed",
@@ -643,7 +589,7 @@ export default function OriginalDetails() {
         <List
           dataSource={resourceLink}
           renderItem={(link, index) => (
-            <List.Item>
+            <List.Item key={index}>
               <a href={link} target="_blank" rel="noopener noreferrer">
                 {link}
               </a>

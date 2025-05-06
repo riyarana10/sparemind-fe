@@ -88,15 +88,12 @@ function App() {
       "MA0UM02I000",
       "MA6UU00D000",
     ];
-    console.log("[DEBUG popular] token =", token);
-    console.log("[DEBUG popular] codes to fetch:", codes);
 
     const fetchData = async () => {
       setIsLoadingProduct(true);
       try {
         const responses = await Promise.all(
           codes.map((code) => {
-            console.log(`[DEBUG popular] fetching code ${code}`);
             return axios.get(
               `/api/search?original_part_item_code=${encodeURIComponent(
                 code
@@ -105,13 +102,10 @@ function App() {
             );
           })
         );
-        console.log("[DEBUG popular] raw responses:", responses);
         const all = responses.flatMap((r) => r.data.results || []);
-        console.log("[DEBUG popular] flattened parts:", all);
         const sorted = all.sort(
           (a, b) => (b.price_difference || 0) - (a.price_difference || 0)
         );
-        console.log("[DEBUG popular] sorted parts:", sorted);
         setRecentCodeResults(sorted.slice(0, 5));
       } catch (err) {
         console.error("[DEBUG popular] error fetching popular parts:", err);
@@ -123,7 +117,6 @@ function App() {
   }, [token]);
 
   useEffect(() => {
-    console.log("App render:", { query, results });
   }, [query, results]);
 
   // Decode current user

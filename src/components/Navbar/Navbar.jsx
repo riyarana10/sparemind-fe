@@ -240,7 +240,6 @@ const Navbar = () => {
                 className="category-dropdown"
                 value={selectedCategory}
                 onChange={(value) => {
-                  console.log("value on change : ", value);
                   setSelectedCategory(value);
                 }}
               >

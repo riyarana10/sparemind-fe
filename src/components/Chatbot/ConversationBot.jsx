@@ -16,7 +16,9 @@ function ChatBot({ categoryId, isOpen, toggleChat, stage, setStage }) {
   const defaultMessages = [
     {
       sender: "bot",
-      text: `Hi there! I'm your automobile parts assistant. Ask me anything about spare parts manuals ${categoryId}.`,
+      text: location.pathname.startsWith("/dashboard")
+        ? `How can i help you ?`
+        : `Hi there! I'm your automobile parts assistant. Ask me anything about spare parts manuals ${categoryId}.`,
     },
   ];
 
@@ -41,7 +43,8 @@ function ChatBot({ categoryId, isOpen, toggleChat, stage, setStage }) {
   if (
     !location.pathname.startsWith("/category/") &&
     !location.pathname.startsWith("/original/") &&
-    !location.pathname.startsWith("/replacement/")
+    !location.pathname.startsWith("/replacement/") &&
+    !location.pathname.startsWith("/dashboard")
   ) {
     return null;
   }
@@ -54,24 +57,46 @@ function ChatBot({ categoryId, isOpen, toggleChat, stage, setStage }) {
   const handleContinue = async () => {
     setisExistingChatLoading(true);
     setIsLoading(true);
-    try {
-      const res = await fetch("/api/chat/history", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-        },
-      });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const { history } = await res.json();
-      setMessages([defaultMessages[0], ...history]);
-    } catch (err) {
-      console.error("Failed to load history:", err);
-      setMessages(defaultMessages);
-    } finally {
-      setStage("chat");
-      setIsLoading(false);
-      setisExistingChatLoading(false);
+    if (location.pathname.startsWith("/dashboard")) {
+      try {
+        const res = await fetch("/api/chat/history", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          },
+        });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const { history } = await res.json();
+        setMessages([defaultMessages[0], ...history]);
+      } catch (err) {
+        console.error("Failed to load history:", err);
+        setMessages(defaultMessages);
+      } finally {
+        setStage("chat");
+        setIsLoading(false);
+        setisExistingChatLoading(false);
+      }
+    } else {
+      try {
+        const res = await fetch("/api/chat/history", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          },
+        });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const { history } = await res.json();
+        setMessages([defaultMessages[0], ...history]);
+      } catch (err) {
+        console.error("Failed to load history:", err);
+        setMessages(defaultMessages);
+      } finally {
+        setStage("chat");
+        setIsLoading(false);
+        setisExistingChatLoading(false);
+      }
     }
   };
 
@@ -106,39 +131,75 @@ function ChatBot({ categoryId, isOpen, toggleChat, stage, setStage }) {
     setUserInput("");
     setIsLoading(true);
 
-    try {
-      const res = await fetch("/api/chat", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-        },
-        body: JSON.stringify({
-          page_context: categoryId.toLowerCase(),
-          query: text,
-        }),
-      });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const { query_answer } = await res.json();
-      setMessages((prev) => [
-        ...prev,
-        {
-          sender: "bot",
-          text: query_answer || "Sorry, I didn't understand that.",
-        },
-      ]);
-    } catch (err) {
-      setMessages((prev) => [
-        ...prev,
-        {
-          sender: "bot",
-          text: err.message.includes("Network")
-            ? "Network error. Check your connection."
-            : "Sorry, I'm having trouble responding. Please try again later.",
-        },
-      ]);
-    } finally {
-      setIsLoading(false);
+    if (location.pathname.startsWith("/dashboard")) {
+      try {
+        const res = await fetch("/api/vanna-chat", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          },
+          body: JSON.stringify({
+            question: text,
+          }),
+        });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const { answer } = await res.json();
+        setMessages((prev) => [
+          ...prev,
+          {
+            sender: "bot",
+            text: answer || "Sorry, I didn't understand that.",
+          },
+        ]);
+      } catch (err) {
+        setMessages((prev) => [
+          ...prev,
+          {
+            sender: "bot",
+            text: err.message.includes("Network")
+              ? "Network error. Check your connection."
+              : "Sorry, I'm having trouble responding. Please try again later.",
+          },
+        ]);
+      } finally {
+        setIsLoading(false);
+      }
+    } else {
+      try {
+        const res = await fetch("/api/chat", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          },
+          body: JSON.stringify({
+            page_context: categoryId.toLowerCase(),
+            query: text,
+          }),
+        });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const { query_answer } = await res.json();
+        setMessages((prev) => [
+          ...prev,
+          {
+            sender: "bot",
+            text: query_answer || "Sorry, I didn't understand that.",
+          },
+        ]);
+      } catch (err) {
+        setMessages((prev) => [
+          ...prev,
+          {
+            sender: "bot",
+            text: err.message.includes("Network")
+              ? "Network error. Check your connection."
+              : "Sorry, I'm having trouble responding. Please try again later.",
+          },
+        ]);
+      } finally {
+        setIsLoading(false);
+      }
     }
   };
 
