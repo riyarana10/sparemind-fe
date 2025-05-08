@@ -291,7 +291,7 @@ export default function OriginalDetails() {
                 <strong>Category:</strong> {original.category}
               </p>
               <p>
-                <strong>MSIL Category:</strong> {original.category_msil}
+                <strong>MSIL Category:</strong> {original.category_msil_sheet}
               </p>
               <p>
                 <strong>Source:</strong> {original.replacement_source}
