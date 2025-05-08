@@ -21,13 +21,21 @@ const Dashboard = () => {
         <div className="dashboard-content">
           <div className="dashboard-widgets">
             <iframe
-              title="Power BI Report"
+              title="Maruti Dashboard"
               width="100%"
               height="700"
-              src="https://app.powerbi.com/reportEmbed?reportId=cdceaa1b-26c0-4689-833e-c6b16635a59c&autoAuth=true&ctid=85a77b6c-a790-4bcf-8fd6-c1f891dd360b"
-              frameBorder="0"
-              allowFullScreen
+              src="https://app.powerbi.com/reportEmbed?reportId=0e762fc3-6c90-48a8-9801-be2b507eb729&autoAuth=true&ctid=85a77b6c-a790-4bcf-8fd6-c1f891dd360b"
+              frameborder="0"
+              allowFullScreen="true"
             ></iframe>
+            {/* <iframe
+              title="Maruti Dashboard"
+              width="1140"
+              height="541.25"
+              src="https://app.powerbi.com/reportEmbed?reportId=0e762fc3-6c90-48a8-9801-be2b507eb729&autoAuth=true&ctid=85a77b6c-a790-4bcf-8fd6-c1f891dd360b"
+              frameborder="0"
+              allowFullScreen="true"
+            ></iframe> */}
           </div>
         </div>
         <button
