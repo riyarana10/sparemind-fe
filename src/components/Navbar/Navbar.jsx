@@ -61,7 +61,6 @@ const Navbar = () => {
     "ROTARY ACTUATOR",
     "SILENCER",
     "SOLENOID VALVE",
-    "SOLENOID VALVE",
     "SPEED CONTROLLER",
     "SPEED CONTROLLER, SM",
     "VALVE",
@@ -245,7 +244,7 @@ const Navbar = () => {
               >
                 {CATEGORY_OPTIONS.map((cat, i) => (
                   <Option key={i} value={cat}>
-                    {cat}
+                    {cat.toUpperCase()}
                   </Option>
                 ))}
               </Select>

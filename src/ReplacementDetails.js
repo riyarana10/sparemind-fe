@@ -131,8 +131,8 @@ export default function ReplacementDetails() {
           orig?.accepted ? "accepted" : orig?.rejected ? "rejected" : null
         );
 
-        if (original.category) {
-          fetchPdfLink(original.category);
+        if (orig.category) {
+          fetchPdfLink(orig.category);
         }
       })
       .catch((err) => {
@@ -728,9 +728,11 @@ export default function ReplacementDetails() {
           dataSource={resourceLink}
           renderItem={(link, index) => (
             <List.Item key={index}>
-              <a href={link} target="_blank" rel="noopener noreferrer">
-                {link}
-              </a>
+              <div style={{ wordBreak: 'break-all', maxWidth: '100%' }}>
+                <a href={link} target="_blank" rel="noopener noreferrer">
+                  {link}
+                </a>
+              </div>
             </List.Item>
           )}
         />

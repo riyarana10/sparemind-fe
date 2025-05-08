@@ -253,7 +253,15 @@ function App() {
 
       {!showLoginModal && !isLoading && results.length === 0 && (
         <>
-          <h2>Popular Categories</h2>
+          <h2>
+            <span>Popular Categories</span>
+            <a href="/all-categories" style={{
+              marginLeft: "20px",
+              fontSize: "20px"
+            }}>
+              All Categories
+            </a>
+          </h2>
           {isLoadingCategory ? (
             <p>Loading categories…</p>
           ) : (
