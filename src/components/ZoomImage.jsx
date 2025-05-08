@@ -1,10 +1,30 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import NoImage from ".././assets/img/no_image.jpg";
 
 const ZoomImage = ({ src }) => {
   const [isHovering, setIsHovering] = useState(false);
   const [zoomPosition, setZoomPosition] = useState({ x: 0, y: 0 });
+  const [zoomDirection, setZoomDirection] = useState("right");
   const imageRef = useRef(null);
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    const checkPosition = () => {
+      if (containerRef.current) {
+        const rect = containerRef.current.getBoundingClientRect();
+        const windowWidth = window.innerWidth;
+        if (rect.right > windowWidth * 0.7) {
+          setZoomDirection("left");
+        } else {
+          setZoomDirection("right");
+        }
+      }
+    };
+
+    checkPosition();
+    window.addEventListener("resize", checkPosition);
+    return () => window.removeEventListener("resize", checkPosition);
+  }, []);
 
   const handleMouseMove = (e) => {
     const { left, top, width, height } =
@@ -15,7 +35,7 @@ const ZoomImage = ({ src }) => {
   };
 
   return (
-    <div style={{ position: "relative", display: "flex", gap: "20px" }}>
+    <div ref={containerRef} style={{ position: "relative", display: "flex", gap: "20px" }}>
       <img
         ref={imageRef}
         src={src || NoImage}
@@ -38,7 +58,8 @@ const ZoomImage = ({ src }) => {
         <div
           style={{
             position: "absolute",
-            left: "462px",
+            left: zoomDirection === "left" ? "auto" : "462px",
+            right: zoomDirection === "left" ? "450px" : "auto",
             top: 0,
             height: "600px",
             width: "802px",
