@@ -13,6 +13,10 @@ export default function OriginalDetails() {
   const navigate = useNavigate();
   const categoryId = localStorage.getItem("categoryId");
 
+  const token = localStorage.getItem("access_token");
+  const payload = token ? JSON.parse(atob(token.split(".")[1])) : {};
+  const role = payload.role || "user";
+
   const [original, setOriginal] = useState(null);
   const [replacements, setReplacements] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -217,6 +221,10 @@ export default function OriginalDetails() {
             isOriginal ? part.original_part_price : part.replacement_part_price
           )}
         </p>
+        <p>
+          <strong>Source:</strong> ₹
+          {isOriginal ? part.replacement_source : part.replacement_source}
+        </p>
       </div>
       <div className="compare-col-img">
         <p>
@@ -281,6 +289,12 @@ export default function OriginalDetails() {
               </p>
               <p>
                 <strong>Category:</strong> {original.category}
+              </p>
+              <p>
+                <strong>MSIL Category:</strong> {original.category_msil}
+              </p>
+              <p>
+                <strong>Source:</strong> {original.replacement_source}
               </p>
             </div>
 
@@ -474,24 +488,29 @@ export default function OriginalDetails() {
                               >
                                 Comment
                               </button>
-                              <button
-                                className="accept-button"
-                                onClick={() =>
-                                  sendDecision(true, false, commentText)
-                                }
-                                disabled={busy}
-                              >
-                                Accept
-                              </button>
-                              <button
-                                className="reject-button"
-                                onClick={() =>
-                                  sendDecision(false, true, commentText)
-                                }
-                                disabled={busy}
-                              >
-                                Reject
-                              </button>
+                              {/* Only show Accept/Reject buttons for manager and admin */}
+                              {(role === "manager" || role === "admin") && (
+                                <>
+                                  <button
+                                    className="accept-button"
+                                    onClick={() =>
+                                      sendDecision(true, false, commentText)
+                                    }
+                                    disabled={busy}
+                                  >
+                                    Accept
+                                  </button>
+                                  <button
+                                    className="reject-button"
+                                    onClick={() =>
+                                      sendDecision(false, true, commentText)
+                                    }
+                                    disabled={busy}
+                                  >
+                                    Reject
+                                  </button>
+                                </>
+                              )}
                             </div>
                           ) : (
                             <div
