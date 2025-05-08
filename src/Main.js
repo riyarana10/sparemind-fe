@@ -8,6 +8,7 @@ import CategoryPage from "./pages/CategoryPage/CategoryPage";
 import ProfilePage from "./pages/ProfilePage/ProfilePage";
 import SearchPage from "./pages/SearchPage/SearchPage";
 import DashboardPage from "./pages/DashboardPage/DashboardPage";
+import AllCategoryPage from "./pages/AllCategoryPage/AllCategoryPage";
 
 export default function Main() {
   return (
@@ -21,6 +22,7 @@ export default function Main() {
           <Route path="category/:name" element={<CategoryPage />} />
           <Route path="profile" element={<ProfilePage />} />
           <Route path="dashboard" element={<DashboardPage />} />
+          <Route path="all-categories" element={<AllCategoryPage />} />
         </Route>
       </Routes>
     </Router>
