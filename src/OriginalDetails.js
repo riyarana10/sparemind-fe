@@ -222,7 +222,7 @@ export default function OriginalDetails() {
           )}
         </p>
         <p>
-          <strong>Source:</strong> ₹
+          <strong>Source:</strong> 
           {isOriginal ? part.replacement_source : part.replacement_source}
         </p>
       </div>
