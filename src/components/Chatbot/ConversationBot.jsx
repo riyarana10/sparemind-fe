@@ -217,6 +217,8 @@ function ChatBot({ categoryId, isOpen, toggleChat, stage, setStage }) {
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "space-between",
+                height: "100%",
+                boxSizing: "border-box"
               }}
             >
               <div className="chat-header">
@@ -227,19 +229,28 @@ function ChatBot({ categoryId, isOpen, toggleChat, stage, setStage }) {
               <div
                 style={{
                   display: "flex",
+                  flexDirection: "column",
                   justifyContent: "center",
                   alignItems: "center",
-                  marginTop: "50px",
+                  flexGrow: 1,
+                  padding: "20px 0"
                 }}
               >
                 <img
                   src={botImage}
                   alt="Chatbot"
-                  style={{ width: "200px", height: "200px" }}
+                  style={{ 
+                    width: "200px", 
+                    height: "200px",
+                    maxWidth: "100%",
+                    objectFit: "contain"
+                  }}
                 />
-              </div>
-              <div>
-                <p style={{ margin: "20px 50px", textAlign: "center" }}>
+                <p style={{ 
+                  textAlign: "center",
+                  maxWidth: "80%",
+                  margin: "0 auto"
+                }}>
                   Hi there! I'm your spare parts manuals assistant.
                 </p>
               </div>
