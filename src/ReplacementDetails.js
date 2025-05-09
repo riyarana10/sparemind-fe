@@ -8,6 +8,37 @@ import ChatBot from "./components/Chatbot/ConversationBot";
 import NoImage from "./assets/img/no_image.jpg";
 import ZoomImage from "./components/ZoomImage";
 
+const pdfLinks = {
+  "AIR LUBRICATOR":
+    "https://www.smcworld.com/assets/manual/en-jp/files/AL-OMX0056.pdf",
+
+  "PRESSURE SWITCH":
+    "https://www.smcworld.com/assets/manual/en-jp/files/ZISE30A.eng.pdf",
+
+  "AIR FILTER":
+    "https://ca01.smcworld.com/catalog/New-products-en/mpv/es30-22-AFF-D/data/es30-22-AFF-D.pdf",
+
+  "SPEED CONTROLLER":
+    "https://ca01.smcworld.com/catalog/New-products-en/mpv/es30-22-AFF-D/data/es30-22-AFF-D.pdf",
+
+  "RODLESS CYLINDER":
+    "https://ca01.smcworld.com/catalog/New-products-en/mpv/es20-261-MY1/data/es20-261-MY1.pdf",
+
+  "PNEUMATIC SEAL KIT":
+    "https://ca01.smcworld.com/catalog/en/actuator/MGP-Z-E/6-2-2-p0423-0494-mgp_en/data/6-2-2-p0423-0494-mgp_en.pdf",
+
+  "REED SWITCH":
+    "https://ca01.smcworld.com/catalog/BEST-5-2-en/pdf/2-p1574-1651-sw2mu.pdf",
+
+  "PNEUMATIC FITTING":
+    "https://ca01.smcworld.com/catalog/BEST-5-6-en/pdf/es50-37-kq2.pdf",
+
+  "AIR CYLINDER":
+    "https://ca01.smcworld.com/catalog/BEST-Guide-en/pdf/2-m27-49_en.pdf",
+
+  "SOLENOID VALVE": "https://content2.smcetech.com/pdf/VP300-500-700-A_EU.pdf",
+};
+
 export default function ReplacementDetails() {
   const { code } = useParams();
   const navigate = useNavigate();
@@ -27,7 +58,7 @@ export default function ReplacementDetails() {
   const [decision, setDecision] = useState(null);
   const [busy, setBusy] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [resourceLink, setResourceLink] = useState([]);
+  // const [resourceLink, setResourceLink] = useState([]);
 
   const [showCompareOriginal, setShowCompareOriginal] = useState(false);
   const [compareOther, setCompareOther] = useState({});
@@ -93,18 +124,18 @@ export default function ReplacementDetails() {
   const [parsedOriginalSpecs, setParsedOriginalSpecs] = useState({});
   const [parsedReplacementSpecs, setParsedReplacementSpecs] = useState({});
 
-  const fetchPdfLink = async (category) => {
-    try {
-      const token = localStorage.getItem("access_token");
-      const res = await axios.get("/api/pdf_link", {
-        params: { category_id: category.replace(/\s+/g, "-") },
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setResourceLink(res.data.pdf_links);
-    } catch (e) {
-      console.error(e);
-    }
-  };
+  // const fetchPdfLink = async (category) => {
+  //   try {
+  //     const token = localStorage.getItem("access_token");
+  //     const res = await axios.get("/api/pdf_link", {
+  //       params: { category_id: category.replace(/\s+/g, "-") },
+  //       headers: { Authorization: `Bearer ${token}` },
+  //     });
+  //     setResourceLink(res.data.pdf_links);
+  //   } catch (e) {
+  //     console.error(e);
+  //   }
+  // };
 
   useEffect(() => {
     if (!code) return;
@@ -135,9 +166,9 @@ export default function ReplacementDetails() {
           orig?.accepted ? "accepted" : orig?.rejected ? "rejected" : null
         );
 
-        if (orig.category) {
-          fetchPdfLink(orig.category);
-        }
+        // if (orig.category) {
+        //   fetchPdfLink(orig.category);
+        // }
       })
       .catch((err) => {
         console.error("Load failed:", err);
@@ -255,6 +286,7 @@ export default function ReplacementDetails() {
   );
 
   const category = original.category?.toUpperCase().trim();
+  const resourceLink = pdfLinks[category];
   localStorage.setItem("categoryId", category);
   localStorage.getItem("categoryId");
 
@@ -312,10 +344,10 @@ export default function ReplacementDetails() {
               </p>
             </div>
 
-            {resourceLink && resourceLink.length === 1 && (
+            {resourceLink && (
               <div className="resource-link">
                 <a
-                  href={resourceLink[0]}
+                  href={resourceLink}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -324,13 +356,13 @@ export default function ReplacementDetails() {
               </div>
             )}
 
-            {resourceLink && resourceLink.length > 1 && (
+            {/* {resourceLink && resourceLink.length > 1 && (
               <div className="resource-link">
                 <Button type="primary" onClick={() => setIsModalOpen(true)}>
                   Attachments
                 </Button>
               </div>
-            )}
+            )} */}
             <div
               className={`stocks ${
                 original.replacement_part_stock === 0

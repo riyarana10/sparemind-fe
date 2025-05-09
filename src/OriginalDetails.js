@@ -8,6 +8,37 @@ import NoImage from "./assets/img/no_image.jpg";
 import { Modal, Button, List } from "antd";
 import ZoomImage from "./components/ZoomImage";
 
+const pdfLinks = {
+  "AIR LUBRICATOR":
+    "https://www.smcworld.com/assets/manual/en-jp/files/AL-OMX0056.pdf",
+
+  "PRESSURE SWITCH":
+    "https://www.smcworld.com/assets/manual/en-jp/files/ZISE30A.eng.pdf",
+
+  "AIR FILTER":
+    "https://ca01.smcworld.com/catalog/New-products-en/mpv/es30-22-AFF-D/data/es30-22-AFF-D.pdf",
+
+  "SPEED CONTROLLER":
+    "https://ca01.smcworld.com/catalog/New-products-en/mpv/es30-22-AFF-D/data/es30-22-AFF-D.pdf",
+
+  "RODLESS CYLINDER":
+    "https://ca01.smcworld.com/catalog/New-products-en/mpv/es20-261-MY1/data/es20-261-MY1.pdf",
+
+  "PNEUMATIC SEAL KIT":
+    "https://ca01.smcworld.com/catalog/en/actuator/MGP-Z-E/6-2-2-p0423-0494-mgp_en/data/6-2-2-p0423-0494-mgp_en.pdf",
+
+  "REED SWITCH":
+    "https://ca01.smcworld.com/catalog/BEST-5-2-en/pdf/2-p1574-1651-sw2mu.pdf",
+
+  "PNEUMATIC FITTING":
+    "https://ca01.smcworld.com/catalog/BEST-5-6-en/pdf/es50-37-kq2.pdf",
+
+  "AIR CYLINDER":
+    "https://ca01.smcworld.com/catalog/BEST-Guide-en/pdf/2-m27-49_en.pdf",
+
+  "SOLENOID VALVE": "https://content2.smcetech.com/pdf/VP300-500-700-A_EU.pdf",
+};
+
 export default function OriginalDetails() {
   const { code } = useParams();
   const navigate = useNavigate();
@@ -24,7 +55,7 @@ export default function OriginalDetails() {
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [stage, setStage] = useState("choose");
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [resourceLink, setResourceLink] = useState([]);
+  // const [resourceLink, setResourceLink] = useState([]);
 
   const [commentText, setCommentText] = useState("");
   const [lastComment, setLastComment] = useState("");
@@ -90,18 +121,18 @@ export default function OriginalDetails() {
     return parsed;
   }, [original]);
 
-  const fetchPdfLink = async (category) => {
-    try {
-      const token = localStorage.getItem("access_token");
-      const res = await axios.get("/api/pdf_link", {
-        params: { category_id: category.replace(/\s+/g, "-") },
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setResourceLink(res.data.pdf_links);
-    } catch (e) {
-      console.error(e);
-    }
-  };
+  // const fetchPdfLink = async (category) => {
+  //   try {
+  //     const token = localStorage.getItem("access_token");
+  //     const res = await axios.get("/api/pdf_link", {
+  //       params: { category_id: category.replace(/\s+/g, "-") },
+  //       headers: { Authorization: `Bearer ${token}` },
+  //     });
+  //     setResourceLink(res.data.pdf_links);
+  //   } catch (e) {
+  //     console.error(e);
+  //   }
+  // };
 
   useEffect(() => {
     if (!code) return;
@@ -123,9 +154,9 @@ export default function OriginalDetails() {
           original.accepted ? "accepted" : original.rejected ? "rejected" : null
         );
 
-        if (original.category) {
-          fetchPdfLink(original.category);
-        }
+        // if (original.category) {
+        //   fetchPdfLink(original.category);
+        // }
       })
       .catch((err) => {
         console.error("Load failed:", err);
@@ -222,7 +253,7 @@ export default function OriginalDetails() {
           )}
         </p>
         <p>
-          <strong>Source:</strong> 
+          <strong>Source:</strong>
           {isOriginal ? part.replacement_source : part.replacement_source}
         </p>
       </div>
@@ -242,6 +273,8 @@ export default function OriginalDetails() {
   );
 
   const category = original.category?.toUpperCase().trim();
+  const resourceLink = pdfLinks[category];
+
   localStorage.setItem("categoryId", category);
   localStorage.getItem("categoryId");
 
@@ -298,10 +331,10 @@ export default function OriginalDetails() {
               </p>
             </div>
 
-            {resourceLink && resourceLink.length === 1 && (
+            {resourceLink &&  (
               <div className="resource-link">
                 <a
-                  href={resourceLink[0]}
+                  href={resourceLink}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -310,13 +343,13 @@ export default function OriginalDetails() {
               </div>
             )}
 
-            {resourceLink && resourceLink.length > 1 && (
+            {/* {resourceLink && resourceLink.length > 1 && (
               <div className="resource-link">
                 <Button type="primary" onClick={() => setIsModalOpen(true)}>
                   Attachments
                 </Button>
               </div>
-            )}
+            )} */}
             <div
               className={`stocks ${
                 original.original_part_stock === 0
@@ -556,7 +589,7 @@ export default function OriginalDetails() {
 
         <button onClick={() => navigate(-1)}>← Back</button>
 
-        {!!resourceLink.length && (
+        {resourceLink && (
           <button
             style={{
               position: "fixed",
@@ -609,7 +642,7 @@ export default function OriginalDetails() {
           dataSource={resourceLink}
           renderItem={(link, index) => (
             <List.Item key={index}>
-              <div style={{ wordBreak: 'break-all', maxWidth: '100%' }}>
+              <div style={{ wordBreak: "break-all", maxWidth: "100%" }}>
                 <a href={link} target="_blank" rel="noopener noreferrer">
                   {link}
                 </a>
