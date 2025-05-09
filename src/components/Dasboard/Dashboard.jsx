@@ -38,7 +38,7 @@ const Dashboard = () => {
             ></iframe> */}
           </div>
         </div>
-        <button
+        {/* <button
           style={{
             position: "fixed",
             bottom: "20px",
@@ -57,7 +57,7 @@ const Dashboard = () => {
           onClick={() => setIsChatOpen(true)}
         >
           Ask me anything
-        </button>
+        </button> */}
       </div>
       <div className={isChatOpen ? "chatbot-split-view" : "chat-view"}>
         <ChatBot
