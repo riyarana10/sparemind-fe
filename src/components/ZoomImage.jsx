@@ -8,22 +8,43 @@ const ZoomImage = ({ src }) => {
   const imageRef = useRef(null);
   const containerRef = useRef(null);
 
-  useEffect(() => {
-    const checkPosition = () => {
-      if (containerRef.current) {
-        const rect = containerRef.current.getBoundingClientRect();
-        const windowWidth = window.innerWidth;
-        if (rect.right > windowWidth * 0.7) {
-          setZoomDirection("left");
-        } else {
-          setZoomDirection("right");
-        }
+  const checkPosition = () => {
+    if (containerRef.current) {
+      const rect = containerRef.current.getBoundingClientRect();
+      const windowWidth = window.innerWidth;
+      if (rect.right > windowWidth * 0.7) {
+        setZoomDirection("left");
+      } else {
+        setZoomDirection("right");
       }
-    };
+    }
+  };
 
+  useEffect(() => {
     checkPosition();
-    window.addEventListener("resize", checkPosition);
-    return () => window.removeEventListener("resize", checkPosition);
+    
+    const handleResize = () => {
+      checkPosition();
+    };
+    
+    window.addEventListener("resize", handleResize);
+    window.addEventListener("scroll", handleResize);
+    
+    const observer = new MutationObserver(checkPosition);
+    if (containerRef.current) {
+      observer.observe(document.body, { 
+        childList: true, 
+        subtree: true,
+        attributes: true,
+        characterData: true
+      });
+    }
+    
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("scroll", handleResize);
+      observer.disconnect();
+    };
   }, []);
 
   const handleMouseMove = (e) => {
@@ -48,7 +69,10 @@ const ZoomImage = ({ src }) => {
         onClick={() => {
           if (src) window.open(src, "_blank");
         }}
-        onMouseEnter={() => setIsHovering(true)}
+        onMouseEnter={() => {
+          checkPosition(); // Check position when mouse enters
+          setIsHovering(true);
+        }}
         onMouseLeave={() => setIsHovering(false)}
         onMouseMove={handleMouseMove}
         alt="part"
