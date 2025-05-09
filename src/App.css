@@ -1132,7 +1132,7 @@ button:hover {
 .chatbot-container {
   position: fixed;
   margin-top: 30px;
-  height: 80vh;
+  height: 76vh;
   width: 85%;
 }
 
@@ -1153,7 +1153,7 @@ button:hover {
 }
 
 .chat-popup {
-  width: 450px;
+  width: 400px;
   height: 90%;
   background: white;
   border-radius: 12px;
