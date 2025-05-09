@@ -1966,6 +1966,14 @@ chat-choose button[disabled] {
   flex-direction: row;
 }
 
+.popular-and-all-categories{
+  display: flex;
+}
+
+.all-categories-span{
+  margin-left: 20px;
+}
+
 @media (max-width: 768px) {
   .login-modal {
     margin: 25px;
@@ -1977,6 +1985,13 @@ chat-choose button[disabled] {
   .compare-col-img {
     display: flex;
     flex-direction: column;
+  }
+  .popular-and-all-categories{
+    flex-direction: column;
+  }
+  .all-categories-span{
+    margin-left: 0px;
+    margin-top: 20px;
   }
 }
 
