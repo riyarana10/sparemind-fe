@@ -26,7 +26,7 @@ const AllCategoryPage = () => {
     const fetchCats = async () => {
       try {
         setIsLoadingCategory(true);
-        const resp = await axios.get("/api/all-categories", {
+        const resp = await axios.get("http://localhost:8000/all-categories", {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("access_token")}`,
           },
