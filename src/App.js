@@ -253,14 +253,15 @@ function App() {
 
       {!showLoginModal && !isLoading && results.length === 0 && (
         <>
-          <h2>
+          <h2 className="popular-and-all-categories">
             <span>Popular Categories</span>
-            <a href="/all-categories" style={{
-              marginLeft: "20px",
-              fontSize: "20px"
-            }}>
-              All Categories
-            </a>
+            <span className="all-categories-span">
+              <a href="/all-categories" style={{
+                fontSize: "20px"
+              }}>
+                All Categories
+              </a>
+            </span>
           </h2>
           {isLoadingCategory ? (
             <p>Loading categories…</p>
@@ -277,6 +278,7 @@ function App() {
                     })
                   }
                 >
+                  <div>
                   <h3>
                     {cat.name
                       .split(" ")
@@ -287,6 +289,10 @@ function App() {
                       )
                       .join(" ")}
                   </h3>
+                  <p style={{fontSize:"14px"}}>
+                    {cat.msil_category.toUpperCase()}
+                  </p>
+                  </div>
                   <p>
                     <strong>View parts from this category</strong>
                   </p>
