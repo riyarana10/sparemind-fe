@@ -19,7 +19,7 @@ const pdfLinks = {
     "https://ca01.smcworld.com/catalog/New-products-en/mpv/es30-22-AFF-D/data/es30-22-AFF-D.pdf",
 
   "SPEED CONTROLLER":
-    "https://ca01.smcworld.com/catalog/New-products-en/mpv/es30-22-AFF-D/data/es30-22-AFF-D.pdf",
+    "https://ca01.smcworld.com/catalog/New-products-en/pdf/es20-220-as.pdf",
 
   "RODLESS CYLINDER":
     "https://ca01.smcworld.com/catalog/New-products-en/mpv/es20-261-MY1/data/es20-261-MY1.pdf",
