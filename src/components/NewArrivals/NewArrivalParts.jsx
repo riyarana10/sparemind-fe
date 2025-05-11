@@ -1,69 +1,184 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import axios from "axios";
 import "./NewArrivalParts.css";
 
-const products = Array(6).fill({
-  title: "AF33-833-A",
-  code: "MA0BN01U000",
-  price: "₹2,186",
-  tag: "NEW",
-  image: "/path-to-your-image.png" // Replace with your actual image path
-});
+const formatPrice = (price) => {
+  const num = typeof price === "string" ? parseFloat(price) : price;
+  return Math.round(num).toLocaleString("en-IN");
+};
 
-const categories = [
-    { name: "Air Cylinder", slug: "AIR CYLINDER" },
-    { name: "Air Filter", slug: "AIR FILTER" },
-    { name: "Air Lubricator", slug: "AIR LUBRICATOR" },
-    { name: "Pressure Switch", slug: "PRESSURE SWITCH" },
-    { name: "Rodless Cylinder", slug: "RODLESS CYLINDER" },
-    // { name: "Solenoid Valve", slug: "SOLENOID VALVE" },
-    // { name: "Speed Controller", slug: "SPEED CONTROLLER" },
-    // { name: "Pneumatic Seal Kits", slug: "PNEUMATIC SEAL KIT" }
-  ];
+const NewArrivalParts = ({ token }) => {
+  const navigate = useNavigate();
+  const location = useLocation();
 
-const NewArrivalParts = () => {
+  const [isLoadingCategory, setIsLoadingCategory] = useState(false);
+  const [isLoadingProduct, setIsLoadingProduct] = useState(false);
+  const [recentCategories, setRecentCategories] = useState([]);
+  const [recentCodeResults, setRecentCodeResults] = useState([]);
+  const initialQuery = location.state?.query || "";
+  const initialResults = location.state?.results || [];
+  const [query, setQuery] = useState(initialQuery);
+  const [results, setResults] = useState(initialResults);
+
+  // Fetch top‐5 categories from backend
+  useEffect(() => {
+    const fetchCats = async () => {
+      try {
+        setIsLoadingCategory(true);
+        const resp = await axios.get(
+          "http://localhost:8000/categories?size=8",
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        setRecentCategories(resp.data.categories || []);
+      } catch (err) {
+        console.error("Failed to load categories", err);
+      } finally {
+        setIsLoadingCategory(false);
+      }
+    };
+    if (token) fetchCats();
+  }, [token]);
+
+  // ── Fetch “popular” parts
+  useEffect(() => {
+    if (!token) return;
+    const codes = [
+      "MA0OT00300B",
+      "MA0OT05Q001",
+      "MA0UQ00E000",
+      "MA0UM02I000",
+      "MA6UU00D000",
+    ];
+
+    const fetchData = async () => {
+      setIsLoadingProduct(true);
+      try {
+        const responses = await Promise.all(
+          codes.map((code) => {
+            return axios.get(
+              `http://localhost:8000/search?original_part_item_code=${encodeURIComponent(
+                code
+              )}`,
+              { headers: { Authorization: `Bearer ${token}` } }
+            );
+          })
+        );
+        const all = responses.flatMap((r) => r.data.results || []);
+        const sorted = all.sort(
+          (a, b) => (b.price_difference || 0) - (a.price_difference || 0)
+        );
+        setRecentCodeResults(sorted.slice(0, 5));
+      } catch (err) {
+        console.error("[DEBUG popular] error fetching popular parts:", err);
+      } finally {
+        setIsLoadingProduct(false);
+      }
+    };
+    fetchData();
+  }, [token]);
+
+  const handleClickViewDetails = (replacement) => {
+    navigate(`/original/${replacement.replacement_part_item_code}`, {
+      state: { query, results },
+    });
+  };
+
   return (
     <div>
-        <div className="new-arrivals-container">
+      <div className="new-arrivals-container">
         <div className="new-arrivals-header">
-            <h2>NEWLY ARRIVED</h2>
-            <a href="/new-arrivals">View All</a>
+          <h2>NEWLY ARRIVED</h2>
+          <a href="/new-arrivals">View All</a>
         </div>
-        <div className="card-list">
-            {products.map((product, index) => (
-            <div className="card" key={index}>
-                <span className="tag">{product.tag}</span>
-                <img src={product.image} alt={product.title} />
-                <div className="product-details">
-                    <h3>{product.title}</h3>
+        {isLoadingProduct ? (
+          <p>Loading products…</p>
+        ) : (
+          <div className="card-list">
+            {recentCodeResults.map((product, index) => {
+              const diff = product.price_difference ?? 0;
+              const diffClass =
+                diff > 0 ? "price-positive" : diff < 0 ? "price-negative" : "";
+              return (
+                <div
+                  className="card"
+                  key={index}
+                  onClick={() => handleClickViewDetails(product)}
+                >
+                  <span className="tag">New</span>
+                  <img
+                    src={product.replacement_part_image}
+                    style={{ width: "100px", height: "100px" }}
+                    alt={product.title}
+                  />
+                  <div className="product-details">
+                    <h3>{product.replacement_part_name}</h3>
                     <div>
-                    <p className="item-code">Item Code</p>
-                    <p className="item-value">{product.code}</p>
+                      <p className="item-code">Item Code</p>
+                      <p className="item-value">
+                        {product.replacement_part_item_code}
+                      </p>
                     </div>
                     <div>
-                    <p className="item-code">MRP</p>
-                    <p className="price">{product.price}</p>
+                      <p className="item-code">Stock</p>
+                      <p className="item-value">
+                        {product.replacement_part_stock}
+                      </p>
                     </div>
+                    <div>
+                      <p className="item-code">MRP</p>
+                      <p className="price">
+                        {formatPrice(product.replacement_part_price)}
+                      </p>
+                    </div>
+                  </div>
                 </div>
-            </div>
-            ))}
-        </div>
-        </div>
-
-        <section className="popular-categories">
-        <div className="new-arrivals-header">
-            <h2>POPULAR CATEGORIES</h2>
-            <a href="/new-arrivals">View All</a>
-        </div>
-      <div className="category-grid">
-        {categories.map((cat, index) => (
-          <div className="category-card" key={index}>
-            <h3>{cat.name}</h3>
-            <p>{cat.slug}</p>
-            <p className="view-link">View parts from this category</p>
+              );
+            })}
           </div>
-        ))}
+        )}
       </div>
-    </section>
+
+      <section className="popular-categories">
+        <div className="new-arrivals-header">
+          <h2>POPULAR CATEGORIES</h2>
+          <a href="/new-arrivals">View All</a>
+        </div>
+        {isLoadingCategory ? (
+          <p>Loading Categories...</p>
+        ) : (
+          <div className="category-grid">
+            {recentCategories.map((cat, index) => (
+              <div
+                className="category-card"
+                key={index}
+                onClick={() =>
+                  navigate(`/category/${cat.name.toLowerCase()}`, {
+                    state: { query, results },
+                  })
+                }
+              >
+                <h3>
+                  {cat.name
+                    .split(" ")
+                    .map(
+                      (word) =>
+                        word.charAt(0).toUpperCase() +
+                        word.slice(1).toLowerCase()
+                    )
+                    .join(" ")}
+                </h3>
+                <p style={{ fontSize: "14px" }}>
+                  {cat.msil_category.toUpperCase()}
+                </p>
+                <p>
+                  <strong>View parts from this category</strong>
+                </p>
+              </div>
+            ))}
+          </div>
+        )}
+      </section>
     </div>
   );
 };
