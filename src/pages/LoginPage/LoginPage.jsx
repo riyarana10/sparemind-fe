@@ -22,12 +22,12 @@ const LoginPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState("");
-  const [loading, setLoading] = useState(false); // 👈 Loader state
+  const [loading, setLoading] = useState(false);
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoginError("");
-    setLoading(true); // 👈 Start loading
+    setLoading(true);
 
     try {
       const params = new URLSearchParams();
