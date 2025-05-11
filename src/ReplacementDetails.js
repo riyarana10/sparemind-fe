@@ -19,7 +19,7 @@ const pdfLinks = {
     "https://ca01.smcworld.com/catalog/New-products-en/mpv/es30-22-AFF-D/data/es30-22-AFF-D.pdf",
 
   "SPEED CONTROLLER":
-    "https://ca01.smcworld.com/catalog/New-products-en/mpv/es30-22-AFF-D/data/es30-22-AFF-D.pdf",
+    "https://ca01.smcworld.com/catalog/New-products-en/pdf/es20-220-as.pdf",
 
   "RODLESS CYLINDER":
     "https://ca01.smcworld.com/catalog/New-products-en/mpv/es20-261-MY1/data/es20-261-MY1.pdf",
@@ -127,7 +127,7 @@ export default function ReplacementDetails() {
   // const fetchPdfLink = async (category) => {
   //   try {
   //     const token = localStorage.getItem("access_token");
-  //     const res = await axios.get("/api/pdf_link", {
+  //     const res = await axios.get("http://localhost:8000/pdf_link", {
   //       params: { category_id: category.replace(/\s+/g, "-") },
   //       headers: { Authorization: `Bearer ${token}` },
   //     });
@@ -144,7 +144,7 @@ export default function ReplacementDetails() {
     const token = localStorage.getItem("access_token");
 
     axios
-      .get(`/api/search_exact?q=${encodeURIComponent(code)}`, {
+      .get(`http://localhost:8000/search_exact?q=${encodeURIComponent(code)}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
@@ -200,7 +200,7 @@ export default function ReplacementDetails() {
     try {
       const token = localStorage.getItem("access_token");
       await axios.post(
-        "/api/decision",
+        "http://localhost:8000/decision",
         {
           original_part_item_code: original.original_part_item_code,
           replacement_part_item_code: code,

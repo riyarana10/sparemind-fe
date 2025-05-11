@@ -9,6 +9,7 @@ import ProfilePage from "./pages/ProfilePage/ProfilePage";
 import SearchPage from "./pages/SearchPage/SearchPage";
 import DashboardPage from "./pages/DashboardPage/DashboardPage";
 import AllCategoryPage from "./pages/AllCategoryPage/AllCategoryPage";
+import FindParts from "./components/FindPartsComp/FindParts";
 
 export default function Main() {
   return (
@@ -16,6 +17,7 @@ export default function Main() {
       <Routes>
         <Route path="/" element={<Navbar />}>
           <Route index element={<App />} />
+          {/* <Route path="/" element = {<FindParts/>} /> */}
           <Route path="/search" element={<SearchPage />} />
           <Route path="original/:code" element={<OriginalDetails />} />
           <Route path="replacement/:code" element={<ReplacementDetails />} />

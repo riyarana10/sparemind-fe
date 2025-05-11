@@ -1,0 +1,121 @@
+.new-arrivals-container {
+    padding: 2rem 4rem;
+  }
+  
+  .new-arrivals-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  
+  .new-arrivals-header h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+  
+  .new-arrivals-header a {
+    font-weight: 500;
+    text-decoration: none;
+    color: #007bff;
+  }
+  
+  .card-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .card {
+    background: #fafafa;
+    border-radius: 10px;
+    padding: 1rem;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  }
+  
+  .card img {
+    width: 50px;
+    height: auto;
+    margin: 0.5rem 0;
+  }
+  
+  .tag {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: #ccd9ff;
+    color: #0033cc;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+  }
+  
+  .item-code {
+    font-size: 0.8rem;
+    color: #777;
+    margin-top: 0.5rem;
+  }
+  
+  .item-value,
+  .price {
+    font-weight: 600;
+  }
+
+  .product-details{
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    gap: 15px;
+  }
+
+  .product-details p {
+    margin: 2px;
+  }
+
+  .popular-categories {
+    padding: 2rem 4rem;
+  }
+  
+  .popular-categories h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+  
+  .category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .category-card {
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    padding: 1.5rem;
+    transition: box-shadow 0.3s ease;
+  }
+  
+  .category-card:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .category-card h3 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+  }
+  
+  .category-card p {
+    font-size: 0.9rem;
+    color: #444;
+  }
+  
+  .view-link {
+    font-weight: 600;
+    margin-top: 0.5rem;
+  }
+  
+  
