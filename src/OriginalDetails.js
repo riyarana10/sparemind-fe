@@ -124,7 +124,7 @@ export default function OriginalDetails() {
   // const fetchPdfLink = async (category) => {
   //   try {
   //     const token = localStorage.getItem("access_token");
-  //     const res = await axios.get("/api/pdf_link", {
+  //     const res = await axios.get("http://localhost:8000/pdf_link", {
   //       params: { category_id: category.replace(/\s+/g, "-") },
   //       headers: { Authorization: `Bearer ${token}` },
   //     });
@@ -141,7 +141,7 @@ export default function OriginalDetails() {
     const token = localStorage.getItem("access_token");
 
     axios
-      .get(`/api/search_exact?q=${encodeURIComponent(code)}`, {
+      .get(`http://localhost:8000/search_exact?q=${encodeURIComponent(code)}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
@@ -186,7 +186,7 @@ export default function OriginalDetails() {
     try {
       const token = localStorage.getItem("access_token");
       await axios.post(
-        "/api/decision",
+        "http://localhost:8000/decision",
         {
           original_part_item_code: original.original_part_item_code,
           replacement_part_item_code: "",
