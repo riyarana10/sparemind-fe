@@ -316,3 +316,59 @@
     background: #f1f1f1;
   }
 }
+
+
+/* .category-cell:first-child {
+  background-color: #f0f7ff !important;
+  color: #0056b3;
+} */
+
+.part-image {
+  max-width: 200px;
+  max-height: 200px;
+  object-fit: contain;
+  border: 1px solid #eee;
+  border-radius: 4px;
+}
+
+.image-cell {
+  padding: 8px;
+  text-align: center;
+}
+
+.image-cell img {
+  display: block;
+  margin: 0 auto;
+}
+
+/* Make sure images don't stretch table cells */
+td {
+  vertical-align: middle;
+}
+
+.replacement-header {
+  padding: 8px 12px;
+}
+
+.replacement-line {
+  display: inline-block;
+  align-items: center;
+  gap: 16px;
+}
+
+.savings-value {
+  font-size: 0.85rem;
+  font-weight: 500;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.savings-value.positive {
+  color: #2e7d32;
+  background-color: #e6f7e6;
+}
+
+.savings-value.negative {
+  color: #c62828;
+  background-color: #ffebee;
+}

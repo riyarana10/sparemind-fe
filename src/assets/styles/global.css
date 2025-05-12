@@ -1,0 +1,50 @@
+/* Reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'IBM Plex Sans Condensed', sans-serif;
+    line-height: 1.6;
+    color: var(--color-text-primary);
+    background-color: var(--color-background-light);
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+
+  button, input, textarea, h1, h2, h3, p {
+    font-family: inherit;
+  }
+
+  /* CSS Variables */
+  :root {
+    /* Colors */
+    --color-primary: #2563eb;
+    --color-accent: #10b981;
+    --color-success: #10b981;
+    --color-error: #ef4444;
+    --color-text-primary: #1f2937;
+    --color-text-secondary: #6b7280;
+    --color-background-light: #f9fafb;
+    --color-border: #e5e7eb;
+    --color-white: #ffffff;
+  
+    /* Typography */
+    --font-weight-medium: 500;
+    --font-weight-bold: 700;
+  
+    /* Spacing */
+    --border-radius: 0.5rem;
+    --shadow-medium: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 
+                     0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+  
+  /* Utility classes */
+  .container {
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
