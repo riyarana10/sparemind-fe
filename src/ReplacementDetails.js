@@ -3,10 +3,10 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Modal, Button, List } from "antd";
 import "./App.css";
-import SpecsComparison from "./components/SpecsComp/SpecsComp";
-import ChatBot from "./components/Chatbot/ConversationBot";
+import SpecsComparison from "../../components/SpecsComp/SpecsComp";
+import ChatBot from "../../components/Chatbot/ConversationBot";
 import NoImage from "./assets/img/no_image.jpg";
-import ZoomImage from "./components/ZoomImage";
+import ZoomImage from "../../components/ZoomImage";
 
 const pdfLinks = {
   "AIR LUBRICATOR":

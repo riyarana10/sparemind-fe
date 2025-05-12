@@ -3,6 +3,7 @@ import ZoomImage from "./ZoomImage";
 import { FaDownload, FaMapMarkerAlt, FaPaperclip } from "react-icons/fa";
 import { parseSpecs, buildSpecsObject } from "../utils/specsParser";
 import "./PartDetailsCard.css";
+import location from "../assets/img/location.svg";
 
 const PartDetailsCard = ({
   part,
@@ -17,6 +18,7 @@ const PartDetailsCard = ({
   showSpecs = true,
 }) => {
   const [showAllSpecs, setShowAllSpecs] = useState(false);
+
 
   const toggleAllSpecs = () => {
     setShowAllSpecs(!showAllSpecs);
@@ -63,7 +65,6 @@ const PartDetailsCard = ({
       <div className="part-details">
         <div className="part-header">
           <h1 className="part-name">{partData.name || "No name available"}</h1>
-          <span className="part-source">{partData.source}</span>
         </div>
 
         <div className="details-grid">
@@ -76,10 +77,7 @@ const PartDetailsCard = ({
             </div>
             <div className="detail-group">
               <span className="detail-label">Location</span>
-              <span className="detail-value">
-                <FaMapMarkerAlt className="location-icon" />
-                {partData.location || "N/A"}
-              </span>
+              <span className="detail-value">{partData.location || "N/A"}</span>
             </div>
             <div className="detail-group">
               <span className="detail-label">Brand</span>
@@ -88,7 +86,6 @@ const PartDetailsCard = ({
               </span>
             </div>
           </div>
-
           <div className="detail-row double-column">
             <div className="detail-group">
               <span className="detail-label">Category</span>
@@ -103,7 +100,6 @@ const PartDetailsCard = ({
               </span>
             </div>
           </div>
-
           <div className="detail-row">
             <div className="detail-group">
               <span className="detail-label">Description</span>
@@ -112,67 +108,49 @@ const PartDetailsCard = ({
               </span>
             </div>
           </div>
-
           {showSpecs &&
-            (Object.keys(specsJson || {}).length > 0 ||
-              (specsObj && Object.keys(specsObj).length > 0)) && (
-              <div className="detail-row">
-                <div className="detail-group">
-                  <div className="specs-header">
-                    <span className="detail-label">Specifications</span>
-                    <button
-                      className="toggle-all-specs"
-                      onClick={toggleAllSpecs}
-                    >
-                      {showAllSpecs ? "Show Less" : "Read More"}
-                    </button>
-                  </div>
-                  <div className="specs-list">
-                    {specsJson && Object.keys(specsJson).length > 0
-                      ? Object.entries(specsJson).map(
-                          ([heading, items], idx) => (
-                            <div
-                              key={`${heading}-${idx}`}
-                              className="spec-section"
-                              style={{
-                                display:
-                                  showAllSpecs || idx === 0 ? "block" : "none",
-                              }}
-                            >
-                              <h4 className="spec-heading">{heading}</h4>
-                              <ul className="spec-items">
-                                {items.map((item, j) => (
-                                  <li key={j} className="spec-item">
-                                    {item.replace(/^[•-]\s*/, "").trim()}
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
-                          )
-                        )
-                      : parseSpecs(rawSpecs)?.map((blk, idx) => (
-                          <div
-                            key={idx}
-                            className="spec-section"
-                            style={{
-                              display:
-                                showAllSpecs || idx === 0 ? "block" : "none",
-                            }}
-                          >
-                            <h4 className="spec-heading">{blk.heading}</h4>
-                            <ul className="spec-items">
-                              {blk.items.map((it, j) => (
-                                <li key={j} className="spec-item">
-                                  {it}
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        ))}
-                  </div>
-                </div>
+  (Object.keys(specsJson || {}).length > 0 ||
+    (specsObj && Object.keys(specsObj).length > 0)) && (
+    <div className="detail-row">
+      <div className="detail-group">
+        <span className="detail-label">More Details</span>
+        <div className="specs-grid">
+          {(specsJson && Object.keys(specsJson).length > 0
+            ? Object.entries(specsJson).map(([heading, items]) => ({
+                heading,
+                items,
+              }))
+            : parseSpecs(rawSpecs)
+          )
+            ?.slice(0, showAllSpecs ? undefined : 1)
+            .map((blk, idx) => (
+              <div key={idx} className="spec-block">
+                <h4>{blk.heading}</h4>
+                <ul>
+                  {blk.items.map((item, j) => (
+                    <li key={j}>
+                      {item.replace?.(/^[•\-]\s*/, "").trim() ?? item}
+                    </li>
+                  ))}
+                </ul>
               </div>
-            )}
+            ))}
+        </div>
+
+        {/* Toggle Button */}
+        {(specsJson && Object.keys(specsJson).length > 1) ||
+        (specsObj && Object.keys(specsObj).length > 1) ? (
+          <button
+            onClick={() => setShowAllSpecs(!showAllSpecs)}
+            className="toggle-specs-btn"
+          >
+            {showAllSpecs ? "Show Less" : "Read More"}
+          </button>
+        ) : null}
+      </div>
+    </div>
+  )}
+
         </div>
       </div>
 
@@ -181,20 +159,34 @@ const PartDetailsCard = ({
         <div className="vertical-divider"></div>
         <div className="part-actions">
           <div className="action-item">
-            <div className="detail-label">Price</div>
+            <div className="detail-label">MRP</div>
             <div className="price-value">₹{formatPrice(partData.price)}</div>
           </div>
 
           <div className="action-item">
-            <div className="detail-label">Stock</div>
             <div
               className={`stock-value ${
                 partData.stock > 0 ? "in-stock" : "out-of-stock"
               }`}
             >
               {partData.stock > 0
-                ? `${partData.stock} available`
+                ? `In stock: ${partData.stock}`
                 : "Out of stock"}
+            </div>
+          </div>
+          <div className="action-item">
+            <div className="location-wrapper flex items-center space-x-4">
+              <img
+                src={location}
+                alt="Location"
+                className="location-icon w-10 h-10 text-gray-500"
+              />
+              <div>
+                <p className="text-gray-500 text-sm font-sans">Location</p>
+                <p className="font-sans font-extrabold text-gray-900 text-base leading-tight">
+                  {partData.location}
+                </p>
+              </div>
             </div>
           </div>
 
@@ -206,12 +198,12 @@ const PartDetailsCard = ({
               className="download-button"
             >
               <FaPaperclip className="download-icon" />
-              View Attachments
+              Download PDF Docs
             </a>
           ) : (
             <button className="download-button" disabled>
               <FaDownload className="download-icon" />
-              No Documents
+              No PDF Docs
             </button>
           )}
         </div>

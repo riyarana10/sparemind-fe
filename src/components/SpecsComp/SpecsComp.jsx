@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "./SpecComp.css";
 
-
 const formatPrice = (price) => {
   const num = typeof price === "string" ? parseFloat(price) : price;
   return Math.round(num).toLocaleString("en-IN");
@@ -10,7 +9,7 @@ const formatPrice = (price) => {
 const SpecsComparison = ({
   originalSpecs = {},
   replacementSpecs = {},
-  
+
   originalPart = {},
   replacementPart = {},
 }) => {
@@ -28,35 +27,41 @@ const SpecsComparison = ({
 
   // General information fields
   const generalInfoFields = [
-    { label: "Part Name", 
+    {
+      label: "Part Name",
       original: originalPart.original_part_name,
-      replacement: replacementPart.replacement_part_name 
+      replacement: replacementPart.replacement_part_name,
     },
-    { 
+    {
       label: "Image",
       original: originalPart.original_part_image,
       replacement: replacementPart.replacement_part_image,
-      isImage: true 
+      isImage: true,
     },
-    { label: "Item Code",
+    {
+      label: "Item Code",
       original: originalPart.original_part_item_code,
-      replacement: replacementPart.replacement_part_item_code
+      replacement: replacementPart.replacement_part_item_code,
     },
-    { label: "Location",
+    {
+      label: "Location",
       original: originalPart.original_part_location,
-      replacement: replacementPart.replacement_part_location
+      replacement: replacementPart.replacement_part_location,
     },
-    { label: "Stock",
+    {
+      label: "Stock",
       original: originalPart.original_part_stock,
-      replacement: replacementPart.replacement_part_stock
+      replacement: replacementPart.replacement_part_stock,
     },
-    { label: "Price",
-      original: `₹${originalPart.original_part_price}`,
-      replacement: `₹${replacementPart.replacement_part_price}`
+    {
+      label: "Price",
+      original: `₹${formatPrice(originalPart.original_part_price)}`,
+      replacement: `₹${formatPrice(replacementPart.replacement_part_price)}`,
     },
-    { label: "Description",
+    {
+      label: "Description",
       original: originalPart.original_part_name_breakdown_definition,
-      replacement: replacementPart.replacement_part_name_breakdown_definition
+      replacement: replacementPart.replacement_part_name_breakdown_definition,
     },
   ];
 
@@ -97,48 +102,63 @@ const SpecsComparison = ({
       {isTableOpen && (
         <div className="table-scroll-wrapper">
           <table className="spec-table">
-          <thead>
-  <tr>
-    <th>Category</th>
-    <th>Attribute</th>
-    <th>Original</th>
-    <th className="replacement-header">
-      <div className="replacement-line">
-        <span>Replacement  </span>
-        {originalPart.original_part_price && replacementPart.replacement_part_price && (
-          <span className={`savings-value ${
-            originalPart.original_part_price - replacementPart.replacement_part_price >= 0 
-              ? 'positive' 
-              : 'negative'
-          }`}>
-            {originalPart.original_part_price - replacementPart.replacement_part_price >= 0
-              ? `Save: ₹${formatPrice(originalPart.original_part_price - replacementPart.replacement_part_price)}`
-              : `Loss: ₹${formatPrice(Math.abs(originalPart.original_part_price - replacementPart.replacement_part_price))}`
-            }
-          </span>
-        )}
-      </div>
-    </th>
-  </tr>
-</thead>
+            <thead>
+              <tr>
+                <th>Category</th>
+                <th>Attribute</th>
+                <th>Original</th>
+                <th className="replacement-header">
+                  <div className="replacement-line">
+                    <span>Replacement </span>
+                    {originalPart.original_part_price &&
+                      replacementPart.replacement_part_price && (
+                        <span
+                          className={`savings-value ${
+                            originalPart.original_part_price -
+                              replacementPart.replacement_part_price >=
+                            0
+                              ? "positive"
+                              : "negative"
+                          }`}
+                        >
+                          {originalPart.original_part_price -
+                            replacementPart.replacement_part_price >=
+                          0
+                            ? `Savings: ₹ ${formatPrice(
+                                originalPart.original_part_price -
+                                  replacementPart.replacement_part_price
+                              )}`
+                            : `Savings: ₹ ${formatPrice(
+                                originalPart.original_part_price -
+                                  replacementPart.replacement_part_price
+                              )}`}
+                        </span>
+                      )}
+                  </div>
+                </th>
+              </tr>
+            </thead>
             <tbody>
               {/* General Information Rows */}
               <tr className="general-info-header">
-                <td rowSpan={generalInfoFields.length+1} className="category-cell">
+                <td
+                  rowSpan={generalInfoFields.length + 1}
+                  className="category-cell"
+                >
                   General Information
                 </td>
               </tr>
-              
+
               {generalInfoFields.map((field, index) => (
                 <tr key={`general-${index}`}>
                   <td>{field.label}</td>
                   <td className={field.isImage ? "image-cell" : ""}>
-                    {field.isImage 
+                    {field.isImage
                       ? renderImageCell(field.original)
                       : field.original || "N/A"}
                   </td>
                   <td className={field.isImage ? "image-cell" : ""}>
-                    {field.isImage 
+                    {field.isImage
                       ? renderImageCell(field.replacement)
                       : field.replacement || "N/A"}
                   </td>
@@ -147,15 +167,23 @@ const SpecsComparison = ({
 
               {/* Technical Specifications */}
               {allSections
-                .filter(section => section !== "General Information")
+                .filter((section) => section !== "General Information")
                 .map((section) => {
                   const origLines = originalSpecs[section] || [];
                   const repLines = replacementSpecs[section] || [];
-                  const rowCount = Math.max(origLines.length, repLines.length, 1);
+                  const rowCount = Math.max(
+                    origLines.length,
+                    repLines.length,
+                    1
+                  );
 
                   return Array.from({ length: rowCount }).map((_, rowIdx) => {
-                    const { attr: oAttr, val: oVal } = parseLine(origLines[rowIdx]);
-                    const { attr: rAttr, val: rVal } = parseLine(repLines[rowIdx]);
+                    const { attr: oAttr, val: oVal } = parseLine(
+                      origLines[rowIdx]
+                    );
+                    const { attr: rAttr, val: rVal } = parseLine(
+                      repLines[rowIdx]
+                    );
                     const labelAttr = oAttr || rAttr || "—";
                     const isDiff = oVal !== rVal;
 
