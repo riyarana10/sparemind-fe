@@ -49,7 +49,7 @@
 /* Menu items */
 .navbar-menu .ant-menu {
   display: flex;
-  gap: 24px;
+  gap: 10px;
   border-bottom: none;
 }
 
@@ -66,6 +66,7 @@
 .account-dropdown {
   font-weight: 600;
   cursor: pointer;
+  font-size: 14px;
 }
 
 /* Mobile Styles */
@@ -75,6 +76,11 @@
 
 .drawer-account {
   margin-top: 20px;
+}
+
+.nav-menu-items{
+  font-size: 14px;
+  font-weight: 700;
 }
 
 /* Responsive styles */
