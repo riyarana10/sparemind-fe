@@ -187,6 +187,9 @@ const toggleExpanded = (index) => {
                 }
               >
                 <div className="category-card-details">
+                  <div>
+                    <img style={{width:"120px", height:"100px",border:"1px solid lightgray", borderRadius:"4px"}} src={cat.image === "" ? noImage : cat.image}/>
+                    </div>
                     <div>
                       <p className="item-code">PartsGenie Category</p>
                       <p className="item-value">

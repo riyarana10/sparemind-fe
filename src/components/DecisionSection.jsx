@@ -1,45 +1,77 @@
 import React, { useState } from "react";
 import "./DecisionSection.css";
 
-const DecisionSection = ({ 
-  original, 
-  replacement, 
-  decision, 
-  lastComment, 
-  role, 
+const DecisionSection = ({
+  original,
+  replacement,
+  decision,
+  lastComment,
+  role,  // This should be passed from parent component
   onDecision,
-  onReview // Add this new prop
+  onReview,
 }) => {
   const [commentText, setCommentText] = useState("");
   const [busy, setBusy] = useState(false);
 
-  const handleSubmit = (accepted, rejected) => {
+  const handleSubmit = async (accepted, rejected) => {
     setBusy(true);
-    onDecision(accepted, rejected, commentText)
-      .finally(() => setBusy(false));
+    try {
+      const result = await onDecision(
+        original,
+        accepted,
+        rejected,
+        commentText,
+        replacement
+      );
+      if (result?.success !== false) {
+        setCommentText(""); // Clear only on successful save
+      } else {
+        alert("Failed to save decision.");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Error occurred while saving.");
+    } finally {
+      setBusy(false);
+    }
   };
 
-  const handleReview = () => {
+  const handleReview = async () => {
     setBusy(true);
-    onReview() // Use the new prop
-      .finally(() => {
-        setCommentText("");
-        setBusy(false);
-      });
+    try {
+      await onReview(original, replacement);
+      setCommentText("");
+    } catch (err) {
+      console.error(err);
+      alert("Error occurred during review.");
+    } finally {
+      setBusy(false);
+    }
   };
+
+  // Determine if buttons should be disabled
+  const isUser = role === "user";
+  const showDecisionButtons = !isUser && (role == "manager" || role == "admin");
 
   return (
     <div className="decision-section">
-      {decision === null && lastComment && (
+      <h4 className="comment-heading">
+        Please share your thoughts about the replacement
+      </h4>
+      {/* {decision === null && lastComment && (
         <div className="saved-comment">
           <strong>Last comment:</strong> {lastComment}
         </div>
-      )}
-      
+      )} */}
+
       <div className="comment-box-section">
         <textarea
           className="comment-box"
-          placeholder="Add a comment..."
+          placeholder={
+            isUser 
+              ? "Add your comments about the replacement"
+              : "Add a comment to accept or reject the replacement"
+          }
           value={commentText}
           onChange={(e) => setCommentText(e.target.value)}
           disabled={!!decision || busy}
@@ -48,15 +80,7 @@ const DecisionSection = ({
 
       {decision === null ? (
         <div className="decision-buttons">
-          <button
-            className="comment-button"
-            onClick={() => handleSubmit(false, false)}
-            disabled={busy || !commentText.trim()}
-          >
-            Comment
-          </button>
-          
-          {(role === "manager" || role === "admin") && (
+          {showDecisionButtons ? (
             <>
               <button
                 className="accept-button"
@@ -73,6 +97,10 @@ const DecisionSection = ({
                 Reject
               </button>
             </>
+          ) : (
+            <div className="user-message">
+              {isUser && "Only managers/admins can make decisions"}
+            </div>
           )}
         </div>
       ) : (
@@ -80,13 +108,15 @@ const DecisionSection = ({
           <span className={`decision-badge ${decision}`}>
             {decision === "accepted" ? "✔ Accepted" : "✘ Rejected"}
           </span>
-          <button
-            className="review-button"
-            onClick={handleReview}
-            disabled={busy}
-          >
-            Review
-          </button>
+          {showDecisionButtons && (
+            <button
+              className="review-button"
+              onClick={handleReview}
+              disabled={busy}
+            >
+              Review
+            </button>
+          )}
         </div>
       )}
     </div>

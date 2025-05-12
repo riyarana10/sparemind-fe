@@ -1,364 +1,212 @@
 /* Base styles */
 .part-details-card {
-    display: flex;
-    background: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    margin-bottom: 20px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: #333;
-    gap: 20px;
-  }
-  
-  /* Image section */
-  /* Image section */
-  .part-image-container {
-    flex: 0 0 240px; /* Reduced from 240px */
-    width: 250px;    /* Added fixed width */
-    height: 250px;   /* Added fixed height to make it square */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid #e0e0e0;
-    border-radius: 4px;
-    padding: 10px;
-    background: #f9f9f9;
+  display: flex;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-bottom: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+  gap: 20px;
+}
+
+.part-image-container {
+  flex: 0 0 240px;
+  width: 250px;
+  height: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  padding: 10px;
+  background: #f9f9f9;
 }
 
 .part-image-container img {
-    max-width: 100%;
-    max-height: 100%; /* Changed from 180px to 100% to fit container */
-    object-fit: contain;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
 }
-  
-  /* Details section */
-  .part-details {
-    flex: 1;
-    padding-right: 20px;
-  }
-  
-  .part-header {
-    margin-bottom: 15px;
-  }
-  
-  .part-code {
-    font-size: 16px;
-    font-weight: 600;
-    color: #555;
-    margin: 0 0 5px 0;
-  }
-  
-  .part-name {
-    font-size: 32px;
-    font-weight: 700;
-    color: #222;
-    margin: 0;
-  }
-  .details-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 16px; /* Controls spacing between rows */
-  }
-  
-  /* First row (3-column layout) */
-  .detail-row.triple-column {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* Equal-width columns */
-    gap: 20px; /* Spacing between columns */
-  }
-  
-  /* All rows (including Category & Description) */
-  .detail-row {
-    width: 100%; /* Ensures full width */
-  }
-  
-  .detail-group {
-    display: flex;
-    flex-direction: column;
-    gap: 4px; /* Spacing between label and value */
-  }
-  
-  .detail-label {
-    font-weight: 600;
-    color: #555;
-  }
-  
-  .detail-value {
-    color: #333;
-  }
-  .read-more {
-    color: #0066cc;
-    font-size: 13px;
-    font-weight: 500;
-    margin-top: 10px;
-    cursor: pointer;
-  }
-  
-  .read-more:hover {
-    text-decoration: underline;
-  }
-  
-  /* Actions section */
-  .part-actions {
-    flex: 0 0 200px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-  }
-  
-  .price-section {
-    text-align: right;
-    margin-bottom: 15px;
-  }
-  
-  .detail-label {
-    font-size: 13px;
-    color: #777;
-  }
-  
-  .price-value {
-    font-size: 20px;
-    font-weight: 700;
-    color: #222;
-  }
-  
-  .stock-badge {
-    padding: 6px 12px;
-    border-radius: 4px;
-    font-size: 13px;
-    font-weight: 600;
-    margin-bottom: 15px;
-  }
-  
-  .stock-badge.in-stock {
-    background-color: #e6f7e6;
-    color: #2e7d32;
-  }
-  
-  .stock-badge.out-of-stock {
-    background-color: #ffebee;
-    color: #c62828;
-  }
-  
-  .location-info {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-    font-size: 13px;
-    color: #555;
-  }
-  
-  .location-icon {
-    margin-right: 5px;
-    color: #666;
-  }
-  
-  .download-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #0066cc;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    padding: 8px 12px;
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background-color 0.2s;
-  }
-  
-  .download-button:hover {
-    background-color: #0052a3;
-  }
-  
-  .download-icon {
-    margin-right: 6px;
-    font-size: 12px;
-  }
-  
-  /* Responsive adjustments */
-  @media (max-width: 900px) {
-    .part-details-card {
-      flex-direction: column;
-    }
-  
-    .part-actions {
-      align-items: flex-start;
-      margin-top: 20px;
-    }
-  }
 
-  .part-details-card.selectable {
-    cursor: pointer;
-    transition: box-shadow 0.2s ease, border 0.2s ease;
-  }
-  
-  .part-details-card.selectable:hover {
-    box-shadow: 0 2px 12px rgba(0,0,0,0.1);
-  }
-  
-  .part-details-card.selected {
-    border: 2px solid #007bff;
-    box-shadow: 0 4px 16px rgba(0,123,255,0.2);
-  }
+/* Details section */
+.part-details {
+  flex: 1;
+  padding-right: 20px;
+}
 
-  
-  /* Add these styles to your existing CSS */
+.part-header {
+  margin-bottom: 15px;
+}
 
-.download-button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    padding: 0.5rem 1rem;
-    background-color: #2563eb;
-    color: white;
-    border: none;
-    border-radius: 0.375rem;
-    font-size: 0.875rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    text-decoration: none;
-    margin-top: 6.5rem;
-    width: 100%;
-  }
-  
-  .download-button:hover {
-    background-color: #1d4ed8;
-    transform: translateY(-1px);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  .download-button:active {
-    transform: translateY(0);
-  }
-  
-  .download-button:disabled {
-    background-color: #9ca3af;
-    cursor: not-allowed;
-    opacity: 0.7;
-  }
-  
-  .download-button .download-icon {
-    font-size: 0.9rem;
-  }
- /* Right Section Container */
+.part-code {
+  font-size: 16px;
+  font-weight: 600;
+  color: #555;
+  margin: 0 0 5px 0;
+}
+
+.part-name {
+  font-size: 32px;
+  font-weight: 700;
+  color: #222;
+  margin: 0;
+}
+
+.details-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Grid layout */
+.detail-row.triple-column {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.detail-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.detail-label {
+  font-size: 16px;
+  font-weight: 500;
+  color: #555;
+}
+
+
+.detail-value {
+  color: #000000;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.toggle-all-specs {
+  color: #0066cc;
+  font-size: 13px;
+  font-weight: 500;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.read-more:hover {
+  text-decoration: underline;
+}
+
+/* Actions section */
 .part-actions-container {
-    display: flex;
-    height: 100%;
-    min-width: 200px; /* Ensure consistent width */
-  }
-  
-  .vertical-divider {
-    width: 1px;
-    background-color: #e0e0e0;
-    height: 100%;
-  }
-  
-  .part-actions {
-    flex: 1;
-    padding: 16px 20px;
-    background-color: #f8f8f8;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
-  
-  /* Unified item styling */
-  .action-item {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    width: 100%;
-  }
-  
-  .detail-label {
-    font-size: 13px;
-    color: #666;
-    font-weight: 500;
-  }
-  
-  /* MRP Value */
-  .price-value {
-    font-size: 18px;
-    font-weight: 600;
-    color: #333;
-    text-align: left;
-  }
-  
-  /* Stock Value */
-  .stock-value {
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 14px;
-    font-weight: 500;
-    width: fit-content;
-    text-align: left;
-  }
-  
-  .stock-value.in-stock {
-    background-color: #e6f7ee;
-    color: #00a854;
-    border: 1px solid #b7eb8f;
-  }
-  
-  .stock-value.out-of-stock {
-    background-color: #fff1f0;
-    color: #f5222d;
-    border: 1px solid #ffa39e;
-  }
-  
-  /* Location Value */
-  .location-value {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    color: #555;
-    font-size: 14px;
-  }
-  
-  .location-icon {
-    color: #8c8c8c;
-    font-size: 14px;
-  }
-  
-  /* Download Button */
-  .download-button {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 12px;
-    background: #fff;
-    border: 1px solid #d9d9d9;
-    border-radius: 4px;
-    color: #333;
-    background-color: #2563eb;
-    font-size: 13px;
-    cursor: pointer;
-    transition: all 0.2s;
-    width: fit-content;
-    text-align: left;
-  }
-  
-  .download-button:hover {
-    background: #f5f5f5;
-    border-color: #bfbfbf;
-    background-color: #1d4ed8;
-  }
-  
-  .download-button:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-  }
-  
-  .download-icon {
-    font-size: 14px;
-  }
+  display: flex;
+  height: 100%;
+  min-width: 200px;
+}
 
-  /* Classic List Format for Specifications */
+.part-actions {
+  flex: 1;
+  padding: 16px 20px;
+  background-color: #f8f8f8;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.vertical-divider {
+  width: 1px;
+  background-color: #e0e0e0;
+  height: 100%;
+}
+
+/* Action items */
+.action-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+}
+
+.price-value {
+  font-size: 28px;
+  font-weight: 600;
+  color: #333;
+}
+
+.stock-value {
+  padding: 6px 12px;
+  font-weight: bold;
+  color: white;
+  display: inline-block;
+  font-size: 15px;
+  width: 115px;
+  height: 40px;
+}
+
+.in-stock {
+  background-color: #228B22;
+}
+
+.out-of-stock {
+  background-color: #b22222;
+}
+
+/* Location styles */
+.location-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.location-icon {
+  width: 40px;
+  height: 40px;
+  color: #6B7280;
+}
+
+.location-label {
+  color: #6B7280;
+  font-size: 0.875rem;
+}
+
+.location-value {
+  font-weight: 800;
+  color: #111827;
+  font-size: 1rem;
+  line-height: 1.25rem;
+}
+
+/* Download button */
+.download-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-top: 6.5rem;
+  width: 100%;
+}
+
+.download-button:hover {
+  background-color: #1d4ed8;
+}
+
+.download-button:disabled {
+  background-color: #9ca3af;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Specifications */
 .specs-list {
   width: 100%;
   margin-top: 10px;
@@ -366,60 +214,6 @@
 
 .spec-section {
   margin-bottom: 20px;
-}
-
-.spec-heading {
-  font-size: 1rem;
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 8px;
-  padding-bottom: 4px;
-  border-bottom: 1px solid #eee;
-}
-
-.spec-items {
-  list-style-type: none;
-  padding-left: 0;
-  margin: 0;
-}
-
-.spec-item {
-  padding: 6px 0;
-  border-bottom: 1px solid #f5f5f5;
-  font-size: 0.9rem;
-  color: #555;
-}
-
-.spec-item:last-child {
-  border-bottom: none;
-}
-
-/* For better readability */
-.spec-item::before {
-  content: "•";
-  color: #666;
-  display: inline-block;
-  width: 1em;
-  margin-left: -1em;
-}
-.specs-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
-}
-
-.toggle-all-specs {
-  background: none;
-  border: none;
-  color: #0066cc;
-  font-size: 0.9rem;
-  cursor: pointer;
-  padding: 4px 8px;
-}
-
-.toggle-all-specs:hover {
-  text-decoration: underline;
 }
 
 .spec-heading {
@@ -435,7 +229,6 @@
   list-style-type: none;
   padding-left: 0;
   margin: 0;
-  transition: all 0.3s ease;
 }
 
 .spec-item {
@@ -452,27 +245,50 @@
   margin-left: -1em;
 }
 
-.read-more-btn,
-.show-less-btn {
-  display: block;
-  width: 100%;
-  text-align: center;
+/* Responsive adjustments */
+@media (max-width: 900px) {
+  .part-details-card {
+    flex-direction: column;
+  }
+
+  .part-actions {
+    align-items: flex-start;
+    margin-top: 20px;
+  }
+}
+
+/* Selectable card styles */
+.part-details-card.selectable {
+  cursor: pointer;
+  transition: box-shadow 0.2s ease, border 0.2s ease;
+}
+
+.part-details-card.selectable:hover {
+  box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+}
+
+.part-details-card.selected {
+  border: 2px solid #007bff;
+  box-shadow: 0 4px 16px rgba(0,123,255,0.2);
+}
+
+.specs-grid {
+  display: grid;
+  gap: 16px;
+}
+
+.toggle-specs-btn {
   background: none;
   border: none;
   color: #0066cc;
-  padding: 10px 0;
-  margin: 10px 0;
+  font-size: 13px;
+  font-weight: 500;
   cursor: pointer;
-  font-size: 0.9rem;
+  padding: 8px 0;
+  margin-top: 8px;
+  text-align: left;
 }
 
-.read-more-btn:hover,
-.show-less-btn:hover {
+.toggle-specs-btn:hover {
   text-decoration: underline;
-}
-
-.show-less-btn {
-  margin-top: 20px;
-  border-top: 1px solid #eee;
-  padding-top: 15px;
 }

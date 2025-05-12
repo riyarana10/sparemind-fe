@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import BreadcrumbNav from "../../components/BreadcrumbNav";
 import axios from "axios";
 import "./ProductDetails.css";
 import PartDetailsCard from "../../components/PartDetailsCard";
@@ -8,6 +9,7 @@ import SpecsComparison from "../../components/SpecsComp/SpecsComp";
 import SearchBar from "../../components/SearchBar";
 import { pdfLinks } from "../../productConstants";
 import { formatPrice } from "../../productUtils";
+
 
 const ProductDetails = () => {
   const { code } = useParams();
@@ -129,6 +131,7 @@ const ProductDetails = () => {
         style={{ width: "100%", padding: "16px" }}
       >
         <SearchBar />
+        <BreadcrumbNav />
       </div>
 
       <div className="product-details-container">
@@ -159,9 +162,9 @@ const ProductDetails = () => {
           )}
 
           {/* Back Button */}
-          <button className="back-button" onClick={() => navigate(-1)}>
+          {/* <button className="back-button" onClick={() => navigate(-1)}>
             Back
-          </button>
+          </button> */}
         </div>
       </div>
     </>

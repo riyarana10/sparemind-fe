@@ -22,7 +22,7 @@ export default function App() {
           <Route index element={<HomePage />} />
           <Route path="/search" element={<SearchPage />} />
           <Route path="original/:code" element={<ProductDetails />} />
-          {/* <Route path="replacement/:code" element={<ReplacementDetails />} /> */}
+          <Route path="replacement/:code" element={<ProductDetails />} />
           <Route path="category/:name" element={<CategoryPage />} />
           <Route path="profile" element={<ProfilePage />} />
           <Route path="dashboard" element={<DashboardPage />} />

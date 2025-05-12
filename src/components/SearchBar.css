@@ -24,13 +24,111 @@
     color: #333;
   }
   
+
+  .search-button {
+    background-color: #d62828;
+    color: #fff;
+    border: none;
+    border-radius: 999px;
+    padding: 10px 24px;
+    font-weight: bold;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.3s;
+  }
+  
+  .search-button:hover {
+    background-color: #b71c1c;
+  }
+  
+  .suggestions-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    z-index: 1000;
+    max-height: 300px;
+    overflow-y: auto;
+    margin-top: 5px;
+  }
+  
+  .suggestion-item {
+    padding: 8px 12px;
+    cursor: pointer;
+  }
+  
+  .suggestion-item:hover {
+    background-color: #f5f5f5;
+  }
+  
+  .search-input-wrapper {
+    position: relative; /* Add this to make dropdown position relative to wrapper */
+  }
+
+  .search-container {
+    display: flex;
+    width: 100%;
+    max-width: 100%;
+    padding: 10px 16px;
+    box-sizing: border-box;
+    align-items: center;
+    background-color: #f9f9f9;
+    position: relative;
+  }
+  
+  .search-input-wrapper {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 999px;
+    padding: 8px 12px;
+    margin-right: 10px;
+    position: relative;
+  }
+  
+  .search-icon {
+    margin-right: 8px;
+    color: #333;
+  }
+  
   .search-input {
     flex: 1;
     border: none;
     outline: none;
-    font-style: italic;
     font-size: 14px;
     background-color: transparent;
+  }
+
+  
+  
+  .suggestions-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    z-index: 1000;
+    max-height: 300px;
+    overflow-y: auto;
+    margin-top: 5px;
+  }
+  
+  .suggestion-item {
+    padding: 8px 12px;
+    cursor: pointer;
+  }
+  
+  .suggestion-item:hover {
+    background-color: #f5f5f5;
   }
   
   .search-button {
@@ -49,3 +147,19 @@
     background-color: #b71c1c;
   }
   
+  @media (max-width: 768px) {
+    .search-container {
+      flex-direction: column;
+      padding: 8px;
+    }
+    
+    .search-input-wrapper {
+      width: 100%;
+      margin-right: 0;
+      margin-bottom: 8px;
+    }
+    
+    .search-button {
+      width: 100%;
+    }
+  }
