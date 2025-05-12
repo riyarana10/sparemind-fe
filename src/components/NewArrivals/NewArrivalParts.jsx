@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
+import noImage from "../../assets/img/no_image.jpg"
 import "./NewArrivalParts.css";
 
 const formatPrice = (price) => {
@@ -47,8 +48,9 @@ const NewArrivalParts = ({ token }) => {
       "MA0OT00300B",
       "MA0OT05Q001",
       "MA0UQ00E000",
-      "MA0UM02I000",
-      "MA6UU00D000",
+      "MA0BG00D000",
+      "MA0BN03J000",
+      "MA0FF034000",
     ];
 
     const fetchData = async () => {
@@ -107,29 +109,45 @@ const NewArrivalParts = ({ token }) => {
                 >
                   <span className="tag">New</span>
                   <img
-                    src={product.replacement_part_image}
+                    src={product.original_part_image === null ? noImage : product.original_part_image}
                     style={{ width: "100px", height: "100px" }}
                     alt={product.title}
                   />
                   <div className="product-details">
-                    <h3>{product.replacement_part_name}</h3>
+                    <h3>{product.original_part_name}</h3>
                     <div>
                       <p className="item-code">Item Code</p>
                       <p className="item-value">
-                        {product.replacement_part_item_code}
+                        {product.original_part_item_code}
                       </p>
                     </div>
+                    <div>
+                      <p className="item-code">Location</p>
+                      <p className="item-value">{product.original_part_location}</p>
+                      </div>
                     <div>
                       <p className="item-code">Stock</p>
                       <p className="item-value">
-                        {product.replacement_part_stock}
+                        {product.original_part_stock}
                       </p>
                     </div>
                     <div>
-                      <p className="item-code">MRP</p>
+                      <p className="item-code">Price</p>
                       <p className="price">
-                        {formatPrice(product.replacement_part_price)}
+                        {formatPrice(product.original_part_price)}
                       </p>
+                    </div>
+                    <div>
+                      <p className="item-code">Parts Description</p>
+                      <p className="price">
+                        {product.original_part_name_breakdown_definition}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="item-code">Brand</p>
+                      <span className="price">
+                        {product.brand}
+                      </span>
                     </div>
                   </div>
                 </div>
