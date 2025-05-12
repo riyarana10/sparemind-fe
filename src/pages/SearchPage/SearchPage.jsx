@@ -254,15 +254,18 @@ export default function SearchPage() {
                 onClick={() => navigate(`/category/${encodeURIComponent(cat)}`)}
               >
                 <div className="category-card-details">
+                  <div>
+                    <img style={{width:"120px", height:"100px", border:"1px solid lightgray", borderRadius:"4px"}} src={cat.image === null ? noImage : cat.image}/>
+                    </div>
                     <div>
                       <p className="item-code">PartsGenie Category</p>
                       <p className="item-value">
-                      {cat.replace(/\b\w/g, char => char.toUpperCase())}
+                      {cat.name.replace(/\b\w/g, char => char.toUpperCase())}
                       </p>
                     </div>
                     <div>
                       <p className="item-code">MSIL Category</p>
-                      <p className="item-value">{cat.msil_category}</p>
+                      <p className="item-value">{cat.msil_category === null ? "Not Available" : cat.msil_category}</p>
                     </div>
                   </div>
                 {/* <strong>PartsGenie Category : </strong>
