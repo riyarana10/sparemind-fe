@@ -22,24 +22,25 @@ const AllCategoryPage = () => {
   const [allCategory, setAllCategory] = useState([]);
   const [isLoadingCategory, setIsLoadingCategory] = useState(false);
 
-  useEffect(() => {
-    const fetchCats = async () => {
-      try {
-        setIsLoadingCategory(true);
-        const resp = await axios.get("http://localhost:8000/all-categories", {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-          },
-        });
-        setAllCategory(resp.data.categories || []);
-      } catch (err) {
-        console.error("Failed to load categories", err);
-      } finally {
-        setIsLoadingCategory(false);
-      }
-    };
+  const fetchCategories = async () => {
+    try {
+      setIsLoadingCategory(true);
+      const resp = await axios.get("http://localhost:8000/all-categories", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        },
+      });
+      setAllCategory(resp.data.categories || []);
+    } catch (err) {
+      console.error("Failed to load categories", err);
+    } finally {
+      setIsLoadingCategory(false);
+    }
+  }
 
-    if (localStorage.getItem("access_token")) fetchCats();
+  useEffect(() => {
+
+    if (localStorage.getItem("access_token")) fetchCategories();
   }, []);
 
   const grouped = groupCategories(allCategory);
@@ -56,7 +57,7 @@ const AllCategoryPage = () => {
   return (
     <div className="all-categories-page">
       <Card>
-        <h2>All Categories</h2>
+        <h2 className="all-category-heading" onClick={() => setSelectedLetter(null)} style={{cursor:"pointer", color:"#2D3394"}}>All Categories</h2>
 
         <div className="main-content">
           <div className="alphabet-nav">
@@ -80,7 +81,7 @@ const AllCategoryPage = () => {
             if (selectedLetter && selectedLetter !== letter) return null;
             return (
               <section key={letter} className="category-section">
-                <Title level={5} style={{ fontSize: "20px" }}>
+                <Title level={5} style={{ fontSize: "20px", color:"#2D3394" }}>
                   {letter}
                 </Title>
                 {grouped[letter]

@@ -99,12 +99,12 @@
 
 .alphabet-btn:hover:not(.inactive):not(.active) {
   /* background-color: #e6f4ff; */
-  color: #1677ff;
+  color: #FF0000;
   font-weight: 700;
 }
 
 .alphabet-btn.active {
-  color: #1677ff;
+  color: #FF0000;
   cursor: pointer;
   font-weight: 700;
 }
@@ -117,5 +117,9 @@
 
 .product-category-name:hover {
   cursor: pointer;
-  color: #1677ff;
+  color: #FF0000;
+}
+
+.all-category-heading:hover{
+  color: #FF0000 !important;
 }

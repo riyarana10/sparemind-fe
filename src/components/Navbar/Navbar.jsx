@@ -70,11 +70,9 @@ const Navbar = () => {
   const closeDrawer = () => setVisible(false);
 
   const navItems = [
+    { key: "home", label: "HOME" },
     { key: "all-categories", label: "ALL CATEGORIES" },
     { key: "dashboard", label: "DASHBOARD" },
-    { key: "spare-parts", label: "SPARE PARTS" },
-    { key: "reports", label: "REPORTS" },
-    { key: "home", label: "HOME" },
   ];
 
   const accountMenuItems = [
