@@ -3,7 +3,6 @@ import { useLocation } from "react-router-dom";
 import Markdown from "react-markdown";
 import "./ConversationBot.css";
 import botImage from "../../assets/img/bot_image.png";
-import "./bot.css"
 
 function ChatBot({ categoryId, isOpen, toggleChat, stage, setStage }) {
   const location = useLocation();
@@ -209,116 +208,65 @@ function ChatBot({ categoryId, isOpen, toggleChat, stage, setStage }) {
   };
 
   return (
-    <div className="chatbot-container">
-      {isOpen && (
-        <div className="chat-popup">
-          {stage === "choose" && (
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-between",
-                height: "100%",
-                boxSizing: "border-box"
-              }}
-            >
-              <div className="chat-header">
-                <button className="close-btn" onClick={toggleChat}>
-                  ×
-                </button>
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  flexGrow: 1,
-                  padding: "20px 0"
-                }}
-              >
-                <img
-                  src={botImage}
-                  alt="Chatbot"
-                  style={{
-                    width: "200px",
-                    height: "200px",
-                    maxWidth: "100%",
-                    objectFit: "contain"
-                  }}
-                />
-                <p style={{
-                  textAlign: "center",
-                  maxWidth: "80%",
-                  margin: "0 auto"
-                }}>
-                  Hi there! I'm your spare parts manuals assistant.
-                </p>
-              </div>
-              <div className="chat-choose">
-                <button onClick={handleContinue} disabled={isNewChatLoading}>
-                  Existing Chat{" "}
-                  {isExistingChatLoading && (
-                    <span className="loading-spinner" />
-                  )}
-                </button>
-                <button
-                  onClick={handleNewChat}
-                  disabled={isExistingChatLoading}
-                >
-                  New Chat{" "}
-                  {isNewChatLoading && <span className="loading-spinner" />}
-                </button>
+    <div className={`chatbot-container ${isOpen ? "open" : ""}`}>
+    {isOpen && (
+      <div className="chat-popup">
+        <div className="chat-header">
+          <button className="close-btn" onClick={toggleChat}>
+            ×
+          </button>
+        </div>
+
+        {stage === "choose" ? (
+          // Keep your existing stage="choose" JSX here
+          <div className="chat-body">
+            <img src={botImage} alt="Chatbot" style={{ width: "100px", marginBottom: "10px" }} />
+            <button onClick={handleContinue} disabled={isNewChatLoading}>Continue</button>
+            <button onClick={handleNewChat} disabled={isExistingChatLoading}>New</button>
+          </div>
+        ) : (
+          <>
+            <div className="chat-body">
+              <div className="chat-messages">
+                {messages.map((msg, i) => (
+                  <div key={i} className={`chat-message ${msg.sender}`}>
+                    {msg.sender === "bot" ? (
+                      <Markdown>{msg.text}</Markdown>
+                    ) : (
+                      msg.text
+                    )}
+                  </div>
+                ))}
+                {isLoading && (
+                  <div className="chat-message bot typing-indicator">
+                    <span />
+                    <span />
+                    <span />
+                  </div>
+                )}
+                <div ref={messagesEndRef} />
               </div>
             </div>
-          )}
-          {stage === "chat" && (
-            <>
-              <div className="chat-header">
-                <button className="close-btn" onClick={toggleChat}>
-                  ×
-                </button>
-              </div>
-              <div className="chat-body">
-                <div className="chat-messages">
-                  {messages.map((msg, i) => (
-                    <div key={i} className={`chat-message ${msg.sender}`}>
-                      {msg.sender === "bot" ? (
-                        <Markdown>{msg.text}</Markdown>
-                      ) : (
-                        msg.text
-                      )}
-                    </div>
-                  ))}
-                  {isLoading && (
-                    <div className="chat-message bot typing-indicator">
-                      <span />
-                      <span />
-                      <span />
-                    </div>
-                  )}
-                  <div ref={messagesEndRef} />
-                </div>
-                <div className="chat-input-container">
-                  <input
-                    ref={inputRef}
-                    type="text"
-                    className="chat-input"
-                    placeholder="Type something…"
-                    value={userInput}
-                    onChange={(e) => setUserInput(e.target.value)}
-                    onKeyDown={handleKeyDown}
-                  />
-                  <button className="send-btn" onClick={handleSend}>
-                    ➤
-                  </button>
-                </div>
-              </div>
-            </>
-          )}
-        </div>
-      )}
-    </div>
+
+            <div className="chat-input-container">
+              <input
+                ref={inputRef}
+                type="text"
+                className="chat-input"
+                placeholder="Type something…"
+                value={userInput}
+                onChange={(e) => setUserInput(e.target.value)}
+                onKeyDown={handleKeyDown}
+              />
+              <button className="send-btn" onClick={handleSend}>
+                ➤
+              </button>
+            </div>
+          </>
+        )}
+      </div>
+    )}
+  </div>
   );
 }
 

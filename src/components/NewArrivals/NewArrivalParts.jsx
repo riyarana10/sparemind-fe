@@ -21,7 +21,16 @@ const NewArrivalParts = ({ token }) => {
   const initialResults = location.state?.results || [];
   const [query, setQuery] = useState(initialQuery);
   const [results, setResults] = useState(initialResults);
-  
+
+  const [expandedIndexes, setExpandedIndexes] = useState([]);
+
+const toggleExpanded = (index) => {
+  setExpandedIndexes((prev) =>
+    prev.includes(index)
+      ? prev.filter((i) => i !== index)
+      : [...prev, index]
+  );
+};
 
   // Fetch top‐5 categories from backend
   useEffect(() => {

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import noImage from "../../assets/img/No_image1.png"
 import axios from "axios";
-import "../../App.css";
+import "./SearchPage.css";
 
 export default function SearchPage() {
   const [params] = useSearchParams();
@@ -185,7 +185,7 @@ export default function SearchPage() {
           <div className="card-list">
             {topOriginals.map((product, index) => (
                 <div
-                  className="card"
+                className={`search-card ${topOriginals.length === 1 ? "single-card" : ""}`}
                   key={index}
                   onClick={() => handleView(product,"original")}
                 >
@@ -195,7 +195,7 @@ export default function SearchPage() {
                     alt={product.title}
                   />
                   <div className="product-details">
-                    <h3>{product.original_part_name}, {product.category}, {product.brand}</h3>
+                    <h3>{product.original_part_name}, {product.category.replace(/\b\w/g, char => char.toUpperCase())}, {product.brand}</h3>
                     <div>
                       <p className="item-code">Item Code</p>
                       <p className="item-value">
@@ -249,7 +249,7 @@ export default function SearchPage() {
           <div className="category-grid">
             {topCategories.map((cat, index) => (
               <div
-                className="category-card"
+                className={`search-category-card ${topCategories.length === 1 ? "single-card" : ""}`}
                 key={index}
                 onClick={() => navigate(`/category/${encodeURIComponent(cat)}`)}
               >
@@ -257,7 +257,7 @@ export default function SearchPage() {
                     <div>
                       <p className="item-code">PartsGenie Category</p>
                       <p className="item-value">
-                      {cat}
+                      {cat.replace(/\b\w/g, char => char.toUpperCase())}
                       </p>
                     </div>
                     <div>
