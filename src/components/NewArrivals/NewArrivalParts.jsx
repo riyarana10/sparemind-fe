@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
-import noImage from "../../assets/img/no_image.jpg"
+import noImage from "../../assets/img/No_image1.png"
 import "./NewArrivalParts.css";
 
 const formatPrice = (price) => {
@@ -21,6 +21,16 @@ const NewArrivalParts = ({ token }) => {
   const initialResults = location.state?.results || [];
   const [query, setQuery] = useState(initialQuery);
   const [results, setResults] = useState(initialResults);
+
+  const [expandedIndexes, setExpandedIndexes] = useState([]);
+
+const toggleExpanded = (index) => {
+  setExpandedIndexes((prev) =>
+    prev.includes(index)
+      ? prev.filter((i) => i !== index)
+      : [...prev, index]
+  );
+};
 
   // Fetch top‐5 categories from backend
   useEffect(() => {
@@ -91,7 +101,7 @@ const NewArrivalParts = ({ token }) => {
       <div className="new-arrivals-container">
         <div className="new-arrivals-header">
           <h2>NEWLY ARRIVED</h2>
-          <a href="/new-arrivals">View All</a>
+          {/* <a href="/new-arrivals">View All</a> */}
         </div>
         {isLoadingProduct ? (
           <p>Loading products…</p>
@@ -114,7 +124,7 @@ const NewArrivalParts = ({ token }) => {
                     alt={product.title}
                   />
                   <div className="product-details">
-                    <h3>{product.original_part_name}</h3>
+                    <h3>{product.original_part_name}, {product.category.replace(/\b\w/g, char => char.toUpperCase())}, {product.brand}</h3>
                     <div>
                       <p className="item-code">Item Code</p>
                       <p className="item-value">
@@ -128,13 +138,13 @@ const NewArrivalParts = ({ token }) => {
                     <div>
                       <p className="item-code">Stock</p>
                       <p className="item-value">
-                        {product.original_part_stock}
+                        {product.original_part_stock} {product.original_part_stock > 1 ? "Units" : "Unit"}
                       </p>
                     </div>
                     <div>
                       <p className="item-code">Price</p>
                       <p className="price">
-                        {formatPrice(product.original_part_price)}
+                      ₹{formatPrice(product.original_part_price)}
                       </p>
                     </div>
                     <div>
@@ -159,8 +169,8 @@ const NewArrivalParts = ({ token }) => {
 
       <section className="popular-categories">
         <div className="new-arrivals-header">
-          <h2>POPULAR CATEGORIES</h2>
-          <a href="/new-arrivals">View All</a>
+          <h2>CATEGORIES</h2>
+          {/* <a href="/new-arrivals">View All</a> */}
         </div>
         {isLoadingCategory ? (
           <p>Loading Categories...</p>
@@ -176,6 +186,26 @@ const NewArrivalParts = ({ token }) => {
                   })
                 }
               >
+                <div className="category-card-details">
+                    <div>
+                      <p className="item-code">PartsGenie Category</p>
+                      <p className="item-value">
+                      {cat.name
+                    .split(" ")
+                    .map(
+                      (word) =>
+                        word.charAt(0).toUpperCase() +
+                        word.slice(1).toLowerCase()
+                    )
+                    .join(" ")}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="item-code">MSIL Category</p>
+                      <p className="item-value">{cat.msil_category}</p>
+                      </div>
+                  </div>
+                {/* <strong>PartsGenie Category : </strong>
                 <h3>
                   {cat.name
                     .split(" ")
@@ -187,11 +217,13 @@ const NewArrivalParts = ({ token }) => {
                     .join(" ")}
                 </h3>
                 <p style={{ fontSize: "14px" }}>
-                  {cat.msil_category.toUpperCase()}
-                </p>
+                  <strong>MSIL Category :</strong> {cat.msil_category.toUpperCase()}
+                </p> */}
+                <div className="view-all-spare-parts">
                 <p>
-                  <strong>View parts from this category</strong>
+                  <strong>View all spare parts</strong>
                 </p>
+                </div>
               </div>
             ))}
           </div>

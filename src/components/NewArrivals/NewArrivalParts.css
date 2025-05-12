@@ -83,6 +83,14 @@
   gap: 8px;
 }
 
+.category-card-details{
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  gap: 8px;
+  text-align: center;
+}
+
 .product-details p {
   margin: 2px;
 }
@@ -129,4 +137,13 @@
 .view-link {
   font-weight: 600;
   margin-top: 0.5rem;
+}
+
+.view-all-spare-parts{
+  margin-top: 20px;
+  text-align: center;
+}
+
+.view-all-spare-parts p strong {
+  color: #2D3394;
 }
