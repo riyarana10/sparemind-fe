@@ -8,6 +8,7 @@ import SpecsComparison from "../../components/SpecsComp/SpecsComp";
 import SearchBar from "../../components/SearchBar";
 import { pdfLinks } from "../../productConstants";
 import { formatPrice } from "../../productUtils";
+import ChatBot from "../../components/Chatbot/ConversationBot";
 
 const ProductDetails = () => {
   const { code } = useParams();
@@ -15,6 +16,7 @@ const ProductDetails = () => {
   const token = localStorage.getItem("access_token");
   const payload = token ? JSON.parse(atob(token.split(".")[1])) : {};
   const role = payload.role || "user";
+  const current_page = `product: ${original?.original_part_item_code || ""}`;
 
   const [productState, setProductState] = useState({
     original: null,
@@ -47,7 +49,7 @@ const ProductDetails = () => {
     setProductState((prev) => ({ ...prev, loading: true, error: "" }));
 
     axios
-      .get(`/api/search_exact?q=${encodeURIComponent(code)}`, {
+      .get(`http://localhost:8000/search_exact?q=${encodeURIComponent(code)}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
@@ -80,7 +82,7 @@ const ProductDetails = () => {
     setProductState((prev) => ({ ...prev, busy: true }));
     try {
       await axios.post(
-        "/api/decision",
+        "http://localhost:8000/decision",
         {
           original_part_item_code: original.original_part_item_code,
           replacement_part_item_code: "",
@@ -130,7 +132,7 @@ const ProductDetails = () => {
       >
         <SearchBar />
       </div>
-
+  
       <div className="product-details-container">
         <div className="main-content">
           <div className="product-card">
@@ -143,7 +145,7 @@ const ProductDetails = () => {
               />
             </div>
           </div>
-
+  
           {/* Replacement Comparison */}
           {replacements.length > 0 && (
             <ComparisonSection
@@ -157,15 +159,18 @@ const ProductDetails = () => {
               SpecsComparison={SpecsComparison}
             />
           )}
-
+  
           {/* Back Button */}
           <button className="back-button" onClick={() => navigate(-1)}>
             Back
           </button>
         </div>
       </div>
+  
+      {/* Chatbot Integration */}
+      <ChatBot current_page={`product: ${original?.original_part_item_code || ""}`} />
     </>
-  );
+  );  
 };
 
 export default ProductDetails;

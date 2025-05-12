@@ -166,3 +166,74 @@
     }
   }
   
+  /* chatbot  */
+
+  .chatbot-split-view {
+    width: 30%;
+    float: left;          /* Align next to main content */
+    height: 90vh;        /* Full viewport height */
+    transition: width 0.5s ease;
+    overflow: hidden;
+  }
+  
+  .chat-view {
+    width: 0%;
+    float: left;
+    height: 100vh;
+    transition: width 0.5s ease;
+    overflow: hidden;
+  }
+
+  .category-product-container {
+    padding: 16px;
+    max-width: 1000px;
+    margin: 0 auto;
+    overflow: auto;       /* Contain floated children */
+    position: relative;
+  }
+
+  .chat-split-screen-transition {
+    width: 100%;
+    float: left;
+    transition: width 0.5s ease;
+    height: 100vh;
+    overflow-y: auto;
+  }
+  
+  .screen-transition {
+    width: 100%;
+    float: left;
+    transition: width 0.5s ease;
+    height: 100vh;
+    overflow-y: auto;
+  }
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 768px) {
+  .chatbot-split-view {
+    width: 70%;
+    height: 90vh;
+  }
+}
+@media (max-width: 1024px) {
+  .chatbot-split-view {
+    width: 44%;
+    float: left;         
+    height: 84vh;      
+    transition: width 0.5s ease;
+    overflow: hidden;
+  }
+}
+@media (max-width: 665px) {
+  .chatbot-split-view {
+    width: 70%;
+  }
+}
