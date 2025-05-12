@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import Markdown from "react-markdown";
-import "../../App.css";
+import "./ConversationBot.css";
 import botImage from "../../assets/img/bot_image.png";
 import "./bot.css"
 

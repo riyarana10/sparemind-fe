@@ -30,7 +30,7 @@ const ComparisonSection = ({
               }`}
               onClick={() => toggleCard(rep.replacement_part_item_code)}
             >
-              <div className="stock-badge">{rep.replacement_part_stock}</div>
+              <div className="stock-badge">{rep.replacement_part_stock} {rep.replacement_part_stock > 1 ? "Units" : "Unit"}</div>
 
               {/* Simple image with fallback */}
               <img
