@@ -18,6 +18,10 @@ const PartDetailsCard = ({
 }) => {
   const [showAllSpecs, setShowAllSpecs] = useState(false);
 
+  const toggleAllSpecs = () => {
+    setShowAllSpecs(!showAllSpecs);
+  };
+
   const partData = {
     item_code: isOriginal
       ? part.original_part_item_code
@@ -43,12 +47,6 @@ const PartDetailsCard = ({
     ? part.top_specs_original_part
     : part.top_specs_replacement_part;
   const specsObj = useMemo(() => buildSpecsObject(rawSpecs), [rawSpecs]);
-
-  const parsedSpecs = useMemo(() => parseSpecs(rawSpecs), [rawSpecs]);
-
-  const hasSpecs =
-    (specsJson && Object.keys(specsJson).length > 0) ||
-    (parsedSpecs && parsedSpecs.length > 0);
 
   return (
     <div
@@ -115,29 +113,58 @@ const PartDetailsCard = ({
             </div>
           </div>
 
-          {showSpecs && (
-            (Object.keys(specsJson || {}).length > 0 || (specsObj && Object.keys(specsObj).length > 0)) && (
+          {showSpecs &&
+            (Object.keys(specsJson || {}).length > 0 ||
+              (specsObj && Object.keys(specsObj).length > 0)) && (
               <div className="detail-row">
                 <div className="detail-group">
-                  <span className="detail-label">Specifications</span>
-                  <div className="specs-grid">
+                  <div className="specs-header">
+                    <span className="detail-label">Specifications</span>
+                    <button
+                      className="toggle-all-specs"
+                      onClick={toggleAllSpecs}
+                    >
+                      {showAllSpecs ? "Show Less" : "Read More"}
+                    </button>
+                  </div>
+                  <div className="specs-list">
                     {specsJson && Object.keys(specsJson).length > 0
-                      ? Object.entries(specsJson).map(([heading, items], idx) => (
-                          <div key={idx} className="spec-block">
-                            <h4>{heading}</h4>
-                            <ul>
-                              {items.map((item, j) => (
-                                <li key={j}>{item.replace(/^[•\-]\s*/, "").trim()}</li>
-                              ))}
-                            </ul>
-                          </div>
-                        ))
+                      ? Object.entries(specsJson).map(
+                          ([heading, items], idx) => (
+                            <div
+                              key={`${heading}-${idx}`}
+                              className="spec-section"
+                              style={{
+                                display:
+                                  showAllSpecs || idx === 0 ? "block" : "none",
+                              }}
+                            >
+                              <h4 className="spec-heading">{heading}</h4>
+                              <ul className="spec-items">
+                                {items.map((item, j) => (
+                                  <li key={j} className="spec-item">
+                                    {item.replace(/^[•-]\s*/, "").trim()}
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          )
+                        )
                       : parseSpecs(rawSpecs)?.map((blk, idx) => (
-                          <div key={idx} className="spec-block">
-                            <h4>{blk.heading}</h4>
-                            <ul>
+                          <div
+                            key={idx}
+                            className="spec-section"
+                            style={{
+                              display:
+                                showAllSpecs || idx === 0 ? "block" : "none",
+                            }}
+                          >
+                            <h4 className="spec-heading">{blk.heading}</h4>
+                            <ul className="spec-items">
                               {blk.items.map((it, j) => (
-                                <li key={j}>{it}</li>
+                                <li key={j} className="spec-item">
+                                  {it}
+                                </li>
                               ))}
                             </ul>
                           </div>
@@ -145,8 +172,7 @@ const PartDetailsCard = ({
                   </div>
                 </div>
               </div>
-            )
-          )}
+            )}
         </div>
       </div>
 
@@ -172,24 +198,22 @@ const PartDetailsCard = ({
             </div>
           </div>
 
-          <div className="action-item">
-            {resourceLink ? (
-              <a
-                href={resourceLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="download-button"
-              >
-                <FaPaperclip className="download-icon" />
-                View Attachments
-              </a>
-            ) : (
-              <button className="download-button" disabled>
-                <FaDownload className="download-icon" />
-                No Documents
-              </button>
-            )}
-          </div>
+          {resourceLink ? (
+            <a
+              href={resourceLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="download-button"
+            >
+              <FaPaperclip className="download-icon" />
+              View Attachments
+            </a>
+          ) : (
+            <button className="download-button" disabled>
+              <FaDownload className="download-icon" />
+              No Documents
+            </button>
+          )}
         </div>
       </div>
     </div>
