@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import Markdown from "react-markdown";
 import "../../App.css";
 import botImage from "../../assets/img/bot_image.png";
+import "./bot.css"
 
 function ChatBot({ categoryId, isOpen, toggleChat, stage, setStage }) {
   const location = useLocation();
@@ -239,14 +240,14 @@ function ChatBot({ categoryId, isOpen, toggleChat, stage, setStage }) {
                 <img
                   src={botImage}
                   alt="Chatbot"
-                  style={{ 
-                    width: "200px", 
+                  style={{
+                    width: "200px",
                     height: "200px",
                     maxWidth: "100%",
                     objectFit: "contain"
                   }}
                 />
-                <p style={{ 
+                <p style={{
                   textAlign: "center",
                   maxWidth: "80%",
                   margin: "0 auto"
