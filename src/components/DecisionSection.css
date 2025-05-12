@@ -1,0 +1,121 @@
+.decision-section {
+    background: #fff;
+    padding: 24px;
+    border-radius: 12px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    margin-top: 20px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .saved-comment {
+    font-size: 14px;
+    margin-bottom: 16px;
+    color: #333;
+  }
+  
+  .comment-box-section {
+    margin-bottom: 16px;
+  }
+  
+  .comment-box {
+    width: 100%;
+    min-height: 90px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 12px 14px;
+    font-size: 14px;
+    resize: vertical;
+    outline: none;
+    box-sizing: border-box;
+  }
+  
+  .comment-box:disabled {
+    background-color: #f9f9f9;
+    cursor: not-allowed;
+  }
+  
+  .decision-buttons {
+    display: flex;
+    gap: 16px;
+    margin-top: 12px;
+  }
+  
+  .comment-button,
+  .accept-button,
+  .reject-button,
+  .review-button {
+    padding: 10px 20px;
+    font-size: 15px;
+    font-weight: 500;
+    border-radius: 6px;
+    cursor: pointer;
+    border: none;
+    transition: background 0.2s ease;
+  }
+  
+  .comment-button {
+    background-color: #e0e0e0;
+    color: #333;
+  }
+  
+  .comment-button:disabled {
+    background-color: #f0f0f0;
+    color: #999;
+    cursor: not-allowed;
+  }
+  
+  .accept-button {
+    background-color: #159c51;
+    color: white;
+  }
+  
+  .accept-button:hover {
+    background-color: #128342;
+  }
+  
+  .reject-button {
+    background-color: #d43030;
+    color: white;
+  }
+  
+  .reject-button:hover {
+    background-color: #b72a2a;
+  }
+  
+  .decision-status {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 16px;
+  }
+  
+  .decision-badge {
+    padding: 8px 14px;
+    font-size: 14px;
+    border-radius: 6px;
+    font-weight: 600;
+  }
+  
+  .decision-badge.accepted {
+    background-color: #e6f4ea;
+    color: #1b7e3c;
+    border: 1px solid #159c51;
+  }
+  
+  .decision-badge.rejected {
+    background-color: #fbeaea;
+    color: #b72a2a;
+    border: 1px solid #d43030;
+  }
+  
+  .review-button {
+    background-color: #f0f0f0;
+    color: #333;
+  }
+  
+  .review-button:hover {
+    background-color: #e0e0e0;
+  }
+  

@@ -1,30 +1,80 @@
 import React, { useState } from "react";
 import "./SpecComp.css";
 
-const SpecsComparison = ({ originalSpecs = {}, replacementSpecs = {} }) => {
+
+const formatPrice = (price) => {
+  const num = typeof price === "string" ? parseFloat(price) : price;
+  return Math.round(num).toLocaleString("en-IN");
+};
+
+const SpecsComparison = ({
+  originalSpecs = {},
+  replacementSpecs = {},
+  
+  originalPart = {},
+  replacementPart = {},
+}) => {
   const [isTableOpen, setIsTableOpen] = useState(true);
 
   const toggleTable = () => {
     setIsTableOpen((prev) => !prev);
   };
 
+  // Custom renderer for image cells
+  const renderImageCell = (imageUrl) => {
+    if (!imageUrl || imageUrl === "N/A") return "N/A";
+    return <img src={imageUrl} alt="Part" className="part-image" />;
+  };
+
+  // General information fields
+  const generalInfoFields = [
+    { label: "Part Name", 
+      original: originalPart.original_part_name,
+      replacement: replacementPart.replacement_part_name 
+    },
+    { 
+      label: "Image",
+      original: originalPart.original_part_image,
+      replacement: replacementPart.replacement_part_image,
+      isImage: true 
+    },
+    { label: "Item Code",
+      original: originalPart.original_part_item_code,
+      replacement: replacementPart.replacement_part_item_code
+    },
+    { label: "Location",
+      original: originalPart.original_part_location,
+      replacement: replacementPart.replacement_part_location
+    },
+    { label: "Stock",
+      original: originalPart.original_part_stock,
+      replacement: replacementPart.replacement_part_stock
+    },
+    { label: "Price",
+      original: `₹${originalPart.original_part_price}`,
+      replacement: `₹${replacementPart.replacement_part_price}`
+    },
+    { label: "Description",
+      original: originalPart.original_part_name_breakdown_definition,
+      replacement: replacementPart.replacement_part_name_breakdown_definition
+    },
+  ];
+
   const allSections = Array.from(
     new Set([
+      "General Information",
       ...Object.keys(originalSpecs || {}),
       ...Object.keys(replacementSpecs || {}),
     ])
   );
 
   const hasData = allSections.length > 0;
- 
+
   if (!hasData) {
-    return null; // Return nothing if no data
+    return null;
   }
-  
- 
-  // 2) Helper to strip the bullet and split at first colon:
+
   const parseLine = (line = "") => {
-    // remove leading bullet + whitespace (matches • or - or any spaces)
     const txt = line.replace(/^[•\-\s]+/, "").trim();
     const idx = txt.indexOf(":");
     if (idx > 0) {
@@ -33,7 +83,6 @@ const SpecsComparison = ({ originalSpecs = {}, replacementSpecs = {} }) => {
         val: txt.slice(idx + 1).trim(),
       };
     }
-    // no colon → empty attr, whole thing is the value
     return { attr: "", val: txt };
   };
 
@@ -48,47 +97,89 @@ const SpecsComparison = ({ originalSpecs = {}, replacementSpecs = {} }) => {
       {isTableOpen && (
         <div className="table-scroll-wrapper">
           <table className="spec-table">
-            <thead>
-              <tr>
-                <th>Category</th>
-                <th>Attribute</th>
-                <th>Original</th>
-                <th>Replacement</th>
-              </tr>
-            </thead>
+          <thead>
+  <tr>
+    <th>Category</th>
+    <th>Attribute</th>
+    <th>Original</th>
+    <th className="replacement-header">
+      <div className="replacement-line">
+        <span>Replacement  </span>
+        {originalPart.original_part_price && replacementPart.replacement_part_price && (
+          <span className={`savings-value ${
+            originalPart.original_part_price - replacementPart.replacement_part_price >= 0 
+              ? 'positive' 
+              : 'negative'
+          }`}>
+            {originalPart.original_part_price - replacementPart.replacement_part_price >= 0
+              ? `Save: ₹${formatPrice(originalPart.original_part_price - replacementPart.replacement_part_price)}`
+              : `Loss: ₹${formatPrice(Math.abs(originalPart.original_part_price - replacementPart.replacement_part_price))}`
+            }
+          </span>
+        )}
+      </div>
+    </th>
+  </tr>
+</thead>
             <tbody>
-            {allSections.map((section) => {
-              const origLines = originalSpecs[section] || [];
-              const repLines  = replacementSpecs[section] || [];
-              const rowCount  = Math.max(origLines.length, repLines.length, 1);
- 
-              return Array.from({ length: rowCount }).map((_, rowIdx) => {
-                const { attr: oAttr, val: oVal } = parseLine(origLines[rowIdx]);
-                const { attr: rAttr, val: rVal } = parseLine(repLines[rowIdx]);
-                const labelAttr = oAttr || rAttr || "—";
-                const isDiff    = oVal !== rVal;
- 
-                return (
-                  <tr
-                    key={`${section}-${rowIdx}`}
-                    className={isDiff ? "highlight-row" : ""}
-                  >
-                    {rowIdx === 0 && (
-                      <td rowSpan={rowCount} className="category-cell">
-                        {section}
-                      </td>
-                    )}
-                    <td>{labelAttr}</td>
-                    <td className={isDiff ? "highlight-diff" : ""}>
-                      {oVal || "N/A"}
-                    </td>
-                    <td className={isDiff ? "highlight-diff" : ""}>
-                      {rVal || "N/A"}
-                    </td>
-                  </tr>
-                );
-              });
-            })}
+              {/* General Information Rows */}
+              <tr className="general-info-header">
+                <td rowSpan={generalInfoFields.length+1} className="category-cell">
+                  General Information
+                </td>
+              </tr>
+              
+              {generalInfoFields.map((field, index) => (
+                <tr key={`general-${index}`}>
+                  <td>{field.label}</td>
+                  <td className={field.isImage ? "image-cell" : ""}>
+                    {field.isImage 
+                      ? renderImageCell(field.original)
+                      : field.original || "N/A"}
+                  </td>
+                  <td className={field.isImage ? "image-cell" : ""}>
+                    {field.isImage 
+                      ? renderImageCell(field.replacement)
+                      : field.replacement || "N/A"}
+                  </td>
+                </tr>
+              ))}
+
+              {/* Technical Specifications */}
+              {allSections
+                .filter(section => section !== "General Information")
+                .map((section) => {
+                  const origLines = originalSpecs[section] || [];
+                  const repLines = replacementSpecs[section] || [];
+                  const rowCount = Math.max(origLines.length, repLines.length, 1);
+
+                  return Array.from({ length: rowCount }).map((_, rowIdx) => {
+                    const { attr: oAttr, val: oVal } = parseLine(origLines[rowIdx]);
+                    const { attr: rAttr, val: rVal } = parseLine(repLines[rowIdx]);
+                    const labelAttr = oAttr || rAttr || "—";
+                    const isDiff = oVal !== rVal;
+
+                    return (
+                      <tr
+                        key={`${section}-${rowIdx}`}
+                        className={isDiff ? "highlight-row" : ""}
+                      >
+                        {rowIdx === 0 && (
+                          <td rowSpan={rowCount} className="category-cell">
+                            {section}
+                          </td>
+                        )}
+                        <td>{labelAttr}</td>
+                        <td className={isDiff ? "highlight-diff" : ""}>
+                          {oVal || "N/A"}
+                        </td>
+                        <td className={isDiff ? "highlight-diff" : ""}>
+                          {rVal || "N/A"}
+                        </td>
+                      </tr>
+                    );
+                  });
+                })}
             </tbody>
           </table>
         </div>
