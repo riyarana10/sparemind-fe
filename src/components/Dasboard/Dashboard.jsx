@@ -1,23 +1,21 @@
 import React, { useState, useEffect, useMemo } from "react";
 import ChatBot from "../../components/Chatbot/ConversationBot";
-import "../../App.css";
+import "./Dashboard.css";
 
 const Dashboard = () => {
   const categoryId = localStorage.getItem("categoryId");
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [stage, setStage] = useState("choose");
+  const [isOpen, setIsOpen] = useState(false)
 
   const handleChatToggle = () => {
     setIsChatOpen(!isChatOpen);
+    setIsOpen(!isOpen);
     setStage("choose");
   };
   return (
-    <div className={`all-page-style`} style={{ position: "relative" }}>
-      <div
-        className={`app-container ${
-          isChatOpen ? "chat-split-screen-transition" : "screen-transition"
-        }`}
-      >
+    <div style={{display:"flex"}}>
+      <div style={{ width: isOpen ? "70%" : "100%", transition: "width 0.3s" }}>
         <div className="dashboard-content">
           <div className="dashboard-widgets">
             <iframe
@@ -28,46 +26,26 @@ const Dashboard = () => {
               frameborder="0"
               allowFullScreen="true"
             ></iframe>
-            {/* <iframe
-              title="Maruti Dashboard"
-              width="1140"
-              height="541.25"
-              src="https://app.powerbi.com/reportEmbed?reportId=0e762fc3-6c90-48a8-9801-be2b507eb729&autoAuth=true&ctid=85a77b6c-a790-4bcf-8fd6-c1f891dd360b"
-              frameborder="0"
-              allowFullScreen="true"
-            ></iframe> */}
           </div>
         </div>
-        {/* <button
-          style={{
-            position: "fixed",
-            bottom: "20px",
-            right: "20px",
-            padding: "12px 16px",
-            fontSize: "16px",
-            backgroundColor: "#007bff",
-            color: "white",
-            border: "none",
-            borderRadius: "8px",
-            cursor: "pointer",
-            zIndex: 1000,
-            boxShadow: "0 4px 8px rgba(0,0,0,0.2)",
-            display: isChatOpen ? "none" : "block",
-          }}
-          onClick={() => setIsChatOpen(true)}
-        >
-          Ask me anything
-        </button> */}
-      </div>
-      <div className={isChatOpen ? "chatbot-split-view" : "chat-view"}>
-        <ChatBot
-          categoryId={categoryId}
-          isOpen={isChatOpen}
-          toggleChat={handleChatToggle}
-          stage={stage}
-          setStage={setStage}
-        />
-      </div>
+        </div>
+
+        {
+      !isOpen && (
+        <button className="chatbot-toggle" onClick={() => setIsOpen(!isOpen)}>
+        Ask me anything
+    </button>
+      )
+    }
+        <div style={{
+        width: isOpen ? "25%" : "0",
+        transition: "width 0.3s",
+        display: "flex",
+        flexDirection: "column",
+      }} >
+        <ChatBot isOpen={isOpen} setIsOpen={setIsOpen} stage={stage} setStage={setStage} toggleChat={handleChatToggle} />
+        </div>
+        
     </div>
   );
 };

@@ -92,7 +92,7 @@ useEffect(() => {
                 <div>
                   <strong>{s.original_part_item_code}</strong> —{" "}
                   <small>{s.original_part_name}</small>
-                  <small>{s.category}</small>
+                  <small style={{marginLeft:"10px"}}>{s.category}</small>
                 </div>
               ),
             }))}
