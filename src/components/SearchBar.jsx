@@ -1,18 +1,20 @@
-import React, { useEffect, useState, useRef } from 'react';
-import './SearchBar.css';
-import { FaSearch } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import React, { useEffect, useState, useRef } from "react";
+import "./SearchBar.css";
+import { FaSearch } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const SearchBar = () => {
   const navigate = useNavigate();
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
-  const token = localStorage.getItem('access_token');
+  const token = localStorage.getItem("access_token");
   const wrapperRef = useRef(null);
-  const [placeholderText, setPlaceholderText] = useState("Search by part name, code, machine type, issue etc..");
+  const [placeholderText, setPlaceholderText] = useState(
+    "Search by part name, code, machine type, issue etc.."
+  );
 
   // Responsive placeholder text
   useEffect(() => {
@@ -39,7 +41,9 @@ const SearchBar = () => {
 
     const delayDebounce = setTimeout(async () => {
       try {
-        const url = `http://localhost:8000/autocomplete?query=${encodeURIComponent(searchTerm)}`;
+        const url = `http://localhost:8000/autocomplete?query=${encodeURIComponent(
+          searchTerm
+        )}`;
         const config = token
           ? { headers: { Authorization: `Bearer ${token}` } }
           : {};
@@ -62,8 +66,8 @@ const SearchBar = () => {
         setShowSuggestions(false);
       }
     };
-    document.addEventListener('click', handleClickOutside);
-    return () => document.removeEventListener('click', handleClickOutside);
+    document.addEventListener("click", handleClickOutside);
+    return () => document.removeEventListener("click", handleClickOutside);
   }, []);
 
   const handleSearch = (e) => {
@@ -76,7 +80,7 @@ const SearchBar = () => {
   };
 
   const handleKeyDown = (e) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       handleSearch(e);
     }
   };
@@ -103,10 +107,14 @@ const SearchBar = () => {
                 onClick={() => {
                   setSearchTerm(suggestion.original_part_item_code);
                   setShowSuggestions(false);
-                  navigate(`/search?query=${encodeURIComponent(suggestion.original_part_item_code)}`);
+                  navigate(
+                    `/search?query=${encodeURIComponent(
+                      suggestion.original_part_item_code
+                    )}`
+                  );
                 }}
               >
-                <strong>{suggestion.original_part_item_code}</strong> —{' '}
+                <strong>{suggestion.original_part_item_code}</strong> —{" "}
                 <small>{suggestion.original_part_name}</small>
               </div>
             ))}

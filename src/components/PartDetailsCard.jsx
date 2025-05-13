@@ -65,7 +65,7 @@ const PartDetailsCard = ({
       {/* Center: Details */}
       <div className="part-details">
         <div className="part-header">
-          <h1 className="part-name">{partData.name || "No name available"}</h1>
+          <h1 className="part-name">{`${partData.name}, ${partData.category.replace(/\b\w/g, char => char.toUpperCase())}, ${partData.brand}` || "No name available"}</h1>
         </div>
 
         <div className="details-grid">

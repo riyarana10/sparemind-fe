@@ -22,24 +22,24 @@ const ZoomImage = ({ src }) => {
 
   useEffect(() => {
     checkPosition();
-    
+
     const handleResize = () => {
       checkPosition();
     };
-    
+
     window.addEventListener("resize", handleResize);
     window.addEventListener("scroll", handleResize);
-    
+
     const observer = new MutationObserver(checkPosition);
     if (containerRef.current) {
-      observer.observe(document.body, { 
-        childList: true, 
+      observer.observe(document.body, {
+        childList: true,
         subtree: true,
         attributes: true,
-        characterData: true
+        characterData: true,
       });
     }
-    
+
     return () => {
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("scroll", handleResize);
@@ -56,7 +56,10 @@ const ZoomImage = ({ src }) => {
   };
 
   return (
-    <div ref={containerRef} style={{ position: "relative", display: "flex", gap: "20px" }}>
+    <div
+      ref={containerRef}
+      style={{ position: "relative", display: "flex", gap: "20px" }}
+    >
       <img
         ref={imageRef}
         src={src || NoImage}

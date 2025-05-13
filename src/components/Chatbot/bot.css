@@ -215,5 +215,44 @@
       opacity: 1;
     }
   }
+
+  @media (max-width : 1200px){
+
+  }
+  
+  @media (max-width: 1024px) {
+    .chatbot-container {
+      position: fixed;
+      top: 64px; /* Adjust based on navbar height */
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100vw;
+      height: calc(100vh - 64px); /* Full height minus navbar */
+      max-width: 100%; /* Remove max width constraint */
+      border-left: none; /* Remove desktop-style border */
+      border-top: 1px solid #e0e0e0;
+      z-index: 999; /* Ensure it's under navbar */
+    }
+  
+    .chatbot-header {
+      height: 60px;
+      font-size: 16px;
+      padding: 0 16px;
+    }
+  
+    .chatbot-body {
+      padding: 16px;
+      gap: 10px;
+    }
+  
+    .chatbot-footer {
+      padding: 12px 16px;
+    }
+  
+    .stage-buttons button {
+      width: 80%; /* Wider buttons for small screens */
+    }
+  }
   
   

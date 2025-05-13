@@ -54,12 +54,11 @@ const NewArrivalParts = ({ token }) => {
   useEffect(() => {
     if (!token) return;
     const codes = [
-      "MA0OT00300B",
-      "MA0OT05Q001",
-      "MA0UQ00E000",
-      "MA0BG00D000",
-      "MA0BN03J000",
-      "MA0FF034000",
+      "MA00F0RE001",
+"MA00F0DI002",
+"MA0US005000",
+"MA00F10N001",
+"M4A06010087"
     ];
 
     const fetchData = async () => {
@@ -99,7 +98,7 @@ const NewArrivalParts = ({ token }) => {
     <div>
       <div className="new-arrivals-container">
         <div className="new-arrivals-header">
-          <h2>NEWLY ARRIVED</h2>
+          <h2>SPARE PARTS</h2>
           {/* <a href="/new-arrivals">View All</a> */}
         </div>
         {isLoadingProduct ? (

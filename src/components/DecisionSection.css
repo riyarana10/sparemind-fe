@@ -35,21 +35,26 @@
 .decision-buttons {
   display: flex;
   gap: 16px;
-  justify-content: space-between; /* Changed from flex-start to space-between */
-  width: 100%; /* Ensure it takes full width */
+  justify-content: space-between;
+  /* Changed from flex-start to space-between */
+  width: 100%;
+  /* Ensure it takes full width */
 }
 
 .accept-button,
 .reject-button {
-  padding: 12px 0; /* Changed from fixed padding to 0 on sides */
+  padding: 12px 0;
+  /* Changed from fixed padding to 0 on sides */
   font-size: 15px;
   font-weight: 500;
   border-radius: 6px;
   cursor: pointer;
   border: none;
   transition: background 0.2s ease;
-  width: calc(50% - 8px); /* Each button takes half width minus half the gap */
-  text-align: center; /* Center the text */
+  width: calc(50% - 8px);
+  /* Each button takes half width minus half the gap */
+  text-align: center;
+  /* Center the text */
 }
 
 /* Rest of your existing CSS remains the same */

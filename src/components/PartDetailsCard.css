@@ -264,12 +264,12 @@
 }
 
 .part-details-card.selectable:hover {
-  box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
 }
 
 .part-details-card.selected {
   border: 2px solid #007bff;
-  box-shadow: 0 4px 16px rgba(0,123,255,0.2);
+  box-shadow: 0 4px 16px rgba(0, 123, 255, 0.2);
 }
 
 .specs-grid {
