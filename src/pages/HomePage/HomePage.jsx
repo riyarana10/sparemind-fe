@@ -36,7 +36,7 @@ function HomePage() {
     setError("");
     try {
       const res = await axios.get(
-        `http://localhost:8000/search?original_part_item_code=${encodeURIComponent(
+        `/api/search?original_part_item_code=${encodeURIComponent(
           query
         )}`,
         { headers: { Authorization: `Bearer ${token}` } }

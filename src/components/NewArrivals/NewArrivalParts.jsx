@@ -37,7 +37,7 @@ const NewArrivalParts = ({ token }) => {
       try {
         setIsLoadingCategory(true);
         const resp = await axios.get(
-          "http://localhost:8000/categories?size=3",
+          "/api/categories?size=3",
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setRecentCategories(resp.data.categories || []);
@@ -67,7 +67,7 @@ const NewArrivalParts = ({ token }) => {
         const responses = await Promise.all(
           codes.map((code) => {
             return axios.get(
-              `http://localhost:8000/search?original_part_item_code=${encodeURIComponent(
+              `/api/search?original_part_item_code=${encodeURIComponent(
                 code
               )}`,
               { headers: { Authorization: `Bearer ${token}` } }

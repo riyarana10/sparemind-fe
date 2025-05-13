@@ -41,7 +41,7 @@ const SearchBar = () => {
 
     const delayDebounce = setTimeout(async () => {
       try {
-        const url = `http://localhost:8000/autocomplete?query=${encodeURIComponent(
+        const url = `/api/autocomplete?query=${encodeURIComponent(
           searchTerm
         )}`;
         const config = token

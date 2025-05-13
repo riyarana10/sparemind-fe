@@ -25,7 +25,7 @@ const CategoryPage = () => {
       setError("");
       try {
         const resp = await axios.get(
-          `http://localhost:8000/search_by_category?category=${encodeURIComponent(
+          `/api/search_by_category?category=${encodeURIComponent(
             name
           )}&size=100`,
           {
