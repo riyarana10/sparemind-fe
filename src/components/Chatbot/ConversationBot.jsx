@@ -277,7 +277,7 @@ import { useLocation } from "react-router-dom";
 import Markdown from "react-markdown";
 import partsgenieLogo from "../../assets/img/partsGenieLogo.svg"
 import bgImage from "../../assets/img/homePageBG.svg"
-import './test.css';
+import './bot.css';
 
 const ChatBot = ({isOpen, setIsOpen, stage, setStage,toggleChat}) => {
   let categoryId = localStorage.getItem("categoryId")
