@@ -6,7 +6,6 @@ import NoImage from ".././assets/img/no_image.jpg";
 import Icon from "../assets/img/Icon.svg"; // adjust path as needed
 import axios from "axios";
 
-
 const token = localStorage.getItem("access_token");
 const payload = token ? JSON.parse(atob(token.split(".")[1])) : {};
 const role = payload.role || "user"; // Default to 'user' if not specified
@@ -111,10 +110,13 @@ const ComparisonSection = ({
                     ? "active"
                     : ""
                 }`}
-                onClick={() => toggleCard(rep.replacement_part_item_code)}
+                // onClick={() => toggleCard(rep.replacement_part_item_code)}
               >
                 {/* Rest of your card content remains the same */}
-                <div className="stock-badge">{rep.replacement_part_stock} {rep.replacement_part_stock > 1 ? "Units" : "Unit"}</div>
+                <div className="stock-badge">
+                  {rep.replacement_part_stock}{" "}
+                  {rep.replacement_part_stock > 1 ? "Units" : "Unit"}
+                </div>
 
                 <img
                   className="replacement-image"
@@ -170,7 +172,12 @@ const ComparisonSection = ({
                   </div>
                 </div>
 
-                <button className="compare-button">Compare</button>
+                <button
+                  className="compare-button"
+                  onClick={() => toggleCard(rep.replacement_part_item_code)}
+                >
+                  Compare
+                </button>
               </div>
             ))}
         </div>
@@ -194,6 +201,7 @@ const ComparisonSection = ({
                         fontWeight: 600,
                         color: "#000000",
                         gap: "0.75rem",
+                        marginBottom: "1rem", // Add this line for space below
                       }}
                     >
                       <img

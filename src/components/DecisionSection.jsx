@@ -99,7 +99,7 @@ const DecisionSection = ({
             </>
           ) : (
             <div className="user-message">
-              {isUser && "Only managers/admins can make decisions"}
+              {/* {isUser && "Only managers/admins can make decisions"} */}
             </div>
           )}
         </div>

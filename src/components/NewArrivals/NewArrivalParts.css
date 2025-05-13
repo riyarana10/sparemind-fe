@@ -43,10 +43,18 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-.card img {
-  width: 50px;
-  height: auto;
-  margin: 0.5rem 0;
+.card-image {
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.card-image img {
+  max-height: 100%;
+  max-width: 100%;
+  object-fit: contain;
 }
 
 .card p{
@@ -147,3 +155,45 @@
 .view-all-spare-parts p strong {
   color: #2D3394;
 }
+
+
+/* Truncate text to 2 lines */
+.description {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  max-height: 3em; /* roughly 2 lines */
+}
+
+.description.expanded {
+  -webkit-line-clamp: unset;
+  max-height: none;
+}
+
+/* Make card height consistent */
+.card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card img {
+  width: 100px;
+  height: auto;
+  margin: 0.5rem 0;
+}
+
+/* Optional: style Read More button */
+.read-more-btn {
+  background: none;
+  border: none;
+  color: #007bff;
+  font-size: 0.8rem;
+  cursor: pointer;
+  padding: 0;
+  margin-top: 4px;
+  font-weight: 500;
+}
+

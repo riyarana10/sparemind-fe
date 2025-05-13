@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./ProfilePage.css";
+import BreadcrumbNav from "../../components/BreadcrumbNav";
 
 export default function ProfilePage() {
   const navigate = useNavigate();
@@ -57,7 +58,10 @@ export default function ProfilePage() {
       .filter((t) => t.status === "accepted")
       .reduce((sum, t) => sum + (t.price_difference || 0), 0);
 
-    return (
+    return (<>
+      <div style={{ marginTop: "10px" }}>
+        <BreadcrumbNav />
+      </div>
       <div className="profile-container">
         <button className="back-button" onClick={() => navigate(-1)}>
           ← Back
@@ -122,6 +126,7 @@ export default function ProfilePage() {
           </table>
         </div>
       </div>
+      </>
     );
   }
 

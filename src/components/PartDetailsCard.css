@@ -292,3 +292,72 @@
 .toggle-specs-btn:hover {
   text-decoration: underline;
 }
+
+/* Responsive adjustments for item code, location and brand */
+@media (max-width: 768px) {
+  .part-details-card {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .part-image-container {
+    flex: 0 0 auto;
+    width: 100%;
+    height: auto;
+    max-height: 200px;
+  }
+
+  .part-header {
+    margin-bottom: 10px;
+  }
+
+  .part-name {
+    font-size: 24px;
+    word-break: break-word;
+  }
+
+  .part-code {
+    font-size: 14px;
+  }
+
+  .detail-row.triple-column {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .detail-label,
+  .detail-value {
+    font-size: 14px;
+    word-break: break-word;
+  }
+
+  .location-wrapper {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .part-actions {
+    width: 100%;
+    margin-top: 15px;
+  }
+
+  .download-button {
+    margin-top: 1rem;
+  }
+}
+
+/* For very small screens */
+@media (max-width: 480px) {
+  .part-name {
+    font-size: 20px;
+  }
+
+  .detail-value {
+    font-size: 15px;
+  }
+
+  .stock-value {
+    width: 100%;
+    text-align: center;
+  }
+}
