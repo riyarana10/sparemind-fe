@@ -63,9 +63,9 @@ export default function SearchPage() {
   if (loading) return <p>Searching for “{q}”…</p>;
   if (error) return <p className="error-message">{error}</p>;
 
-  const topOriginals = originals.slice(0, 5);
-  const topCategories = categories.slice(0, 5);
-  const topReplacements = replacements.slice(0, 5);
+  const topOriginals = originals.slice(0, 8);
+  const topCategories = categories.slice(0, 8);
+  const topReplacements = replacements.slice(0, 8);
 
   const handleView = (part, page) => {
     const code =

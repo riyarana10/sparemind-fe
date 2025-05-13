@@ -9,6 +9,7 @@ import SpecsComparison from "../../components/SpecsComp/SpecsComp";
 import SearchBar from "../../components/SearchBar";
 import { pdfLinks } from "../../productConstants";
 import { formatPrice } from "../../productUtils";
+import ChatBot from "../../components/Chatbot/ConversationBot";
 
 
 const ProductDetails = () => {
@@ -17,6 +18,8 @@ const ProductDetails = () => {
   const token = localStorage.getItem("access_token");
   const payload = token ? JSON.parse(atob(token.split(".")[1])) : {};
   const role = payload.role || "user";
+  const[isOpen, setIsOpen] = useState(false)
+  const [stage, setStage] = useState(false)
 
   const [productState, setProductState] = useState({
     original: null,
@@ -123,8 +126,14 @@ const ProductDetails = () => {
   const category = original.category?.toUpperCase().trim();
   const resourceLink = pdfLinks[category];
 
+  const handleChatToggle = () => {
+    setIsOpen(!isOpen)
+    setStage("choose");
+  };
+
   return (
-    <>
+    <div style={{display:"flex"}}>
+    <div style={{ width: isOpen ? "70%" : "100%", transition: "width 0.3s" }}>
       {/* SearchBar Above Container */}
       <div
         className="searchbar-wrapper"
@@ -167,7 +176,25 @@ const ProductDetails = () => {
           </button> */}
         </div>
       </div>
-    </>
+    </div>
+    {!isOpen && resourceLink && (
+        <button className="chatbot-toggle" onClick={() => setIsOpen(!isOpen)}>
+        Know more about {original.category
+    .split(' ')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ')}
+    </button>
+      )
+    }
+    <div style={{
+        width: isOpen ? "25%" : "0",
+        transition: "width 0.3s",
+        display: "flex",
+        flexDirection: "column",
+      }}>
+        <ChatBot isOpen={isOpen} setIsOpen={setIsOpen} stage={stage} setStage={setStage} toggleChat={handleChatToggle} />
+    </div>
+    </div>
   );
 };
 

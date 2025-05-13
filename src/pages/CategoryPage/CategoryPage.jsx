@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import noImage from "../../assets/img/No_image1.png"
 import './CategoryPage.css';
+import ChatBot from '../../components/Chatbot/ConversationBot';
 
 const CategoryPage = () => {
   const { name } = useParams();
@@ -12,6 +13,8 @@ const CategoryPage = () => {
   const [error, setError] = useState("");
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [stage, setStage] = useState("choose");
+  const [isOpen, setIsOpen] = useState(false)
+  
 
     const token = localStorage.getItem("access_token");
   localStorage.setItem("categoryId", name);
@@ -58,11 +61,13 @@ const CategoryPage = () => {
 
   const handleChatToggle = () => {
     setIsChatOpen(!isChatOpen);
+    setIsOpen(!isOpen)
     setStage("choose");
   };
 
   return (
-    <div className="category-product-container">
+    <div style={{display:"flex"}}>
+      <div className="category-product-container" style={{ width: isOpen ? "65%" : "100%", transition: "width 0.3s" }}>
       <h2 className="category-title">{name
               .split(" ")
               .map(
@@ -214,6 +219,25 @@ const CategoryPage = () => {
           
         )
       }
+    </div>
+    {
+      !isOpen && (
+        <button className="chatbot-toggle" onClick={() => setIsOpen(!isOpen)}>
+        Know more about {name
+    .split(' ')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ')}
+    </button>
+      )
+    }
+    <div style={{
+        width: isOpen ? "25%" : "0",
+        transition: "width 0.3s",
+        display: "flex",
+        flexDirection: "column",
+      }}>
+        <ChatBot isOpen={isOpen} setIsOpen={setIsOpen} stage={stage} setStage={setStage} toggleChat={handleChatToggle} />
+    </div>
     </div>
   );
 };
