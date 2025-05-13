@@ -1,13 +1,14 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&display=swap');
+
+:where(.css-dev-only-do-not-override-1v5z42l).ant-select-single .ant-select-selector .ant-select-selection-placeholder{
+  font-style: italic !important;
+  color: #000000 !important;
+  font-size: 18px !important;
+  font-weight: 400 !important;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+:where(.css-dev-only-do-not-override-1v5z42l).ant-menu .ant-menu-title-content {
+  font-size: 18px !important;
+  font-weight: 700 !important;
+  font-family: IBM Plex Sans Condensed !important;
 }

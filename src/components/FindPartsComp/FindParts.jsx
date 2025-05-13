@@ -4,6 +4,7 @@ import { SearchOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import lightImg from "../../assets/img/lightImg.svg";
+import searchIcon from "../../assets/img/searchIcon.svg";
 import "./FindParts.css";
 
 const FindParts = () => {
@@ -81,12 +82,13 @@ const FindParts = () => {
 
   return (
     <div className="find-parts-section">
-      <div className="search-box">
+      <div className="search-box-home-page">
         <h1>FIND SPARE PARTS</h1>
-        <div className="search-input-wrapper">
-          <SearchOutlined className="search-icon" />
+        <div className="search-input-wrapper-home-page">
+          {/* <SearchOutlined className="search-icon" /> */}
+          <img className="search-icon-home-page" src={searchIcon} />
           <AutoComplete
-            className="search-input"
+            className="search-input-home-page"
             style={{ flex: 1 }}
             options={suggestions.map((s) => ({
               value: s.original_part_item_code,
@@ -106,10 +108,15 @@ const FindParts = () => {
               navigate(`/search?query=${encodeURIComponent(value)}`);
             }}
             onSearch={(value) => setSearchTerm(value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                handleSearch(e);
+              }
+            }}
             placeholder={placeholderText}
           />
         </div>
-        <button className="search-button" onClick={handleSearch}>
+        <button className="search-button-home-page" onClick={handleSearch}>
           FIND
         </button>
         <p className="powered-by">
