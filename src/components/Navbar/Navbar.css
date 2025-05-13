@@ -3,22 +3,21 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 24px;
+  padding: 20px 40px;
   border-bottom: 1px solid #e5e5e5;
   background-color: white;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   position: sticky;
   top: 0;
   z-index: 1000;
-  height: 65px;
+  height: 96px;
 }
 
 /* Logo and Title */
 .navbar-logo {
-  display: flex;
-  align-items: center;
-  gap: 8px;
   cursor: pointer;
+  height: 40px;
+  width: 160px;
 }
 
 .navbar-icon {
@@ -65,9 +64,10 @@
 
 /* Account Dropdown */
 .account-dropdown {
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 18px;
+  font-family: 'IBM Plex Sans Condensed';
 }
 
 /* Mobile Styles */

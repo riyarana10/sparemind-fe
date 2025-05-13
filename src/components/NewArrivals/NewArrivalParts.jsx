@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import noImage from "../../assets/img/No_image1.png";
 import "./NewArrivalParts.css";
+import { Spin } from "antd";
 
 const formatPrice = (price) => {
   const num = typeof price === "string" ? parseFloat(price) : price;
@@ -55,10 +56,10 @@ const NewArrivalParts = ({ token }) => {
     if (!token) return;
     const codes = [
       "MA00F0RE001",
-"MA00F0DI002",
-"MA0US005000",
-"MA00F10N001",
-"M4A06010087"
+      "MA00F0DI002",
+      "MA0US005000",
+      "MA00F10N001",
+      "M4A06010087",
     ];
 
     const fetchData = async () => {
@@ -95,14 +96,16 @@ const NewArrivalParts = ({ token }) => {
   };
 
   return (
-    <div>
+    <div style={{ background: "#ffffff" }}>
       <div className="new-arrivals-container">
         <div className="new-arrivals-header">
           <h2>SPARE PARTS</h2>
           {/* <a href="/new-arrivals">View All</a> */}
         </div>
         {isLoadingProduct ? (
-          <p>Loading products…</p>
+          <div style={{ textAlign: "center", padding: "2rem" }}>
+            <Spin size="large" />
+          </div>
         ) : (
           <div className="card-list">
             {recentCodeResults.map((product, index) => {
@@ -208,7 +211,9 @@ const NewArrivalParts = ({ token }) => {
           {/* <a href="/new-arrivals">View All</a> */}
         </div>
         {isLoadingCategory ? (
-          <p>Loading Categories...</p>
+          <div style={{ textAlign: "center", padding: "2rem" }}>
+            <Spin size="large" />
+          </div>
         ) : (
           <div className="category-grid">
             {recentCategories.map((cat, index) => (
@@ -251,20 +256,6 @@ const NewArrivalParts = ({ token }) => {
                     <p className="item-value">{cat.msil_category}</p>
                   </div>
                 </div>
-                {/* <strong>PartsGenie Category : </strong>
-                <h3>
-                  {cat.name
-                    .split(" ")
-                    .map(
-                      (word) =>
-                        word.charAt(0).toUpperCase() +
-                        word.slice(1).toLowerCase()
-                    )
-                    .join(" ")}
-                </h3>
-                <p style={{ fontSize: "14px" }}>
-                  <strong>MSIL Category :</strong> {cat.msil_category.toUpperCase()}
-                </p> */}
                 <div className="view-all-spare-parts">
                   <p>
                     <strong>View all spare parts</strong>
