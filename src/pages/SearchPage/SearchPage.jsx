@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
-import noImage from "../../assets/img/No_image1.png"
+import noImage from "../../assets/img/No_image1.png";
 import axios from "axios";
 import "./SearchPage.css";
 
@@ -15,12 +15,37 @@ export default function SearchPage() {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [isLoadingProduct, setIsLoadingProdct] = useState(false)
-  const [isLoadingCategory, setIsLoadingCategory] = useState(false)
+  const [isLoadingProduct, setIsLoadingProdct] = useState(false);
+  const [isLoadingCategory, setIsLoadingCategory] = useState(false);
 
   const formatPrice = (price) => {
     const num = typeof price === "string" ? parseFloat(price) : price;
     return Math.round(num).toLocaleString("en-IN");
+  };
+
+  const Description = ({ text }) => {
+    const [expanded, setExpanded] = useState(false);
+
+    const toggleExpand = (e) => {
+      e.stopPropagation(); // prevents the card click
+      setExpanded((prev) => !prev);
+    };
+
+    const isLong = text.length > 100; // adjust limit as needed
+
+    return (
+      <div>
+        <p className="item-code">Parts Description</p>
+        <p className={`price ${!expanded && isLong ? "truncate-line" : ""}`}>
+          {text}
+        </p>
+        {isLong && (
+          <button onClick={toggleExpand} className="toggle-btn">
+            {expanded ? "Show less" : "Show more"}
+          </button>
+        )}
+      </div>
+    );
   };
 
   useEffect(() => {
@@ -184,91 +209,119 @@ export default function SearchPage() {
         ) : (
           <div className="card-list">
             {topOriginals.map((product, index) => (
-                <div
-                className={`search-card ${topOriginals.length === 1 ? "single-card" : ""}`}
-                  key={index}
-                  onClick={() => handleView(product,"original")}
-                >
-                  <img
-                    src={product.original_part_image === null ? noImage : product.original_part_image}
-                    style={{ width: "100px", height: "100px" }}
-                    alt={product.title}
+              <div
+                className={`search-card ${
+                  topOriginals.length === 1 ? "single-card" : ""
+                }`}
+                key={index}
+                onClick={() => handleView(product, "original")}
+              >
+                <img
+                  src={
+                    product.original_part_image === null
+                      ? noImage
+                      : product.original_part_image
+                  }
+                  style={{ width: "100px", height: "100px" }}
+                  alt={product.title}
+                />
+                <div className="product-details">
+                  <h3>
+                    {product.original_part_name},{" "}
+                    {product.category.replace(/\b\w/g, (char) =>
+                      char.toUpperCase()
+                    )}
+                    , {product.brand}
+                  </h3>
+                  <div>
+                    <p className="item-code">Item Code</p>
+                    <p className="item-value">
+                      {product.original_part_item_code}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="item-code">Location</p>
+                    <p className="item-value">
+                      {product.original_part_location}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="item-code">Stock</p>
+                    <p className="item-value">
+                      {product.original_part_stock}{" "}
+                      {product.original_part_stock > 1 ? "Units" : "Unit"}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="item-code">Price</p>
+                    <p className="price">
+                      Rs. {formatPrice(product.original_part_price)}
+                    </p>
+                  </div>
+                  <Description
+                    text={product.original_part_name_breakdown_definition}
                   />
-                  <div className="product-details">
-                    <h3>{product.original_part_name}, {product.category.replace(/\b\w/g, char => char.toUpperCase())}, {product.brand}</h3>
-                    <div>
-                      <p className="item-code">Item Code</p>
-                      <p className="item-value">
-                        {product.original_part_item_code}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="item-code">Location</p>
-                      <p className="item-value">{product.original_part_location}</p>
-                      </div>
-                    <div>
-                      <p className="item-code">Stock</p>
-                      <p className="item-value">
-                        {product.original_part_stock} {product.original_part_stock > 1 ? "Units" : "Unit"}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="item-code">Price</p>
-                      <p className="price">
-                        Rs. {formatPrice(product.original_part_price)}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="item-code">Parts Description</p>
-                      <p className="price">
-                        {product.original_part_name_breakdown_definition}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="item-code">Brand</p>
-                      <span className="price">
-                        {product.brand}
-                      </span>
-                    </div>
+
+                  <div>
+                    <p className="item-code">Brand</p>
+                    <span className="price">{product.brand}</span>
                   </div>
                 </div>
+              </div>
             ))}
           </div>
         )}
       </div>
 
-{
-  topCategories.length > 0 && (
-    <section className="popular-categories">
-        <div className="new-arrivals-header">
-          <h2>Matched Categories</h2>
-        </div>
-        {isLoadingCategory ? (
-          <p>Loading Categories...</p>
-        ) : (
-          <div className="category-grid">
-            {topCategories.map((cat, index) => (
-              <div
-                className={`search-category-card ${topCategories.length === 1 ? "single-card" : ""}`}
-                key={index}
-                onClick={() => navigate(`/category/${encodeURIComponent(cat)}`)}
-              >
-                <div className="category-card-details">
-                  <div>
-                    <img style={{width:"120px", height:"100px", border:"1px solid lightgray", borderRadius:"4px"}} src={cat.image === null ? noImage : cat.image}/>
+      {topCategories.length > 0 && (
+        <section className="popular-categories">
+          <div className="new-arrivals-header">
+            <h2>Matched Categories</h2>
+          </div>
+          {isLoadingCategory ? (
+            <p>Loading Categories...</p>
+          ) : (
+            <div className="category-grid">
+              {topCategories.map((cat, index) => (
+                <div
+                  className={`search-category-card ${
+                    topCategories.length === 1 ? "single-card" : ""
+                  }`}
+                  key={index}
+                  onClick={() =>
+                    navigate(`/category/${encodeURIComponent(cat)}`)
+                  }
+                >
+                  <div className="category-card-details">
+                    <div>
+                      <img
+                        style={{
+                          width: "120px",
+                          height: "100px",
+                          border: "1px solid lightgray",
+                          borderRadius: "4px",
+                        }}
+                        src={cat.image === null ? noImage : cat.image}
+                      />
                     </div>
                     <div>
                       <p className="item-code">PartsGenie Category</p>
                       <p className="item-value">
-                      {cat.name.replace(/\b\w/g, char => char.toUpperCase())}
+                        {cat.name.replace(/\b\w/g, (char) =>
+                          char.toUpperCase()
+                        )}
                       </p>
                     </div>
                     <div>
                       <p className="item-code">MSIL Category</p>
-                      <p className="item-value">{cat.msil_category === null ? "Not Available" : cat.msil_category}</p>
+                      <p className="item-value">
+                        {cat.msil_category === null
+                          ? "Not Available"
+                          : cat.msil_category}
+                      </p>
                     </div>
                   </div>
-                {/* <strong>PartsGenie Category : </strong>
+                  {/* <strong>PartsGenie Category : </strong>
                 <h3>
                   {cat.name
                     .split(" ")
@@ -282,18 +335,17 @@ export default function SearchPage() {
                 <p style={{ fontSize: "14px" }}>
                   <strong>MSIL Category :</strong> {cat.msil_category.toUpperCase()}
                 </p> */}
-                <div className="view-all-spare-parts">
-                <p>
-                  <strong>View all spare parts</strong>
-                </p>
+                  <div className="view-all-spare-parts">
+                    <p>
+                      <strong>View all spare parts</strong>
+                    </p>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        )}
-      </section>
-  )
-}
+              ))}
+            </div>
+          )}
+        </section>
+      )}
     </div>
   );
 }

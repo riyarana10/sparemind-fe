@@ -19,36 +19,37 @@ const PartDetailsCard = ({
 }) => {
   const [showAllSpecs, setShowAllSpecs] = useState(false);
 
-
-  const toggleAllSpecs = () => {
-    setShowAllSpecs(!showAllSpecs);
-  };
-
   const partData = {
     item_code: isOriginal
-      ? part.original_part_item_code
-      : part.replacement_part_item_code,
-    name: isOriginal ? part.original_part_name : part.replacement_part_name,
+      ? part?.original_part_item_code
+      : part?.replacement_part_item_code,
+    name: isOriginal ? part?.original_part_name : part?.replacement_part_name,
     description: isOriginal
-      ? part.original_part_name_breakdown_definition
-      : part.replacement_part_name_breakdown_definition,
+      ? part?.original_part_name_breakdown_definition
+      : part?.replacement_part_name_breakdown_definition,
     location: isOriginal
-      ? part.original_part_location
-      : part.replacement_part_location,
-    stock: isOriginal ? part.original_part_stock : part.replacement_part_stock,
-    price: isOriginal ? part.original_part_price : part.replacement_part_price,
-    image: isOriginal ? part.original_part_image : part.replacement_part_image,
-    brand: part.brand,
-    category: part.category,
-    category_msil_sheet: part.category_msil_sheet,
-    source: part.replacement_source,
+      ? part?.original_part_location
+      : part?.replacement_part_location,
+    stock: isOriginal
+      ? part?.original_part_stock
+      : part?.replacement_part_stock,
+    price: isOriginal
+      ? part?.original_part_price
+      : part?.replacement_part_price,
+    image: isOriginal
+      ? part?.original_part_image
+      : part?.replacement_part_image,
+    brand: part?.brand,
+    category: part?.category,
+    category_msil_sheet: part?.category_msil_sheet,
+    source: part?.replacement_source,
   };
 
-  const specsJson = isOriginal ? part.original_specs : part.replacement_specs;
+  const specsJson = isOriginal ? part?.original_specs : part?.replacement_specs;
   const rawSpecs = isOriginal
-    ? part.top_specs_original_part
-    : part.top_specs_replacement_part;
-  const specsObj = useMemo(() => buildSpecsObject(rawSpecs), [rawSpecs]);
+    ? part?.top_specs_original_part
+    : part?.top_specs_replacement_part;
+  const specsObj = useMemo(() => buildSpecsObject(rawSpecs || ""), [rawSpecs]);
 
   return (
     <div
@@ -88,15 +89,24 @@ const PartDetailsCard = ({
           </div>
           <div className="detail-row double-column">
             <div className="detail-group">
-              <span className="detail-label">Category</span>
+              <span className="detail-label">PartsGenie Category</span>
               <span className="detail-value">
-                {partData.category || "Uncategorized"}
+                <p className="item-value">
+                  {(partData.category || "Uncategorized")
+                    .split(" ")
+                    .map(
+                      (word) =>
+                        word.charAt(0).toUpperCase() +
+                        word.slice(1).toLowerCase()
+                    )
+                    .join(" ")}
+                </p>
               </span>
             </div>
             <div className="detail-group">
               <span className="detail-label">MSIL Category</span>
               <span className="detail-value">
-                {partData.category_msil_sheet || "N/A"}
+                {partData.msil_category || "N/A"}
               </span>
             </div>
           </div>
@@ -108,49 +118,68 @@ const PartDetailsCard = ({
               </span>
             </div>
           </div>
+
           {showSpecs &&
-  (Object.keys(specsJson || {}).length > 0 ||
-    (specsObj && Object.keys(specsObj).length > 0)) && (
-    <div className="detail-row">
-      <div className="detail-group">
-        <span className="detail-label">More Details</span>
-        <div className="specs-grid">
-          {(specsJson && Object.keys(specsJson).length > 0
-            ? Object.entries(specsJson).map(([heading, items]) => ({
-                heading,
-                items,
-              }))
-            : parseSpecs(rawSpecs)
-          )
-            ?.slice(0, showAllSpecs ? undefined : 1)
-            .map((blk, idx) => (
-              <div key={idx} className="spec-block">
-                <h4>{blk.heading}</h4>
-                <ul>
-                  {blk.items.map((item, j) => (
-                    <li key={j}>
-                      {item.replace?.(/^[•\-]\s*/, "").trim() ?? item}
-                    </li>
-                  ))}
-                </ul>
+            ((specsJson && specsJson.length > 0) ||
+              (specsObj && Object.keys(specsObj).length > 0)) && (
+              <div className="detail-row">
+                <div className="detail-group">
+                  <span className="detail-label">More Details</span>
+                  <div className="specs-grid">
+                    {(specsJson && specsJson.length > 0
+                      ? specsJson.reduce((acc, specItem) => {
+                          const [heading, value] = Object.entries(specItem)[0];
+                          const existingGroup = acc.find(
+                            (group) => group.heading === heading
+                          );
+                          if (existingGroup) {
+                            existingGroup.items.push(value);
+                          } else {
+                            acc.push({ heading, items: [value] });
+                          }
+                          return acc;
+                        }, [])
+                      : (parseSpecs(rawSpecs) || []).map((blk) => ({
+                          ...blk,
+                          items: Array.isArray(blk?.items)
+                            ? blk.items
+                            : [blk?.items || ""],
+                        }))
+                    )
+                      .slice(0, showAllSpecs ? undefined : 1)
+                      .map((blk, idx) => (
+                        <div key={idx} className="spec-block">
+                          <h4>{blk?.heading || "Specifications"}</h4>
+                          <ul>
+                            {blk.items.map((item, j) => (
+                              <li key={j}>
+                                {typeof item === "string"
+                                  ? item.replace(/^[•\-]\s*/, "")?.trim() ??
+                                    item
+                                  : JSON.stringify(item)}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      ))}
+                  </div>
+
+                  {((specsJson && specsJson.length > 1) ||
+                    (specsObj && Object.keys(specsObj).length > 1) ||
+                    (parseSpecs(rawSpecs) || []).length > 1) && (
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setShowAllSpecs(!showAllSpecs);
+                      }}
+                      className="toggle-specs-btn"
+                    >
+                      {showAllSpecs ? "Show Less" : "Read More"}
+                    </button>
+                  )}
+                </div>
               </div>
-            ))}
-        </div>
-
-        {/* Toggle Button */}
-        {(specsJson && Object.keys(specsJson).length > 1) ||
-        (specsObj && Object.keys(specsObj).length > 1) ? (
-          <button
-            onClick={() => setShowAllSpecs(!showAllSpecs)}
-            className="toggle-specs-btn"
-          >
-            {showAllSpecs ? "Show Less" : "Read More"}
-          </button>
-        ) : null}
-      </div>
-    </div>
-  )}
-
+            )}
         </div>
       </div>
 
@@ -184,7 +213,7 @@ const PartDetailsCard = ({
               <div>
                 <p className="text-gray-500 text-sm font-sans">Location</p>
                 <p className="font-sans font-extrabold text-gray-900 text-base leading-tight">
-                  {partData.location}
+                  {partData.location || "N/A"}
                 </p>
               </div>
             </div>

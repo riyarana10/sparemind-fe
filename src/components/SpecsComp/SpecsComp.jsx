@@ -7,9 +7,8 @@ const formatPrice = (price) => {
 };
 
 const SpecsComparison = ({
-  originalSpecs = {},
-  replacementSpecs = {},
-
+  originalSpecs = [],
+  replacementSpecs = [],
   originalPart = {},
   replacementPart = {},
 }) => {
@@ -65,11 +64,27 @@ const SpecsComparison = ({
     },
   ];
 
+  // Process the new spec format into sections
+  const processSpecs = (specs) => {
+    const sections = {};
+    specs.forEach((specItem) => {
+      const [section, value] = Object.entries(specItem)[0];
+      if (!sections[section]) {
+        sections[section] = [];
+      }
+      sections[section].push(value);
+    });
+    return sections;
+  };
+
+  const originalSpecsBySection = processSpecs(originalSpecs);
+  const replacementSpecsBySection = processSpecs(replacementSpecs);
+
   const allSections = Array.from(
     new Set([
       "General Information",
-      ...Object.keys(originalSpecs || {}),
-      ...Object.keys(replacementSpecs || {}),
+      ...Object.keys(originalSpecsBySection),
+      ...Object.keys(replacementSpecsBySection),
     ])
   );
 
@@ -169,8 +184,8 @@ const SpecsComparison = ({
               {allSections
                 .filter((section) => section !== "General Information")
                 .map((section) => {
-                  const origLines = originalSpecs[section] || [];
-                  const repLines = replacementSpecs[section] || [];
+                  const origLines = originalSpecsBySection[section] || [];
+                  const repLines = replacementSpecsBySection[section] || [];
                   const rowCount = Math.max(
                     origLines.length,
                     repLines.length,

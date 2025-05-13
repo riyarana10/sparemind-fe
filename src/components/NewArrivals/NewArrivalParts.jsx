@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
-import noImage from "../../assets/img/No_image1.png"
+import noImage from "../../assets/img/No_image1.png";
 import "./NewArrivalParts.css";
 
 const formatPrice = (price) => {
@@ -23,14 +23,13 @@ const NewArrivalParts = ({ token }) => {
   const [results, setResults] = useState(initialResults);
 
   const [expandedIndexes, setExpandedIndexes] = useState([]);
+  const [expandedCardIndex, setExpandedCardIndex] = useState(null);
 
-const toggleExpanded = (index) => {
-  setExpandedIndexes((prev) =>
-    prev.includes(index)
-      ? prev.filter((i) => i !== index)
-      : [...prev, index]
-  );
-};
+  const toggleExpanded = (index) => {
+    setExpandedIndexes((prev) =>
+      prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
+    );
+  };
 
   // Fetch top‐5 categories from backend
   useEffect(() => {
@@ -118,13 +117,29 @@ const toggleExpanded = (index) => {
                   onClick={() => handleClickViewDetails(product)}
                 >
                   <span className="tag">New</span>
-                  <img
-                    src={product.original_part_image === null ? noImage : product.original_part_image}
-                    style={{ width: "100px", height: "100px" }}
-                    alt={product.title}
-                  />
+                  <div className="card-image">
+                    <img
+                      src={
+                        product.original_part_image === null
+                          ? noImage
+                          : product.original_part_image
+                      }
+                      alt={product.title}
+                      style={{
+                        width: "100px",
+                        height: "auto",
+                        margin: "0.5rem 0",
+                      }}
+                    />
+                  </div>
                   <div className="product-details">
-                    <h3>{product.original_part_name}, {product.category.replace(/\b\w/g, char => char.toUpperCase())}, {product.brand}</h3>
+                    <h3>
+                      {product.original_part_name},{" "}
+                      {product.category.replace(/\b\w/g, (char) =>
+                        char.toUpperCase()
+                      )}
+                      , {product.brand}
+                    </h3>
                     <div>
                       <p className="item-code">Item Code</p>
                       <p className="item-value">
@@ -133,31 +148,52 @@ const toggleExpanded = (index) => {
                     </div>
                     <div>
                       <p className="item-code">Location</p>
-                      <p className="item-value">{product.original_part_location}</p>
-                      </div>
+                      <p className="item-value">
+                        {product.original_part_location}
+                      </p>
+                    </div>
                     <div>
                       <p className="item-code">Stock</p>
                       <p className="item-value">
-                        {product.original_part_stock} {product.original_part_stock > 1 ? "Units" : "Unit"}
+                        {product.original_part_stock}{" "}
+                        {product.original_part_stock > 1 ? "Units" : "Unit"}
                       </p>
                     </div>
                     <div>
                       <p className="item-code">Price</p>
                       <p className="price">
-                      ₹{formatPrice(product.original_part_price)}
+                        ₹{formatPrice(product.original_part_price)}
                       </p>
                     </div>
                     <div>
                       <p className="item-code">Parts Description</p>
-                      <p className="price">
+                      <p
+                        className={`price description ${
+                          expandedCardIndex === index ? "expanded" : ""
+                        }`}
+                      >
                         {product.original_part_name_breakdown_definition}
                       </p>
+                      {product.original_part_name_breakdown_definition.length >
+                        80 && (
+                        <button
+                          className="read-more-btn"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setExpandedCardIndex(
+                              expandedCardIndex === index ? null : index
+                            );
+                          }}
+                        >
+                          {expandedCardIndex === index
+                            ? "Show Less"
+                            : "Read More"}
+                        </button>
+                      )}
                     </div>
                     <div>
                       <p className="item-code">Brand</p>
-                      <span className="price">
-                        {product.brand}
-                      </span>
+                      <span className="price">{product.brand}</span>
                     </div>
                   </div>
                 </div>
@@ -188,26 +224,34 @@ const toggleExpanded = (index) => {
               >
                 <div className="category-card-details">
                   <div>
-                    <img style={{width:"120px", height:"100px",border:"1px solid lightgray", borderRadius:"4px"}} src={cat.image === "" ? noImage : cat.image}/>
-                    </div>
-                    <div>
-                      <p className="item-code">PartsGenie Category</p>
-                      <p className="item-value">
-                      {cat.name
-                    .split(" ")
-                    .map(
-                      (word) =>
-                        word.charAt(0).toUpperCase() +
-                        word.slice(1).toLowerCase()
-                    )
-                    .join(" ")}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="item-code">MSIL Category</p>
-                      <p className="item-value">{cat.msil_category}</p>
-                      </div>
+                    <img
+                      style={{
+                        width: "120px",
+                        height: "100px",
+                        border: "1px solid lightgray",
+                        borderRadius: "4px",
+                      }}
+                      src={cat.image === "" ? noImage : cat.image}
+                    />
                   </div>
+                  <div>
+                    <p className="item-code">PartsGenie Category</p>
+                    <p className="item-value">
+                      {cat.name
+                        .split(" ")
+                        .map(
+                          (word) =>
+                            word.charAt(0).toUpperCase() +
+                            word.slice(1).toLowerCase()
+                        )
+                        .join(" ")}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="item-code">MSIL Category</p>
+                    <p className="item-value">{cat.msil_category}</p>
+                  </div>
+                </div>
                 {/* <strong>PartsGenie Category : </strong>
                 <h3>
                   {cat.name
@@ -223,9 +267,9 @@ const toggleExpanded = (index) => {
                   <strong>MSIL Category :</strong> {cat.msil_category.toUpperCase()}
                 </p> */}
                 <div className="view-all-spare-parts">
-                <p>
-                  <strong>View all spare parts</strong>
-                </p>
+                  <p>
+                    <strong>View all spare parts</strong>
+                  </p>
                 </div>
               </div>
             ))}
