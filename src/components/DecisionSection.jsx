@@ -6,7 +6,7 @@ const DecisionSection = ({
   replacement,
   decision,
   lastComment,
-  role,  // This should be passed from parent component
+  role, // This should be passed from parent component
   onDecision,
   onReview,
 }) => {
@@ -58,17 +58,12 @@ const DecisionSection = ({
       <h4 className="comment-heading">
         Please share your thoughts about the replacement
       </h4>
-      {/* {decision === null && lastComment && (
-        <div className="saved-comment">
-          <strong>Last comment:</strong> {lastComment}
-        </div>
-      )} */}
 
       <div className="comment-box-section">
         <textarea
           className="comment-box"
           placeholder={
-            isUser 
+            isUser
               ? "Add your comments about the replacement"
               : "Add a comment to accept or reject the replacement"
           }

@@ -15,21 +15,23 @@ const FindParts = () => {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const token = localStorage.getItem("access_token");
   const wrapperRef = useRef(null);
-  const [placeholderText, setPlaceholderText] = useState("Search by part name, code, machine type, issue etc..");
+  const [placeholderText, setPlaceholderText] = useState(
+    "Search by part name, code, machine type, issue etc.."
+  );
 
-useEffect(() => {
-  const updatePlaceholder = () => {
-    setPlaceholderText(
-      window.innerWidth < 768
-        ? "Search parts"
-        : "Search by part name, code, machine type, issue etc.."
-    );
-  };
+  useEffect(() => {
+    const updatePlaceholder = () => {
+      setPlaceholderText(
+        window.innerWidth < 768
+          ? "Search parts"
+          : "Search by part name, code, machine type, issue etc.."
+      );
+    };
 
-  updatePlaceholder(); // run initially
-  window.addEventListener("resize", updatePlaceholder);
-  return () => window.removeEventListener("resize", updatePlaceholder);
-}, []);
+    updatePlaceholder(); // run initially
+    window.addEventListener("resize", updatePlaceholder);
+    return () => window.removeEventListener("resize", updatePlaceholder);
+  }, []);
 
   useEffect(() => {
     if (searchTerm.length < 2) {
@@ -92,7 +94,7 @@ useEffect(() => {
                 <div>
                   <strong>{s.original_part_item_code}</strong> —{" "}
                   <small>{s.original_part_name}</small>
-                  <small style={{marginLeft:"10px"}}>{s.category}</small>
+                  <small style={{ marginLeft: "10px" }}>{s.category}</small>
                 </div>
               ),
             }))}

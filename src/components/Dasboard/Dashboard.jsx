@@ -6,7 +6,7 @@ const Dashboard = () => {
   const categoryId = localStorage.getItem("categoryId");
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [stage, setStage] = useState("choose");
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleChatToggle = () => {
     setIsChatOpen(!isChatOpen);
@@ -14,7 +14,7 @@ const Dashboard = () => {
     setStage("choose");
   };
   return (
-    <div style={{display:"flex"}}>
+    <div style={{ display: "flex" }}>
       <div style={{ width: isOpen ? "70%" : "100%", transition: "width 0.3s" }}>
         <div className="dashboard-content">
           <div className="dashboard-widgets">
@@ -28,24 +28,29 @@ const Dashboard = () => {
             ></iframe>
           </div>
         </div>
-        </div>
+      </div>
 
-        {
-      !isOpen && (
+      {!isOpen && (
         <button className="chatbot-toggle" onClick={() => setIsOpen(!isOpen)}>
-        Ask me anything
-    </button>
-      )
-    }
-        <div style={{
-        width: isOpen ? "25%" : "0",
-        transition: "width 0.3s",
-        display: "flex",
-        flexDirection: "column",
-      }} >
-        <ChatBot isOpen={isOpen} setIsOpen={setIsOpen} stage={stage} setStage={setStage} toggleChat={handleChatToggle} />
-        </div>
-        
+          Ask me anything
+        </button>
+      )}
+      <div
+        style={{
+          width: isOpen ? "25%" : "0",
+          transition: "width 0.3s",
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        <ChatBot
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+          stage={stage}
+          setStage={setStage}
+          toggleChat={handleChatToggle}
+        />
+      </div>
     </div>
   );
 };

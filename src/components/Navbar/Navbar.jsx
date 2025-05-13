@@ -82,7 +82,7 @@ const Navbar = () => {
 
   const handleNavClick = (e) => {
     // Perform navigation based on key
-    setVisible(false)
+    setVisible(false);
     if (e.key === "home") {
       navigate("/");
       return;
@@ -91,7 +91,7 @@ const Navbar = () => {
   };
 
   const handleAccountClick = (e) => {
-    setVisible(false)
+    setVisible(false);
     if (e.key === "logout") {
       handleLogout();
     } else {
@@ -139,7 +139,12 @@ const Navbar = () => {
             onClose={closeDrawer}
             open={visible}
           >
-            <Menu mode="vertical" items={navItems} className="nav-menu-items" onClick={handleNavClick} />
+            <Menu
+              mode="vertical"
+              items={navItems}
+              className="nav-menu-items"
+              onClick={handleNavClick}
+            />
             <div className="drawer-account">
               <Dropdown
                 overlay={

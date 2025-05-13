@@ -19,7 +19,7 @@ const ProductDetails = () => {
   const payload = token ? JSON.parse(atob(token.split(".")[1])) : {};
   const role = payload.role || "user";
   const[isOpen, setIsOpen] = useState(false)
-  const [stage, setStage] = useState(false)
+  const [stage, setStage] = useState("choose")
 
   const [productState, setProductState] = useState({
     original: null,
