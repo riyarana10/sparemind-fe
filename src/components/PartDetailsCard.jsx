@@ -41,7 +41,7 @@ const PartDetailsCard = ({
       : part?.replacement_part_image,
     brand: part?.brand,
     category: part?.category,
-    category_msil_sheet: part?.category_msil_sheet,
+    msil_category: part?.msil_category,
     source: part?.replacement_source,
   };
 
