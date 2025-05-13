@@ -18,10 +18,10 @@ export default function ProfilePage() {
   useEffect(() => {
     const url =
       role === "user"
-        ? `http://localhost:8000/transactions?user_id=${encodeURIComponent(
+        ? `/api/transactions?user_id=${encodeURIComponent(
             userId
           )}&size=100`
-        : `http://localhost:8000/transactions?size=100`;
+        : `/api/transactions?size=100`;
     axios
       .get(url, { headers: { Authorization: `Bearer ${token}` } })
       .then((res) => setTxns(res.data.transactions || []))

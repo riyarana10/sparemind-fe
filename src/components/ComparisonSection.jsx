@@ -47,7 +47,7 @@ const ComparisonSection = ({
     try {
       const token = localStorage.getItem("access_token");
       await axios.post(
-        "http://localhost:8000/decision",
+        "/api/decision",
         {
           original_part_item_code: original.original_part_item_code,
           replacement_part_item_code: replacement.replacement_part_item_code,

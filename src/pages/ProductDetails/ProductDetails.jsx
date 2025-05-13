@@ -52,7 +52,7 @@ const ProductDetails = () => {
     setProductState((prev) => ({ ...prev, loading: true, error: "" }));
 
     axios
-      .get(`http://localhost:8000/search_exact?q=${encodeURIComponent(code)}`, {
+      .get(`/api/search_exact?q=${encodeURIComponent(code)}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
@@ -85,7 +85,7 @@ const ProductDetails = () => {
     setProductState((prev) => ({ ...prev, busy: true }));
     try {
       await axios.post(
-        "http://localhost:8000/decision",
+        "/api/decision",
         {
           original_part_item_code: original.original_part_item_code,
           replacement_part_item_code: "",

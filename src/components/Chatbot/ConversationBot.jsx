@@ -52,7 +52,7 @@ const ChatBot = ({ isOpen, setIsOpen, stage, setStage, toggleChat }) => {
     if (location.pathname.startsWith("/dashboard")) {
       setIsLoading(false);
       try {
-        const res = await fetch("http://localhost:8000/vanaa_chat/history", {
+        const res = await fetch("/api/vanaa_chat/history", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -72,7 +72,7 @@ const ChatBot = ({ isOpen, setIsOpen, stage, setStage, toggleChat }) => {
       }
     } else {
       try {
-        const res = await fetch("http://localhost:8000/chat/history", {
+        const res = await fetch("/api/chat/history", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -113,7 +113,7 @@ const ChatBot = ({ isOpen, setIsOpen, stage, setStage, toggleChat }) => {
     clearFrontendChat();
     if (location.pathname.startsWith("/dashboard")) {
       try {
-        const res = await fetch("http://localhost:8000/vanna_chat/reset", {
+        const res = await fetch("/api/vanna_chat/reset", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -132,7 +132,7 @@ const ChatBot = ({ isOpen, setIsOpen, stage, setStage, toggleChat }) => {
       }
     } else {
       try {
-        const res = await fetch("http://localhost:8000/chat/reset", {
+        const res = await fetch("/api/chat/reset", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -161,7 +161,7 @@ const ChatBot = ({ isOpen, setIsOpen, stage, setStage, toggleChat }) => {
 
     if (location.pathname.startsWith("/dashboard")) {
       try {
-        const res = await fetch("http://localhost:8000/vanna-chat", {
+        const res = await fetch("/api/vanna-chat", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -195,7 +195,7 @@ const ChatBot = ({ isOpen, setIsOpen, stage, setStage, toggleChat }) => {
       }
     } else {
       try {
-        const res = await fetch("http://localhost:8000/chat", {
+        const res = await fetch("/api/chat", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

@@ -67,7 +67,7 @@ const NewArrivalParts = ({ token }) => {
         const responses = await Promise.all(
           codes.map((code) => {
             return axios.get(
-              `http://localhost:8000/search?original_part_item_code=${encodeURIComponent(
+              `/api/search?original_part_item_code=${encodeURIComponent(
                 code
               )}`,
               { headers: { Authorization: `Bearer ${token}` } }
