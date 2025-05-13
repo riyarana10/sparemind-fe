@@ -164,7 +164,7 @@ const NewArrivalParts = ({ token }) => {
                         ₹{formatPrice(product.original_part_price)}
                       </p>
                     </div>
-                    <div>
+                    <div className="read-more">
                       <p className="item-code">Parts Description</p>
                       <p
                         className={`price description ${
