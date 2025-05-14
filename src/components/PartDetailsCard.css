@@ -112,7 +112,7 @@
 
 .part-actions {
   flex: 1;
-  padding: 32px 35px;
+  padding: 15% 8%;
   background-color: #f8f8f8;
   display: flex;
   flex-direction: column;
@@ -120,7 +120,7 @@
   border-radius: 8px;
 }
 
-.action-item-location{
+.action-item-location {
   margin-top: 20px;
 }
 
@@ -204,7 +204,7 @@
   cursor: pointer;
   transition: background-color 0.2s;
   margin-top: auto;
-  width: 100%;
+  width: 90%;
 }
 
 .download-button:hover {
@@ -260,6 +260,17 @@
 @media (max-width: 900px) {
   .part-details-card {
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .part-details {
+    padding: 32px;
+  }
+
+  .product-details-container {
+    margin: 0px;
+    padding: 16px;
   }
 
   .part-actions {
@@ -310,13 +321,13 @@
     gap: 15px;
   }
 
-  .part-details{
+  .part-details {
     padding: 0px 20px;
   }
 
   .part-image-container {
     flex: 0 0 auto;
-    width:85%;
+    width: 85%;
     height: auto;
     max-height: 200px;
   }
