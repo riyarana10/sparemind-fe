@@ -62,8 +62,7 @@
 .replacement-card {
   border: 1px solid #e1e1e1;
   border-radius: 8px;
-  padding: 20px;
-  margin: 15px 0;
+  padding: 30px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   font-family: Arial, sans-serif;
 }
@@ -172,29 +171,31 @@
   display: grid;
   /* grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); */
   gap: 20px;
+  font-family: IBM Plex Sans Condensed;
 }
 
 .spec-block {
-  background: #f9f9f9;
+  background: #ffffff;
   border-radius: 6px;
-  padding: 15px;
 }
 
 .spec-block h4 {
   margin-top: 0;
-  margin-bottom: 10px;
-  font-size: 1rem;
+  margin-bottom: 6px;
+  font-size: 18px;
+  line-height: 140%;
+  font-weight: 500;
 }
 
 .spec-block ul {
   margin: 0;
-  padding-left: 20px;
+  list-style-type: none;
 }
 
 .spec-block li {
-  margin-bottom: 8px;
+  margin-bottom: 6px;
   line-height: 1.4;
-  color: #555;
+  color: #000000;
 }
 
 .negative {

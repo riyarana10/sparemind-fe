@@ -4,6 +4,7 @@ import axios from "axios";
 import noImage from "../../assets/img/No_image1.png";
 import "./NewArrivalParts.css";
 import { Spin } from "antd";
+import baseUrl from "../../services/base-url";
 
 const formatPrice = (price) => {
   const num = typeof price === "string" ? parseFloat(price) : price;
@@ -38,7 +39,7 @@ const NewArrivalParts = ({ token }) => {
       try {
         setIsLoadingCategory(true);
         const resp = await axios.get(
-          "/api/categories?size=3",
+          "${baseUrl}/categories?size=3",
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setRecentCategories(resp.data.categories || []);
@@ -68,7 +69,7 @@ const NewArrivalParts = ({ token }) => {
         const responses = await Promise.all(
           codes.map((code) => {
             return axios.get(
-              `/api/search?original_part_item_code=${encodeURIComponent(
+              `${baseUrl}/search?original_part_item_code=${encodeURIComponent(
                 code
               )}`,
               { headers: { Authorization: `Bearer ${token}` } }

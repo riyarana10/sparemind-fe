@@ -4,6 +4,7 @@ import axios from "axios";
 import noImage from "../../assets/img/No_image1.png"
 import './CategoryPage.css';
 import ChatBot from '../../components/Chatbot/ConversationBot';
+import baseUrl from "../../services/base-url";
 
 const CategoryPage = () => {
   const { name } = useParams();
@@ -25,7 +26,7 @@ const CategoryPage = () => {
       setError("");
       try {
         const resp = await axios.get(
-          `/api/search_by_category?category=${encodeURIComponent(
+          `${baseUrl}/search_by_category?category=${encodeURIComponent(
             name
           )}&size=100`,
           {

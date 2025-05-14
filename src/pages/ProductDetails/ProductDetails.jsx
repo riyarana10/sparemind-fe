@@ -10,7 +10,7 @@ import SearchBar from "../../components/SearchBar";
 import { pdfLinks } from "../../productConstants";
 import { formatPrice } from "../../productUtils";
 import ChatBot from "../../components/Chatbot/ConversationBot";
-
+import baseUrl from "../../services/base-url";
 
 const ProductDetails = () => {
   const { code } = useParams();
@@ -52,7 +52,7 @@ const ProductDetails = () => {
     setProductState((prev) => ({ ...prev, loading: true, error: "" }));
 
     axios
-      .get(`/api/search_exact?q=${encodeURIComponent(code)}`, {
+      .get(`${baseUrl}/search_exact?q=${encodeURIComponent(code)}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
@@ -85,7 +85,7 @@ const ProductDetails = () => {
     setProductState((prev) => ({ ...prev, busy: true }));
     try {
       await axios.post(
-        "/api/decision",
+        "${baseUrl}/decision",
         {
           original_part_item_code: original.original_part_item_code,
           replacement_part_item_code: "",

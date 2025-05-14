@@ -91,7 +91,7 @@ const PartDetailsCard = ({
             <div className="detail-group">
               <span className="detail-label">PartsGenie Category</span>
               <span className="detail-value">
-                <p className="item-value">
+                <div className="item-value">
                   {(partData.category || "Uncategorized")
                     .split(" ")
                     .map(
@@ -100,7 +100,7 @@ const PartDetailsCard = ({
                         word.slice(1).toLowerCase()
                     )
                     .join(" ")}
-                </p>
+                </div>
               </span>
             </div>
             <div className="detail-group">
@@ -203,7 +203,7 @@ const PartDetailsCard = ({
                 : "Out of stock"}
             </div>
           </div>
-          <div className="action-item">
+          <div className="action-item action-item-location">
             <div className="location-wrapper flex items-center space-x-4">
               <img
                 src={location}

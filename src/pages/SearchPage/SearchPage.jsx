@@ -3,6 +3,7 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 import noImage from "../../assets/img/No_image1.png";
 import axios from "axios";
 import "./SearchPage.css";
+import baseUrl from "../../services/base-url";
 
 export default function SearchPage() {
   const [params] = useSearchParams();
@@ -54,7 +55,7 @@ export default function SearchPage() {
     setError("");
 
     axios
-      .get(`/api/search_exact?q=${encodeURIComponent(q)}`, {
+      .get(`${baseUrl}/search_exact?q=${encodeURIComponent(q)}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
@@ -66,7 +67,7 @@ export default function SearchPage() {
           return null;
         }
         return axios.get(
-          `/api/search_all?query=${encodeURIComponent(q)}`,
+          `${baseUrl}/search_all?query=${encodeURIComponent(q)}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
       })
