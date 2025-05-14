@@ -3,7 +3,5 @@
   font-family: "IBM Plex Sans", sans-serif;
 }
 
-:where(.css-1v5z42l).ant-select-outlined:not(.ant-select-customize-input) .ant-select-selector{
-  border: none !important;
-}
+
 
