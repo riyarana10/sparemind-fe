@@ -117,3 +117,8 @@
   background-color: #e0e0e0;
 }
 
+.decision-badge.commented {
+  background-color: #e2e8f0; /* Light gray */
+  color: #4a5568; /* Dark gray */
+  border: 1px solid #cbd5e0;
+}

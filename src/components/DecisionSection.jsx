@@ -6,35 +6,53 @@ const DecisionSection = ({
   replacement,
   decision,
   lastComment,
-  role, // This should be passed from parent component
+  role,
   onDecision,
   onReview,
 }) => {
   const [commentText, setCommentText] = useState("");
   const [busy, setBusy] = useState(false);
 
-  const handleSubmit = async (accepted, rejected) => {
+  const [userComments, setUserComments] = useState([]); // Track user comments
+
+  const canMakeDecisions = ["manager", "admin"].includes(role);
+  const isUser = role === "user";
+
+  const handleSubmit = async (accepted = false, rejected = false) => {
     setBusy(true);
     try {
-      const result = await onDecision(
-        original,
-        accepted,
-        rejected,
-        commentText,
-        replacement
-      );
-      if (result?.success !== false) {
-        setCommentText(""); // Clear only on successful save
-      } else {
-        alert("Failed to save decision.");
+      await onDecision(original, accepted, rejected, commentText, replacement);
+      if (isUser) {
+        setUserComments([...userComments, commentText]); // Save user comment
       }
+      setCommentText("");
     } catch (err) {
       console.error(err);
-      alert("Error occurred while saving.");
+      alert("Failed to submit.");
     } finally {
       setBusy(false);
     }
   };
+
+  // Textarea behavior (always enabled for users)
+  const textareaProps = {
+    className: "comment-box",
+    placeholder: isUser
+      ? "Press Enter to submit your comment"
+      : "Add a comment to accept/reject the replacement",
+    value: commentText,
+    onChange: (e) => setCommentText(e.target.value),
+    disabled: !isUser && (!!decision || busy), // Only disable for managers/admins
+  };
+
+  if (isUser) {
+    textareaProps.onKeyDown = (e) => {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        if (commentText.trim()) handleSubmit(false, false);
+      }
+    };
+  }
 
   const handleReview = async () => {
     setBusy(true);
@@ -49,71 +67,80 @@ const DecisionSection = ({
     }
   };
 
-  // Determine if buttons should be disabled
-  const isUser = role === "user";
-  const showDecisionButtons = !isUser && (role == "manager" || role == "admin");
-
   return (
     <div className="decision-section">
+      {/* <div className="role-display">Current Role: {role}</div> */}
+
       <h4 className="comment-heading">
-        Please share your thoughts about the replacement
+        {isUser
+          ? "Please share your thoughts about the replacement"
+          : "Please share your thoughts about the replacement"}
       </h4>
 
-      <div className="comment-box-section">
-        <textarea
-          className="comment-box"
-          placeholder={
-            isUser
-              ? "Add your comments about the replacement"
-              : "Add a comment to accept or reject the replacement"
-          }
-          value={commentText}
-          onChange={(e) => setCommentText(e.target.value)}
-          disabled={!!decision || busy}
-        />
-      </div>
-
-      {decision === null ? (
-        <div className="decision-buttons">
-          {showDecisionButtons ? (
-            <>
-              <button
-                className="accept-button"
-                onClick={() => handleSubmit(true, false)}
-                disabled={busy}
-              >
-                Accept
-              </button>
-              <button
-                className="reject-button"
-                onClick={() => handleSubmit(false, true)}
-                disabled={busy}
-              >
-                Reject
-              </button>
-            </>
-          ) : (
-            <div className="user-message">
-              {/* {isUser && "Only managers/admins can make decisions"} */}
-            </div>
-          )}
+      {/* {decision === null && lastComment && (
+        <div className="saved-comment">
+          <strong>Last comment:</strong> {lastComment}
         </div>
-      ) : (
-        <div className="decision-status">
-          <span className={`decision-badge ${decision}`}>
-            {decision === "accepted" ? "✔ Accepted" : "✘ Rejected"}
-          </span>
-          {showDecisionButtons && (
-            <button
-              className="review-button"
-              onClick={handleReview}
-              disabled={busy}
-            >
-              Review
-            </button>
-          )}
+      )} */}
+
+      {/* Show user's comment history */}
+      {isUser && userComments.length > 0 && (
+        <div className="comment-history">
+          <strong>Your comments:</strong>
+          {userComments.map((comment, i) => (
+            <div key={i} className="user-comment">
+              ✔ {comment}
+            </div>
+          ))}
         </div>
       )}
+
+      <div className="comment-box-section">
+        <textarea {...textareaProps} />
+      </div>
+
+      {/* Decision buttons (managers/admins only) */}
+      {!isUser &&
+        (decision === null ? (
+          <div className="decision-buttons">
+            {canMakeDecisions && (
+              <>
+                <button
+                  className="accept-button"
+                  onClick={() => handleSubmit(true, false)}
+                  disabled={busy}
+                >
+                  Accept
+                </button>
+                <button
+                  className="reject-button"
+                  onClick={() => handleSubmit(false, true)}
+                  disabled={busy}
+                >
+                  Reject
+                </button>
+              </>
+            )}
+          </div>
+        ) : (
+          <div className="decision-status">
+            <span className={`decision-badge ${decision}`}>
+              {decision === "accepted" ? "✔ Accepted" : "✘ Rejected"}
+            </span>
+            {canMakeDecisions && (
+              <button
+                className="review-button"
+                onClick={() => {
+                  onReview(original, replacement);
+                  setCommentText("");
+                }}
+                disabled={busy}
+              >
+                Review
+              </button>
+            )}
+          </div>
+        ))}
     </div>
   );
 };
