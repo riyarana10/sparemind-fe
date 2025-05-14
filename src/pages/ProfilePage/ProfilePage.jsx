@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./ProfilePage.css";
 import BreadcrumbNav from "../../components/BreadcrumbNav";
+import baseUrl from "../../services/base-url";
 
 export default function ProfilePage() {
   const navigate = useNavigate();
@@ -18,10 +19,10 @@ export default function ProfilePage() {
   useEffect(() => {
     const url =
       role === "user"
-        ? `/api/transactions?user_id=${encodeURIComponent(
+        ? `${baseUrl}/transactions?user_id=${encodeURIComponent(
             userId
           )}&size=100`
-        : `/api/transactions?size=100`;
+        : `${baseUrl}/transactions?size=100`;
     axios
       .get(url, { headers: { Authorization: `Bearer ${token}` } })
       .then((res) => setTxns(res.data.transactions || []))

@@ -5,6 +5,7 @@ import axios from "axios";
 import { Button, Drawer, Dropdown, Menu } from "antd";
 import partsGenieLogo from "../../assets/img/partsGenieLogo.svg";
 import "./Navbar.css";
+import baseUrl from "../../services/base-url";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -25,7 +26,7 @@ const Navbar = () => {
     }
     const handle = setTimeout(async () => {
       try {
-        const url = `/api/autocomplete?query=${encodeURIComponent(
+        const url = `${baseUrl}/autocomplete?query=${encodeURIComponent(
           searchTerm
         )}`;
         const config = token

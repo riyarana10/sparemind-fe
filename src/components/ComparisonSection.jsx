@@ -47,7 +47,7 @@ const ComparisonSection = ({
     try {
       const token = localStorage.getItem("access_token");
       await axios.post(
-        "/api/decision",
+        "${baseUrl}/decision",
         {
           original_part_item_code: original.original_part_item_code,
           replacement_part_item_code: replacement.replacement_part_item_code,
@@ -129,7 +129,7 @@ const ComparisonSection = ({
 
                 <div className="card-content">
                   <h3 className="rep-name">{rep.replacement_part_name}</h3>
-                  <p style={{ marginBottom: "1rem" }}>
+                  <p style={{ marginBottom: "21px" }}>
                     <span style={{ fontSize: "0.875rem", color: "#6B7280" }}>
                       Item Code:
                     </span>
@@ -201,7 +201,7 @@ const ComparisonSection = ({
                         fontWeight: 600,
                         color: "#000000",
                         gap: "0.75rem",
-                        marginBottom: "1rem", // Add this line for space below
+                        margin: "1rem", // Add this line for space below
                       }}
                     >
                       <img

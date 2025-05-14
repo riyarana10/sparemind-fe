@@ -2,24 +2,22 @@
 
 /* Base container styles */
 .product-details-container {
-  max-width: 1400px; /* Adjust as needed */
-  margin: 0 auto;
-  padding: 2rem;
+  max-width: 1400px; 
+  margin: 0 47px;
   width: 100%;
 }
 
 /* Main content area */
-.main-content {
+/* .main-content {
   width: 100%;
   background: white;
   border-radius: 0.5rem;
   box-shadow: var(--shadow-medium);
   padding: 2rem;
-}
+} */
 
 /* Product card styling */
 .product-card {
-  margin-bottom: 2rem;
   border: 1px solid var(--color-border);
   border-radius: var(--border-radius);
   overflow: hidden;

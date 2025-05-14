@@ -3,6 +3,7 @@ import "./SearchBar.css";
 import { FaSearch } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import baseUrl from "../services/base-url";
 
 const SearchBar = () => {
   const navigate = useNavigate();
@@ -41,7 +42,7 @@ const SearchBar = () => {
 
     const delayDebounce = setTimeout(async () => {
       try {
-        const url = `/api/autocomplete?query=${encodeURIComponent(
+        const url = `${baseUrl}/autocomplete?query=${encodeURIComponent(
           searchTerm
         )}`;
         const config = token

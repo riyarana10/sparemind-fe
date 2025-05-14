@@ -21,7 +21,7 @@ export default function TextSearchPage() {
       setError("");
       try {
         const resp = await axios.get(
-          `/api/search_text?q=${encodeURIComponent(q)}`,
+          `${baseUrl}/search_text?q=${encodeURIComponent(q)}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setResults(resp.data.results || []);

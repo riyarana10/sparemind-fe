@@ -6,6 +6,7 @@ import axios from "axios";
 import lightImg from "../../assets/img/lightImg.svg";
 import searchIcon from "../../assets/img/searchIcon.svg";
 import "./FindParts.css";
+import baseUrl from "../../services/base-url";
 
 const FindParts = () => {
   const navigate = useNavigate();
@@ -43,7 +44,7 @@ const FindParts = () => {
 
     const delayDebounce = setTimeout(async () => {
       try {
-        const url = `/api/autocomplete?query=${encodeURIComponent(
+        const url = `${baseUrl}/autocomplete?query=${encodeURIComponent(
           searchTerm
         )}`;
         const config = token
