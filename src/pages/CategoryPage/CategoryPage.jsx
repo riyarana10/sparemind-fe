@@ -67,23 +67,26 @@ const CategoryPage = () => {
   };
 
   return (
-    <div style={{ display: "flex" }}>
+        <div style={{ display: "flex" }}>
       <div
         className="category-product-container"
         style={{ width: isOpen ? "70%" : "100%", transition: "width 0.3s" }}
       >
         <h2 className="category-title">
           {name
-            .split(" ")
-            .map(
-              (word) =>
-                word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
-            )
+              .split(" ")
+              .map(
+                (word) =>
+                  word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+              )
             .join(" ")}{" "}
           – Original Parts
         </h2>
         {isLoading ? (
+          <>
           <div style={{ display: "flex", justifyContent: "center", padding: "2rem" }}> <Spin size="large"/> </div> 
+          <p style={{textAlign:"center"}}>Loading original parts</p>
+          </>
         ) : error ? (
           <p className="error-message">{error}</p>
         ) : results.length === 0 ? (
@@ -202,7 +205,10 @@ const CategoryPage = () => {
           – Replacement Parts
         </h2>
         {isLoading ? (
+          <>
           <div style={{ display: "flex", justifyContent: "center", padding: "2rem" }}> <Spin size="large"/> </div> 
+          <p style={{textAlign:"center"}}>Loading replacement parts</p>
+          </>
         ) : error ? (
           <p className="error-message">{error}</p>
         ) : results.length === 0 ? (

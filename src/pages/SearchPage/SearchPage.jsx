@@ -4,6 +4,7 @@ import noImage from "../../assets/img/No_image1.png";
 import axios from "axios";
 import "./SearchPage.css";
 import baseUrl from "../../services/base-url";
+import { Spin } from "antd";
 
 export default function SearchPage() {
   const [params] = useSearchParams();
@@ -86,7 +87,12 @@ export default function SearchPage() {
   }, [q, token]);
 
   if (!q) return <p>Please enter a search term.</p>;
-  if (loading) return <p>Searching for “{q}”…</p>;
+  if (loading) return( 
+    <>
+<div style={{ display: "flex", justifyContent: "center", padding: "2rem", marginTop:"50px" }}> <Spin size="large" tip="Loading parts..." /> </div>
+<p style={{textAlign:"center"}}>Searching for “{q}"</p>
+</>
+);
   if (error) return <p className="error-message">{error}</p>;
 
   const topOriginals = originals.slice(0, 8);
@@ -293,7 +299,7 @@ export default function SearchPage() {
                   }`}
                   key={index}
                   onClick={() =>
-                    navigate(`/category/${encodeURIComponent(cat)}`)
+                    navigate(`/category/${encodeURIComponent(cat.name)}`)
                   }
                 >
                   <div className="category-card-details">

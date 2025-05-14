@@ -26,7 +26,7 @@
     position: fixed;
     top: 97px; /* Offset below the navbar */
     right: 0;
-    width: 30%;
+    width: 26%;
     height: calc(100% - 97px); /* Take rest of the viewport height */
     background-color: #ffffff;
     display: flex;
@@ -222,12 +222,12 @@
   @media (max-width: 1024px) {
     .chatbot-container {
       position: fixed;
-      top: 64px; /* Adjust based on navbar height */
+      top: 96px; /* Adjust based on navbar height */
       left: 0;
       right: 0;
       bottom: 0;
       width: 100vw;
-      height: calc(100vh - 64px); /* Full height minus navbar */
+      height: calc(100vh - 96px); /* Full height minus navbar */
       max-width: 100%; /* Remove max width constraint */
       border-left: none; /* Remove desktop-style border */
       border-top: 1px solid #e0e0e0;

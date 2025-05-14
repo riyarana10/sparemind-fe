@@ -111,9 +111,14 @@ const ProductDetails = () => {
     }
   };
 
-  if (loading) return <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "60vh" }}>
+  if (loading) return (
+    <>
+  <div style={{ display: "flex", justifyContent: "center", alignItems: "center",marginTop:"50px" }}>
   <Spin size="large" tip="Loading part..." />
-  </div>;
+  </div>
+  <p style={{textAlign:"center"}}>Loading product details</p>
+  </>
+  );
   if (error) return <p className="error-message">{error}</p>;
 
   if (!original) {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Typography, Card } from "antd";
+import { Typography, Card, Spin } from "antd";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./AllCategoryPage.css";
@@ -37,10 +37,9 @@ const AllCategoryPage = () => {
     } finally {
       setIsLoadingCategory(false);
     }
-  }
+  };
 
   useEffect(() => {
-
     if (localStorage.getItem("access_token")) fetchCategories();
   }, []);
 
@@ -58,56 +57,64 @@ const AllCategoryPage = () => {
   return (
     <div className="all-categories-page">
       <Card>
-        <h2 className="all-category-heading" onClick={() => setSelectedLetter(null)} style={{cursor:"pointer", color:"#2D3394"}}>All Categories</h2>
+        <Spin spinning={isLoadingCategory}>
+          <h2
+            className="all-category-heading"
+            onClick={() => setSelectedLetter(null)}
+            style={{ cursor: "pointer", color: "#2D3394" }}
+          >
+            All Categories
+          </h2>
 
-        <div className="main-content">
-          <div className="alphabet-nav">
-            {Array.from({ length: 26 }, (_, i) =>
-              String.fromCharCode(65 + i)
-            ).map((char) => (
-              <div
-                key={char}
-                className={getBtnClass(char)}
-                onClick={() =>
-                  availableLetters.has(char) && setSelectedLetter(char)
-                }
-                style={{ letterSpacing: "10px", fontSize: "20px" }}
-              >
-                {char}
-              </div>
-            ))}
+          <div className="main-content">
+            <div className="alphabet-nav">
+              {Array.from({ length: 26 }, (_, i) =>
+                String.fromCharCode(65 + i)
+              ).map((char) => (
+                <div
+                  key={char}
+                  className={getBtnClass(char)}
+                  onClick={() =>
+                    availableLetters.has(char) && setSelectedLetter(char)
+                  }
+                  style={{ letterSpacing: "10px", fontSize: "20px" }}
+                >
+                  {char}
+                </div>
+              ))}
+            </div>
+
+            {letters.map((letter) => {
+              if (selectedLetter && selectedLetter !== letter) return null;
+              return (
+                <section key={letter} className="category-section">
+                  <Title level={5} style={{ fontSize: "20px", color: "#2D3394" }}>
+                    {letter}
+                  </Title>
+                  {grouped[letter]
+                    .sort((a, b) => a.localeCompare(b))
+                    .map((name) => (
+                      <p
+                        key={name}
+                        onClick={() =>
+                          navigate(`/category/${name.toLowerCase()}`)
+                        }
+                        className="product-category-name"
+                        style={{
+                          background: "none",
+                          border: "none",
+                          fontSize: "18px",
+                          cursor: "pointer",
+                        }}
+                      >
+                        {name.toUpperCase()}
+                      </p>
+                    ))}
+                </section>
+              );
+            })}
           </div>
-
-          {letters.map((letter) => {
-            if (selectedLetter && selectedLetter !== letter) return null;
-            return (
-              <section key={letter} className="category-section">
-                <Title level={5} style={{ fontSize: "20px", color:"#2D3394" }}>
-                  {letter}
-                </Title>
-                {grouped[letter]
-                  .sort((a, b) => a.localeCompare(b))
-                  .map((name) => (
-                    <p
-                      key={name}
-                      onClick={() =>
-                        navigate(`/category/${name.toLowerCase()}`)
-                      }
-                      className="product-category-name"
-                      style={{
-                        background: "none",
-                        border: "none",
-                        fontSize: "18px",
-                        cursor: "pointer",
-                      }}
-                    >
-                      {name.toUpperCase()}
-                    </p>
-                  ))}
-              </section>
-            );
-          })}
-        </div>
+        </Spin>
       </Card>
     </div>
   );

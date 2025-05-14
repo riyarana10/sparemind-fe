@@ -104,9 +104,12 @@ const NewArrivalParts = ({ token }) => {
           {/* <a href="/new-arrivals">View All</a> */}
         </div>
         {isLoadingProduct ? (
+          <>
           <div style={{ textAlign: "center", padding: "2rem" }}>
             <Spin size="large" />
           </div>
+          <p style={{textAlign:"center"}}>Loading spare parts</p>
+          </>
         ) : (
           <div className="card-list">
             {recentCodeResults.map((product, index) => {
@@ -212,9 +215,12 @@ const NewArrivalParts = ({ token }) => {
           {/* <a href="/new-arrivals">View All</a> */}
         </div>
         {isLoadingCategory ? (
+          <>
           <div style={{ textAlign: "center", padding: "2rem" }}>
             <Spin size="large" />
           </div>
+          <p style={{textAlign:"center"}}>Loading categories</p>
+          </>
         ) : (
           <div className="category-grid">
             {recentCategories.map((cat, index) => (
