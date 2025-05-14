@@ -5,6 +5,7 @@ import "./ComparisonSection.css";
 import NoImage from ".././assets/img/no_image.jpg";
 import Icon from "../assets/img/Icon.svg"; // adjust path as needed
 import axios from "axios";
+import baseUrl from "../services/base-url";
 
 const token = localStorage.getItem("access_token");
 const payload = token ? JSON.parse(atob(token.split(".")[1])) : {};
@@ -47,7 +48,7 @@ const ComparisonSection = ({
     try {
       const token = localStorage.getItem("access_token");
       await axios.post(
-        "${baseUrl}/decision",
+        `${baseUrl}/decision`,
         {
           original_part_item_code: original.original_part_item_code,
           replacement_part_item_code: replacement.replacement_part_item_code,

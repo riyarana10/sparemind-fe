@@ -85,7 +85,7 @@ const ProductDetails = () => {
     setProductState((prev) => ({ ...prev, busy: true }));
     try {
       await axios.post(
-        "${baseUrl}/decision",
+        `${baseUrl}/decision`,
         {
           original_part_item_code: original.original_part_item_code,
           replacement_part_item_code: "",

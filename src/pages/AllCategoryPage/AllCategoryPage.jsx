@@ -3,6 +3,7 @@ import { Typography, Card } from "antd";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./AllCategoryPage.css";
+import baseUrl from "../../services/base-url";
 
 const { Title } = Typography;
 
@@ -25,7 +26,7 @@ const AllCategoryPage = () => {
   const fetchCategories = async () => {
     try {
       setIsLoadingCategory(true);
-      const resp = await axios.get("${baseUrl}/all-categories", {
+      const resp = await axios.get(`${baseUrl}/all-categories`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },

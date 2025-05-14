@@ -24,7 +24,7 @@
   /* Main container */
   .chatbot-container {
     position: fixed;
-    top: 65px; /* Offset below the navbar */
+    top: 96px; /* Offset below the navbar */
     right: 0;
     width: 100%;
     max-width: 400px;

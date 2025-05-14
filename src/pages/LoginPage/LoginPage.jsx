@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./LoginPage.css";
+import baseUrl from "../../services/base-url";
 
 const setAuthToken = (token) => localStorage.setItem("access_token", token);
 const getAuthToken = () => localStorage.getItem("access_token");
@@ -34,7 +35,7 @@ const LoginPage = () => {
       params.append("username", username);
       params.append("password", password);
 
-      const res = await axios.post("${baseUrl}/login", params, {
+      const res = await axios.post(`${baseUrl}/login`, params, {
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
       });
 

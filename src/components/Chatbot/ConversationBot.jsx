@@ -5,6 +5,7 @@ import partsgenieLogo from "../../assets/img/partsGenieLogo.svg";
 import bgImage from "../../assets/img/homePageBG.svg";
 import chatbotHomeLogo from "../../assets/img/chatbotHomeLogo.png";
 import botImage from "../../assets/img/bot_image.png";
+import baseUrl from "../../services/base-url";
 import "./bot.css";
 
 const ChatBot = ({ isOpen, setIsOpen, stage, setStage, toggleChat }) => {
@@ -52,7 +53,7 @@ const ChatBot = ({ isOpen, setIsOpen, stage, setStage, toggleChat }) => {
     if (location.pathname.startsWith("/dashboard")) {
       setIsLoading(false);
       try {
-        const res = await fetch("${baseUrl}/vanaa_chat/history", {
+        const res = await fetch(`${baseUrl}/vanaa_chat/history`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -72,7 +73,7 @@ const ChatBot = ({ isOpen, setIsOpen, stage, setStage, toggleChat }) => {
       }
     } else {
       try {
-        const res = await fetch("${baseUrl}/chat/history", {
+        const res = await fetch(`${baseUrl}/chat/history`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -113,7 +114,7 @@ const ChatBot = ({ isOpen, setIsOpen, stage, setStage, toggleChat }) => {
     clearFrontendChat();
     if (location.pathname.startsWith("/dashboard")) {
       try {
-        const res = await fetch("${baseUrl}/vanna_chat/reset", {
+        const res = await fetch(`${baseUrl}/vanna_chat/reset`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -132,7 +133,7 @@ const ChatBot = ({ isOpen, setIsOpen, stage, setStage, toggleChat }) => {
       }
     } else {
       try {
-        const res = await fetch("${baseUrl}/chat/reset", {
+        const res = await fetch(`${baseUrl}/chat/reset`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -161,7 +162,7 @@ const ChatBot = ({ isOpen, setIsOpen, stage, setStage, toggleChat }) => {
 
     if (location.pathname.startsWith("/dashboard")) {
       try {
-        const res = await fetch("${baseUrl}/vanna-chat", {
+        const res = await fetch(`${baseUrl}/vanna-chat`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -195,7 +196,7 @@ const ChatBot = ({ isOpen, setIsOpen, stage, setStage, toggleChat }) => {
       }
     } else {
       try {
-        const res = await fetch("${baseUrl}/chat", {
+        const res = await fetch(`${baseUrl}/chat`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
