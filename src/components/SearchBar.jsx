@@ -4,6 +4,7 @@ import { FaSearch } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import baseUrl from "../services/base-url";
+import searchIcon from "../assets/img/searchIcon.svg"
 
 const SearchBar = () => {
   const navigate = useNavigate();
@@ -89,7 +90,7 @@ const SearchBar = () => {
   return (
     <div className="search-container" ref={wrapperRef}>
       <div className="search-input-wrapper">
-        <FaSearch className="search-icon" />
+        <img style={{width : "24px", height:"24px"}} src={searchIcon}/>
         <input
           type="text"
           placeholder={placeholderText}

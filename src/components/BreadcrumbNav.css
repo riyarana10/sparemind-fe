@@ -1,10 +1,12 @@
 .breadcrumb-nav {
   font-size: 15px;
-  margin: 8px 31px;
-  color: #444;
+  margin: 23px 40px;
+  color: #000000;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+  font-weight: 400;
+  font-family: IBM Plex Sans Condensed;
 }
 
 .breadcrumb-item {
