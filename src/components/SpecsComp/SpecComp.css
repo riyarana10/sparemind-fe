@@ -67,7 +67,7 @@
 
 .replacement-card {
   border: 1px solid #e1e1e1;
-  border-radius: 8px;
+  border-radius: 24px;
   padding: 30px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   font-family: Arial, sans-serif;
@@ -231,7 +231,7 @@
 .difference-item {
   margin-bottom: 18px;
   padding: 15px;
-  border-radius: 6px;
+  border-radius: 16px;
   background: #f8fafc;
 }
 
@@ -366,7 +366,7 @@ td {
 .savings-value {
   font-size: 0.85rem;
   font-weight: 500;
-  padding: 2px 6px;
+  padding: 10px 12px;
   border-radius: 20px;
 }
 
@@ -378,6 +378,7 @@ td {
 .savings-value.negative {
   color: #c62828;
   background-color: #ffebee;
+  padding: 10px 12px;
 }
 
 .spec-header {
