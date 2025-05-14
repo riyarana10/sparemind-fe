@@ -38,8 +38,8 @@ const DecisionSection = ({
   const textareaProps = {
     className: "comment-box",
     placeholder: isUser
-      ? "Press Enter to submit your comment"
-      : "Add a comment to accept/reject the replacement",
+      ? "Add a comment to accept or reject the replacement"
+      : "Add a comment to accept or reject the replacement",
     value: commentText,
     onChange: (e) => setCommentText(e.target.value),
     disabled: !isUser && (!!decision || busy), // Only disable for managers/admins
@@ -84,7 +84,7 @@ const DecisionSection = ({
       )} */}
 
       {/* Show user's comment history */}
-      {isUser && userComments.length > 0 && (
+      {/* {isUser && userComments.length > 0 && (
         <div className="comment-history">
           <strong>Your comments:</strong>
           {userComments.map((comment, i) => (
@@ -93,7 +93,7 @@ const DecisionSection = ({
             </div>
           ))}
         </div>
-      )}
+      )} */}
 
       <div className="comment-box-section">
         <textarea {...textareaProps} />
