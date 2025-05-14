@@ -75,6 +75,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    text-align: center;
   }
   
   .stock-yellow {
@@ -83,6 +84,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    text-align: center;
   }
   
   .stock-orange {
@@ -91,6 +93,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    text-align: center;
   }
   
   .category-product-replacement-tag {
@@ -103,6 +106,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    text-align: center;
   }
   
   .view-details-button {
