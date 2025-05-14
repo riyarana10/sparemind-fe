@@ -276,16 +276,22 @@ const ChatBot = ({ isOpen, setIsOpen, stage, setStage, toggleChat }) => {
               </div>
 
               <div className="stage-buttons">
-                <button onClick={handleContinue} disabled={isNewChatLoading}>
-                  Continue
-                </button>
-                <button
-                  onClick={handleNewChat}
-                  disabled={isExistingChatLoading}
-                >
-                  New
-                </button>
-              </div>
+  <button onClick={handleContinue} disabled={isExistingChatLoading || isNewChatLoading}>
+    {isExistingChatLoading ? (
+      <div className="spinner"></div>
+    ) : (
+      "Continue"
+    )}
+  </button>
+  <button onClick={handleNewChat} disabled={isNewChatLoading || isExistingChatLoading}>
+    {isNewChatLoading ? (
+      <div className="spinner"></div>
+    ) : (
+      "New"
+    )}
+  </button>
+</div>
+
             </div>
           ) : (
             <>

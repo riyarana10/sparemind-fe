@@ -88,11 +88,11 @@ const PartDetailsCard = ({
               </span>
             </div>
           </div>
-          <div className="detail-row double-column">
+          <div className="detail-row double-column" style={{display:"flex", flexDirection:"row", gap:"30px"}}>
             <div className="detail-group">
               <span className="detail-label">PartsGenie Category</span>
               <span className="detail-value">
-                <div className="item-value">
+                <div className="">
                   {(partData.category || "Uncategorized")
                     .split(" ")
                     .map(
@@ -211,9 +211,9 @@ const PartDetailsCard = ({
                 alt="Location"
                 className="location-icon w-10 h-10 text-gray-500"
               />
-              <div>
-                <p className="text-gray-500 text-sm font-sans">Location</p>
-                <p className="font-sans font-extrabold text-gray-900 text-base leading-tight">
+              <div style={{fontFamily:"IBM Plex Sans Condensed"}}>
+                <p className="text-gray-500 text-sm font-sans" style={{fontSize:"16px", fontWeight:"400", color:"#000000", opacity:"50%"}}>Location</p>
+                <p className="font-sans font-extrabold text-gray-900 text-base leading-tight" style={{fontSize:"18px", fontWeight:"700"}}> 
                   {partData.location || "N/A"}
                 </p>
               </div>
