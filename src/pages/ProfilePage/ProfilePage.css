@@ -1,13 +1,13 @@
 /* ProfilePage.css */
 
-.profile-container {
+/* .profile-container {
   max-width: 800px;
   margin: 1.5rem auto;
   padding: 1rem;
   background: #fff;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
+} */
 
 .back-button {
   background: none;
@@ -92,11 +92,11 @@ h2 {
 }
 
 /* Profile page tweaks */
-.profile-container {
+/* .profile-container {
   max-width: 800px;
   margin: 0 auto;
   padding: 1rem;
-}
+} */
 
 .profile-card {
   margin-bottom: 1.5rem;
@@ -132,14 +132,14 @@ h2 {
   margin-bottom: 0.25rem;
 }
 
-.profile-container {
+/* .profile-container {
   max-width: 800px;
   margin: 2.5rem auto;
   background: #fff;
   padding: 1.5rem 2rem;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-}
+} */
 
 .back-button {
   background: #2780e3;
@@ -190,8 +190,7 @@ h2 {
 }
 
 .profile-container {
-  max-width: 900px;
-  margin: 2rem auto;
+  margin: 20px 40px;
   background: #ffffff;
   padding: 2rem;
   border-radius: 8px;
@@ -217,14 +216,14 @@ h2 {
 
 .profile-stats {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   flex-wrap: wrap;
   margin: 1rem 0;
   font-size: 1.1rem;
+  padding: 20px 0px;
 }
 
 .section-title {
-  margin-top: 2rem;
   font-size: 1.4rem;
   border-bottom: 2px solid #ddd;
   padding-bottom: 0.25rem;

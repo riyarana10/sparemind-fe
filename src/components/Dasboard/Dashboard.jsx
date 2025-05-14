@@ -15,13 +15,13 @@ const Dashboard = () => {
   };
   return (
     <div style={{ display: "flex" }}>
-      <div style={{ width: isOpen ? "70%" : "100%",height:"100vh", transition: "width 0.3s" }}>
+      <div style={{ width: isOpen ? "74%" : "100%", transition: "width 0.3s" }}>
         <div className="dashboard-content">
           <div className="dashboard-widgets">
             <iframe
               title="Maruti Dashboard"
               width="100%"
-              height="100%"
+              height="750"
               src="https://app.powerbi.com/reportEmbed?reportId=0e762fc3-6c90-48a8-9801-be2b507eb729&autoAuth=true&ctid=85a77b6c-a790-4bcf-8fd6-c1f891dd360b"
               frameborder="0"
               allowFullScreen="true"
@@ -37,7 +37,7 @@ const Dashboard = () => {
       )}
       <div
         style={{
-          width: isOpen ? "30%" : "0",
+          width: isOpen ? "25%" : "0",
           transition: "width 0.3s",
           display: "flex",
           flexDirection: "column",

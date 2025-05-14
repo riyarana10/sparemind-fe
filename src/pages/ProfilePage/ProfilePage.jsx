@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import "./ProfilePage.css";
 import BreadcrumbNav from "../../components/BreadcrumbNav";
 import baseUrl from "../../services/base-url";
+import { Spin } from "antd";
 
 export default function ProfilePage() {
   const navigate = useNavigate();
@@ -44,8 +45,11 @@ export default function ProfilePage() {
 
   if (loading) {
     return (
-      <div className="profile-container">
-        <p>Loading…</p>
+      <div
+        style={{ display: "flex", justifyContent: "center", padding: "2rem" }}
+      >
+        {" "}
+        <Spin size="large" tip="Loading profile..." />{" "}
       </div>
     );
   }
@@ -59,74 +63,76 @@ export default function ProfilePage() {
       .filter((t) => t.status === "accepted")
       .reduce((sum, t) => sum + (t.price_difference || 0), 0);
 
-    return (<>
-      <div style={{ marginTop: "10px" }}>
-        <BreadcrumbNav />
-      </div>
-      <div className="profile-container">
-        <button className="back-button" onClick={() => navigate(-1)}>
+    return (
+      <>
+        <div style={{ marginTop: "10px" }}>
+          <BreadcrumbNav />
+        </div>
+        <div className="profile-container">
+          {/* <button className="back-button" onClick={() => navigate(-1)}>
           ← Back
-        </button>
-        <h1 className="profile-title">My Profile</h1>
-        <div className="profile-stats">
-          <div>
-            <strong>Username:</strong> {username}
+        </button> */}
+          <h1 className="profile-title">MY PROFILE</h1>
+          <div className="profile-stats">
+            <div>
+              <strong>Username:</strong> {username}
+            </div>
+            <div>
+              <strong>Accepted:</strong> {accepted}
+            </div>
+            <div>
+              <strong>Rejected:</strong> {rejected}
+            </div>
+            <div>
+              <strong>Comments:</strong> {commented}
+            </div>
+            <div>
+              <strong>Total Savings:</strong> ₹{fmtMoney(totalSavings)}
+            </div>
           </div>
-          <div>
-            <strong>Accepted:</strong> {accepted}
-          </div>
-          <div>
-            <strong>Rejected:</strong> {rejected}
-          </div>
-          <div>
-            <strong>Comments:</strong> {commented}
-          </div>
-          <div>
-            <strong>Total Savings:</strong> ₹{fmtMoney(totalSavings)}
-          </div>
-        </div>
-        <h2 className="section-title">History</h2>
-        <div className="txn-table-container">
-          <table className="txn-table">
-            <thead>
-              <tr>
-                <th>Time</th>
-                <th>Original → Replacement</th>
-                <th>Status</th>
-                <th>Savings</th>
-                <th>Comment</th>
-              </tr>
-            </thead>
-            <tbody>
-              {txns.map((d, i) => (
-                <tr key={i}>
-                  <td>{new Date(d.updated_at).toLocaleString()}</td>
-                  <td>
-                    {d.original_part_item_code} → {d.replacement_part_item_code}
-                  </td>
-                  <td
-                    className={
-                      d.status === "accepted"
-                        ? "accepted-cell"
-                        : d.status === "rejected"
-                        ? "rejected-cell"
-                        : ""
-                    }
-                  >
-                    {d.status}
-                  </td>
-                  <td>
-                    {d.status === "accepted"
-                      ? `₹${fmtMoney(d.price_difference)}`
-                      : "-"}
-                  </td>
-                  <td className="comment-cell">{d.comment || "-"}</td>
+          <h2 className="section-title">History</h2>
+          <div className="txn-table-container">
+            <table className="txn-table">
+              <thead>
+                <tr>
+                  <th>Time</th>
+                  <th>Original → Replacement</th>
+                  <th>Status</th>
+                  <th>Savings</th>
+                  <th>Comment</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {txns.map((d, i) => (
+                  <tr key={i}>
+                    <td>{new Date(d.updated_at).toLocaleString()}</td>
+                    <td>
+                      {d.original_part_item_code} →{" "}
+                      {d.replacement_part_item_code}
+                    </td>
+                    <td
+                      className={
+                        d.status === "accepted"
+                          ? "accepted-cell"
+                          : d.status === "rejected"
+                          ? "rejected-cell"
+                          : ""
+                      }
+                    >
+                      {d.status}
+                    </td>
+                    <td>
+                      {d.status === "accepted"
+                        ? `₹${fmtMoney(d.price_difference)}`
+                        : "-"}
+                    </td>
+                    <td className="comment-cell">{d.comment || "-"}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
-      </div>
       </>
     );
   }

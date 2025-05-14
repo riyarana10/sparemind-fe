@@ -221,6 +221,13 @@
     overflow-y: auto;
   }
 
+  .no-result-title{
+    text-align: center;
+    margin-top: 20px;
+    font-size: 18px;
+    font-weight: 600;
+  }
+
 @keyframes spin {
   0% {
     transform: rotate(0deg);
