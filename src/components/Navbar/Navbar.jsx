@@ -91,6 +91,13 @@ const Navbar = () => {
     navigate(`/${e.key}`);
   };
 
+  const getSelectedKey = () => {
+    if (location.pathname === "/") return "home";
+    if (location.pathname.includes("all-categories")) return "all-categories";
+    if (location.pathname.includes("dashboard")) return "dashboard";
+    return "";
+  };
+
   const handleAccountClick = (e) => {
     setVisible(false);
     if (e.key === "logout") {
@@ -115,6 +122,7 @@ const Navbar = () => {
               items={navItems}
               className="nav-menu-items"
               onClick={handleNavClick}
+              selectedKeys={[getSelectedKey()]}
             />
           </div>
         </div>
@@ -145,6 +153,7 @@ const Navbar = () => {
               items={navItems}
               className="nav-menu-items"
               onClick={handleNavClick}
+              selectedKeys={[getSelectedKey()]}
             />
             <div className="drawer-account">
               <Dropdown
