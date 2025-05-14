@@ -257,7 +257,7 @@ const ComparisonSection = ({
                   </div>
 
                   <SpecsComparison
-                    originalSpecs={original.original_specs}
+                    originalSpecs={rep.original_specs}
                     replacementSpecs={rep.replacement_specs}
                     originalPart={original}
                     replacementPart={rep}
