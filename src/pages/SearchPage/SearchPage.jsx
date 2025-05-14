@@ -202,75 +202,78 @@ export default function SearchPage() {
 
     <div>
       <div className="new-arrivals-container">
-        <div className="new-arrivals-header">
-          <h2>Original Parts</h2>
-        </div>
         {isLoadingProduct ? (
           <p>Loading products…</p>
-        ) : (
-          <div className="card-list">
-            {topOriginals.map((product, index) => (
-              <div
-                className={`search-card ${
-                  topOriginals.length === 1 ? "single-card" : ""
-                }`}
-                key={index}
-                onClick={() => handleView(product, "original")}
-              >
-                <img
-                  src={
-                    product.original_part_image === null
-                      ? noImage
-                      : product.original_part_image
-                  }
-                  style={{ width: "100px", height: "100px" }}
-                  alt={product.title}
-                />
-                <div className="product-details">
-                  <h3>
-                    {product.original_part_name},{" "}
-                    {product.category.replace(/\b\w/g, (char) =>
-                      char.toUpperCase()
-                    )}
-                    , {product.brand}
-                  </h3>
-                  <div>
-                    <p className="item-code">Item Code</p>
-                    <p className="item-value">
-                      {product.original_part_item_code}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="item-code">Location</p>
-                    <p className="item-value">
-                      {product.original_part_location}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="item-code">Stock</p>
-                    <p className="item-value">
-                      {product.original_part_stock}{" "}
-                      {product.original_part_stock > 1 ? "Units" : "Unit"}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="item-code">Price</p>
-                    <p className="price">
-                      Rs. {formatPrice(product.original_part_price)}
-                    </p>
-                  </div>
-                  <Description
-                    text={product.original_part_name_breakdown_definition}
+        ) : topOriginals.length > 0 ? (
+          <>
+            <div className="new-arrivals-header">
+              <h2>Original Parts</h2>
+            </div>
+            <div className="card-list">
+              {topOriginals.map((product, index) => (
+                <div
+                  className={`search-card ${
+                    topOriginals.length === 1 ? "single-card" : ""
+                  }`}
+                  key={index}
+                  onClick={() => handleView(product, "original")}
+                >
+                  <img
+                    src={
+                      product.original_part_image === null
+                        ? noImage
+                        : product.original_part_image
+                    }
+                    style={{ width: "100px", height: "100px" }}
+                    alt={product.title}
                   />
-
-                  <div>
-                    <p className="item-code">Brand</p>
-                    <span className="price">{product.brand}</span>
+                  <div className="product-details">
+                    <h3>
+                      {product.original_part_name},{" "}
+                      {product.category.replace(/\b\w/g, (char) =>
+                        char.toUpperCase()
+                      )}
+                      , {product.brand}
+                    </h3>
+                    <div>
+                      <p className="item-code">Item Code</p>
+                      <p className="item-value">
+                        {product.original_part_item_code}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="item-code">Location</p>
+                      <p className="item-value">
+                        {product.original_part_location}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="item-code">Stock</p>
+                      <p className="item-value">
+                        {product.original_part_stock}{" "}
+                        {product.original_part_stock > 1 ? "Units" : "Unit"}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="item-code">Price</p>
+                      <p className="price">
+                        Rs. {formatPrice(product.original_part_price)}
+                      </p>
+                    </div>
+                    <Description
+                      text={product.original_part_name_breakdown_definition}
+                    />
+                    <div>
+                      <p className="item-code">Brand</p>
+                      <span className="price">{product.brand}</span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          </>
+        ) : (
+          <p>No parts found</p>
         )}
       </div>
 
