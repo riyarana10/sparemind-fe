@@ -1,5 +1,9 @@
+.specs-section{
+  font-family: DM Sans;
+}
+
 .spec-comparison {
-  margin: 20px 0;
+  margin: 84px 0 20px 0px;
 }
 
 .spec-table {
@@ -10,13 +14,14 @@
 
 .spec-table th,
 .spec-table td {
-  padding: 10px;
+  padding: 12px;
   border: 1px solid #ddd;
 }
 
 .spec-table th {
   background-color: #2d3394;
   color: white;
+  text-align: left;
 }
 
 .highlight-row {
@@ -26,11 +31,12 @@
 .category-cell {
   background-color: white;
   font-weight: bold;
+  vertical-align: top;
 }
 
 .table-toggle {
   cursor: pointer;
-  margin-bottom: 10px;
+  margin-bottom: 40px;
   font-size: 18px;
   font-weight: bold;
 }
@@ -65,6 +71,7 @@
   padding: 30px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   font-family: Arial, sans-serif;
+  background: #f9f9f9;
 }
 
 .card-header {
@@ -170,13 +177,14 @@
 .specs-grid {
   display: grid;
   /* grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); */
-  gap: 20px;
+  gap: 24px;
   font-family: IBM Plex Sans Condensed;
 }
 
 .spec-block {
-  background: #ffffff;
-  border-radius: 6px;
+  border-radius: 16px;
+  padding: 24px;
+  background: #F8FAFB;
 }
 
 .spec-block h4 {
@@ -189,7 +197,8 @@
 
 .spec-block ul {
   margin: 0;
-  list-style-type: none;
+  /* list-style-type: none; */
+  padding-left: 16px;
 }
 
 .spec-block li {
@@ -348,7 +357,8 @@ td {
 }
 
 .replacement-line {
-  display: inline-block;
+  display: flex;
+  justify-content: space-between;
   align-items: center;
   gap: 16px;
 }
@@ -357,7 +367,7 @@ td {
   font-size: 0.85rem;
   font-weight: 500;
   padding: 2px 6px;
-  border-radius: 4px;
+  border-radius: 20px;
 }
 
 .savings-value.positive {

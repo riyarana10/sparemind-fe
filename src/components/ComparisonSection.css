@@ -1,5 +1,8 @@
 /* Comparison Section */
+
+
 .comparison-section {
+  font-family: DM Sans;
   margin: 1.82rem 0;
 }
 
@@ -160,7 +163,7 @@
 
 .compare-button {
   margin-top: 28px;
-  background: transparent;
+  background: #ffffff;
   border: 1px solid #0B62FB;
   color: #0B62FB;
   padding: 6px 12px;
@@ -173,6 +176,7 @@
   justify-content: center;
   align-items: center;
   gap: 6px;
+  font-family: DM Sans;
 }
 
 /* Expanded Details */
@@ -180,8 +184,21 @@
   background: #f9f9f9;
   border-radius: 8px;
   margin-top: 1rem;
-  border: 1px solid #e0e0e0;
+  /* border: 1px solid #e0e0e0; */
   animation: fadeIn 0.3s ease;
+}
+
+.replacement-part{
+border: 1px solid #DDDDDD;
+border-radius: 8px;
+}
+
+.lower-comparison-grid{
+  margin-top: 40px;
+  padding: 0px 40px;
+  background: #ffffff;
+border: 1px solid #DDDDDD;
+border-radius: 8px;
 }
 
 @keyframes fadeIn {
@@ -213,15 +230,15 @@
 }
 
 .difference-item:nth-child(1) {
-  background-color: #f0f4ff;
+  background-color: #F8FAFB;
 }
 
 .difference-item:nth-child(2) {
-  background-color: #e6fff2;
+  background-color: #DDFDEA;
 }
 
 .difference-item:nth-child(3) {
-  background-color: #fff7d6;
+  background-color: #FFF2C2;
 }
 
 .difference-item h4 {

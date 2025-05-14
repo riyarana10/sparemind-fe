@@ -108,11 +108,12 @@ const SpecsComparison = ({
 
   return (
     <div className="spec-comparison">
-      <h2>Specs Comparison</h2>
-      <div className="table-toggle" onClick={toggleTable}>
+      <h2 style={{marginBottom: "40px"}}>Specs Comparison</h2>
+
+      {/* <div className="table-toggle" onClick={toggleTable}>
         <strong>{isTableOpen ? "Collapse Table" : "Expand Table"}</strong>
         <span>{isTableOpen ? "▲" : "▼"}</span>
-      </div>
+      </div> */}
 
       {isTableOpen && (
         <div className="table-scroll-wrapper">
@@ -143,9 +144,9 @@ const SpecsComparison = ({
                                 originalPart.original_part_price -
                                   replacementPart.replacement_part_price
                               )}`
-                            : `Savings: ₹ ${formatPrice(
-                                originalPart.original_part_price -
-                                  replacementPart.replacement_part_price
+                            : `Extra Cost: ₹ ${formatPrice(
+                              replacementPart.replacement_part_price -
+                              originalPart.original_part_price
                               )}`}
                         </span>
                       )}
