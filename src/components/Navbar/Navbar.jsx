@@ -6,6 +6,7 @@ import { Button, Drawer, Dropdown, Menu } from "antd";
 import partsGenieLogo from "../../assets/img/partsGenieLogo.svg";
 import "./Navbar.css";
 import baseUrl from "../../services/base-url";
+import dropdownIcon from "../../assets/img/dropdownIcon.svg";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -127,7 +128,7 @@ const Navbar = () => {
             }
             placement="bottomRight"
           >
-            <span className="account-dropdown">MY ACCOUNT ▾</span>
+            <span className="account-dropdown">MY ACCOUNT <img style={{marginLeft:"14px"}} src={dropdownIcon}/></span>
           </Dropdown>
         </div>
 
@@ -153,7 +154,7 @@ const Navbar = () => {
                 }
                 placement="bottomLeft"
               >
-                <span className="account-dropdown">MY ACCOUNT ▾</span>
+                <span className="account-dropdown">MY ACCOUNT <img src={dropdownIcon}/></span>
               </Dropdown>
             </div>
           </Drawer>
