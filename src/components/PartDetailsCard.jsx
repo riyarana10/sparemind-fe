@@ -4,6 +4,7 @@ import { FaDownload, FaMapMarkerAlt, FaPaperclip } from "react-icons/fa";
 import { parseSpecs, buildSpecsObject } from "../utils/specsParser";
 import "./PartDetailsCard.css";
 import location from "../assets/img/location.svg";
+import file from "../assets/img/file.svg"
 
 const PartDetailsCard = ({
   part,
@@ -226,12 +227,12 @@ const PartDetailsCard = ({
               rel="noopener noreferrer"
               className="download-button"
             >
-              <FaPaperclip className="download-icon" />
-              Download PDF Docs
+              <img src={file} alt=""/>
+              Download PDF Specs
             </a>
           ) : (
             <button className="download-button" disabled>
-              <FaDownload className="download-icon" />
+              <img src={file} alt=""/>
               No PDF Docs
             </button>
           )}

@@ -104,9 +104,10 @@
 /* Actions section */
 .part-actions-container {
   display: flex;
-  flex: 0 0 23%;
+  flex: 0 0 22.6%;
   height: auto;
   min-width: 200px;
+  border-radius: 8px;
 }
 
 .part-actions {
@@ -116,6 +117,7 @@
   display: flex;
   flex-direction: column;
   gap: 31px;
+  border-radius: 8px;
 }
 
 .action-item-location{
@@ -193,24 +195,24 @@
   justify-content: center;
   gap: 8px;
   padding: 8px 12px;
-  background-color: #2563eb;
-  color: white;
+  background-color: #E3EDFF;
+  color: #0b62fb;
   border: none;
   border-radius: 4px;
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
   transition: background-color 0.2s;
-  margin-top: 100%;
+  margin-top: auto;
   width: 100%;
 }
 
 .download-button:hover {
-  background-color: #1d4ed8;
+  background-color: #d5dffc;
 }
 
 .download-button:disabled {
-  background-color: #9ca3af;
+  background-color: #dee2ea;
   cursor: not-allowed;
   opacity: 0.7;
 }
@@ -293,7 +295,7 @@
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
-  padding: 8px 0;
+  padding: 26px 0 32px 0px;
   text-align: left;
 }
 

@@ -6,6 +6,8 @@ import NoImage from ".././assets/img/no_image.jpg";
 import Icon from "../assets/img/Icon.svg"; 
 import axios from "axios";
 import baseUrl from "../services/base-url";
+import { BiBorderAll } from "react-icons/bi";
+import cmpr from "../assets/img/cmprr.svg"
 
 const ComparisonSection = ({
   original,
@@ -122,12 +124,11 @@ const ComparisonSection = ({
             .map((rep) => (
               <div
                 key={rep.replacement_part_item_code}
-                className={`replacement-card ${
-                  expandedCard === rep.replacement_part_item_code
-                    ? "active"
-                    : ""
-                }`}
-                // onClick={() => toggleCard(rep.replacement_part_item_code)}
+                className={`replacement-card ${expandedCard === rep.replacement_part_item_code
+                  ? "active"
+                  : ""
+                  }`}
+              // onClick={() => toggleCard(rep.replacement_part_item_code)}
               >
 
                 <div className="stock-badge">
@@ -165,25 +166,24 @@ const ComparisonSection = ({
                     </div>
                     <div className="savings-column">
                       <p
-                        className={`rep-savings ${
-                          original.original_part_price -
-                            rep.replacement_part_price <
+                        className={`rep-savings ${original.original_part_price -
+                          rep.replacement_part_price <
                           0
-                            ? "negative-savings"
-                            : ""
-                        }`}
+                          ? "negative-savings"
+                          : ""
+                          }`}
                       >
                         {original.original_part_price -
                           rep.replacement_part_price <
-                        0
-                          ? `Save: ₹${formatPrice(
-                              original.original_part_price -
-                                rep.replacement_part_price
-                            )}`
+                          0
+                          ? `Extra Cost: ₹${formatPrice(
+                            rep.replacement_part_price-
+                            original.original_part_price
+                          )}`
                           : `Save: ₹${formatPrice(
-                              original.original_part_price -
-                                rep.replacement_part_price
-                            )}`}
+                            original.original_part_price -
+                            rep.replacement_part_price
+                          )}`}
                       </p>
                     </div>
                   </div>
@@ -193,6 +193,7 @@ const ComparisonSection = ({
                   className="compare-button"
                   onClick={() => toggleCard(rep.replacement_part_item_code)}
                 >
+                  <img src={cmpr} alt="compare icon" />
                   Compare
                 </button>
               </div>
@@ -210,69 +211,72 @@ const ComparisonSection = ({
               <>
                 <div className="comparison-grid">
                   <div className="replacement-part">
-                    <h4
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        fontSize: "1rem",
-                        fontWeight: 600,
-                        color: "#000000",
-                        gap: "0.75rem",
-                        margin: "1rem", // Add this line for space below
-                      }}
-                    >
-                      <img
-                        src={Icon}
-                        alt="Replacement Icon"
-                        style={{ width: "2rem", height: "1rem" }}
-                      />
-                      <span>Replacement Insights</span>
-                    </h4>
-
                     <PartDetailsCard part={rep} formatPrice={formatPrice} />
                   </div>
                 </div>
+                <div className="lower-comparison-grid">
+                  <h4
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      fontSize: "24px",
+                      fontWeight: 600,
+                      color: "#000000",
+                      gap: "0.75rem",
+                      // padding: "2.5rem",
+                      marginTop: "2rem",
+                      marginBottom: "2.5rem",
+                      fontFamily: "DM Sans"
+                    }}
+                  >
+                    <img
+                      src={Icon}
+                      alt="Replacement Icon"
+                      style={{ width: "2rem", height: "1rem" }}
+                    />
+                    <span>Replacement Insights</span>
+                  </h4>
+                  <div className="differences-section">
+                    <div className="difference-item">
+                      <h4>{"Additions & Subtractions".toUpperCase()}</h4>
 
-                <div className="differences-section">
-                  <div className="difference-item">
-                    <h4>{"Additions & Subtractions".toUpperCase()}</h4>
+                      <p>{rep.addition_subtraction || "No info available"}</p>
+                    </div>
+                    <div className="difference-item">
+                      <h4>{"Reasons for Replacement".toUpperCase()}</h4>
 
-                    <p>{rep.addition_subtraction || "No info available"}</p>
+                      <p>{rep.reason_for_replacement || "None specified"}</p>
+                    </div>
+                    <div className="difference-item">
+                      <h4>{"Key Notes".toUpperCase()}</h4>
+
+                      <p>
+                        {rep.key_differences_notes || "No key notes provided"}
+                      </p>
+                    </div>
                   </div>
-                  <div className="difference-item">
-                    <h4>{"Reasons for Replacement".toUpperCase()}</h4>
 
-                    <p>{rep.reason_for_replacement || "None specified"}</p>
-                  </div>
-                  <div className="difference-item">
-                    <h4>{"Key Notes".toUpperCase()}</h4>
+                  <SpecsComparison
+                    originalSpecs={original.original_specs}
+                    replacementSpecs={rep.replacement_specs}
+                    originalPart={original}
+                    replacementPart={rep}
+                  />
 
-                    <p>
-                      {rep.key_differences_notes || "No key notes provided"}
-                    </p>
-                  </div>
+                  <DecisionSection
+                    original={original}
+                    replacement={rep}
+                    decision={
+                      decisions[rep.replacement_part_item_code]?.decision || null
+                    }
+                    lastComment={
+                      decisions[rep.replacement_part_item_code]?.lastComment || ""
+                    }
+                    role={role}
+                    onDecision={sendDecision}
+                    onReview={onReview}
+                  />
                 </div>
-
-                <SpecsComparison
-                  originalSpecs={original.original_specs}
-                  replacementSpecs={rep.replacement_specs}
-                  originalPart={original}
-                  replacementPart={rep}
-                />
-
-                <DecisionSection
-                  original={original}
-                  replacement={rep}
-                  decision={
-                    decisions[rep.replacement_part_item_code]?.decision || null
-                  }
-                  lastComment={
-                    decisions[rep.replacement_part_item_code]?.lastComment || ""
-                  }
-                  role={role}
-                  onDecision={sendDecision}
-                  onReview={onReview}
-                />
               </>
             );
           })()}
