@@ -193,7 +193,7 @@ const ProductDetails = () => {
       )
     }
     <div style={{
-        width: isOpen ? "25%" : "0",
+        width: isOpen ? "30%" : "0",
         transition: "width 0.3s",
         display: "flex",
         flexDirection: "column",

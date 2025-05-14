@@ -70,7 +70,7 @@ const CategoryPage = () => {
     <div style={{ display: "flex" }}>
       <div
         className="category-product-container"
-        style={{ width: isOpen ? "65%" : "100%", transition: "width 0.3s" }}
+        style={{ width: isOpen ? "70%" : "100%", transition: "width 0.3s" }}
       >
         <h2 className="category-title">
           {name
@@ -317,7 +317,7 @@ const CategoryPage = () => {
       )}
       <div
         style={{
-          width: isOpen ? "25%" : "0",
+          width: isOpen ? "30%" : "0",
           transition: "width 0.3s",
           display: "flex",
           flexDirection: "column",
