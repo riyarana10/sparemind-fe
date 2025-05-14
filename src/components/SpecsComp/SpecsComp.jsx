@@ -13,6 +13,7 @@ const SpecsComparison = ({
   replacementPart = {},
 }) => {
   const [isTableOpen, setIsTableOpen] = useState(true);
+  const [showOnlyDiff, setShowOnlyDiff] = useState(false);
 
   const toggleTable = () => {
     setIsTableOpen((prev) => !prev);
@@ -108,7 +109,21 @@ const SpecsComparison = ({
 
   return (
     <div className="spec-comparison">
-      <h2 style={{marginBottom: "40px"}}>Specs Comparison</h2>
+      <div className="spec-header">
+        <h2>Specs Comparison</h2>
+        <div className="diff-toggle">
+          <span className="toggle-label">Show Only Differences</span>
+          <label className="switch">
+            <input
+              type="checkbox"
+              checked={showOnlyDiff}
+              onChange={() => setShowOnlyDiff((prev) => !prev)}
+            />
+            <span className="slider round"></span>
+          </label>
+        </div>
+      </div>
+
 
       {/* <div className="table-toggle" onClick={toggleTable}>
         <strong>{isTableOpen ? "Collapse Table" : "Expand Table"}</strong>
@@ -129,25 +144,24 @@ const SpecsComparison = ({
                     {originalPart.original_part_price &&
                       replacementPart.replacement_part_price && (
                         <span
-                          className={`savings-value ${
-                            originalPart.original_part_price -
-                              replacementPart.replacement_part_price >=
+                          className={`savings-value ${originalPart.original_part_price -
+                            replacementPart.replacement_part_price >=
                             0
-                              ? "positive"
-                              : "negative"
-                          }`}
+                            ? "positive"
+                            : "negative"
+                            }`}
                         >
                           {originalPart.original_part_price -
                             replacementPart.replacement_part_price >=
-                          0
+                            0
                             ? `Savings: ₹ ${formatPrice(
-                                originalPart.original_part_price -
-                                  replacementPart.replacement_part_price
-                              )}`
+                              originalPart.original_part_price -
+                              replacementPart.replacement_part_price
+                            )}`
                             : `Extra Cost: ₹ ${formatPrice(
                               replacementPart.replacement_part_price -
                               originalPart.original_part_price
-                              )}`}
+                            )}`}
                         </span>
                       )}
                   </div>
@@ -187,29 +201,25 @@ const SpecsComparison = ({
                 .map((section) => {
                   const origLines = originalSpecsBySection[section] || [];
                   const repLines = replacementSpecsBySection[section] || [];
-                  const rowCount = Math.max(
-                    origLines.length,
-                    repLines.length,
-                    1
-                  );
+                  const rowCount = Math.max(origLines.length, repLines.length, 1);
 
-                  return Array.from({ length: rowCount }).map((_, rowIdx) => {
-                    const { attr: oAttr, val: oVal } = parseLine(
-                      origLines[rowIdx]
-                    );
-                    const { attr: rAttr, val: rVal } = parseLine(
-                      repLines[rowIdx]
-                    );
+                  const rows = [];
+
+                  for (let rowIdx = 0; rowIdx < rowCount; rowIdx++) {
+                    const { attr: oAttr, val: oVal } = parseLine(origLines[rowIdx]);
+                    const { attr: rAttr, val: rVal } = parseLine(repLines[rowIdx]);
                     const labelAttr = oAttr || rAttr || "—";
                     const isDiff = oVal !== rVal;
 
-                    return (
+                    if (showOnlyDiff && !isDiff) continue;
+
+                    rows.push(
                       <tr
                         key={`${section}-${rowIdx}`}
                         className={isDiff ? "highlight-row" : ""}
                       >
-                        {rowIdx === 0 && (
-                          <td rowSpan={rowCount} className="category-cell">
+                        {rows.length === 0 && (
+                          <td rowSpan="REPLACE_ME" className="category-cell">
                             {section}
                           </td>
                         )}
@@ -222,8 +232,27 @@ const SpecsComparison = ({
                         </td>
                       </tr>
                     );
-                  });
+                  }
+
+                  // Inject the correct rowSpan for the first cell
+                  if (rows.length > 0) {
+                    const firstRow = rows[0];
+                    const withRowSpan = React.cloneElement(
+                      firstRow,
+                      {},
+                      [
+                        <td rowSpan={rows.length} className="category-cell" key="cat-cell">
+                          {section}
+                        </td>,
+                        ...firstRow.props.children.slice(1)
+                      ]
+                    );
+                    rows[0] = withRowSpan;
+                  }
+
+                  return rows;
                 })}
+
             </tbody>
           </table>
         </div>
