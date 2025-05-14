@@ -165,10 +165,10 @@
 /* Truncate text to 2 lines */
 .description {
   display: -webkit-box;
-  -webkit-line-clamp: 1;
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  max-height: 3em; /* roughly 2 lines */
+  max-height: 1.5em; /* roughly 2 lines */
 }
 
 .description.expanded {

@@ -90,8 +90,8 @@ const NewArrivalParts = ({ token }) => {
     fetchData();
   }, [token]);
 
-  const handleClickViewDetails = (replacement) => {
-    navigate(`/original/${replacement.replacement_part_item_code}`, {
+  const handleClickViewDetails = (product) => {
+    navigate(`/original/${product.original_part_item_code}`, {
       state: { query, results },
     });
   };
@@ -171,6 +171,10 @@ const NewArrivalParts = ({ token }) => {
                         ₹{formatPrice(product.original_part_price)}
                       </p>
                     </div>
+                    <div>
+                      <p className="item-code">Brand</p>
+                      <span className="price">{product.brand}</span>
+                    </div>
                     <div className="read-more">
                       <p className="item-code">Parts Description</p>
                       <p
@@ -181,7 +185,7 @@ const NewArrivalParts = ({ token }) => {
                         {product.original_part_name_breakdown_definition}
                       </p>
                       {product.original_part_name_breakdown_definition.length >
-                        80 && (
+                        60 && (
                         <button
                           className="read-more-btn"
                           onClick={(e) => {
@@ -197,10 +201,7 @@ const NewArrivalParts = ({ token }) => {
                         </button>
                       )}
                     </div>
-                    <div>
-                      <p className="item-code">Brand</p>
-                      <span className="price">{product.brand}</span>
-                    </div>
+                    
                   </div>
                 </div>
               );
