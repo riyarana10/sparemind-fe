@@ -5,6 +5,7 @@ import ChatBot from "../../components/Chatbot/ConversationBot";
 import FindParts from "../../components/FindPartsComp/FindParts";
 import HomePageImg from "../../assets/img/homePageBG.svg";
 import NewArrivalParts from "../../components/NewArrivals/NewArrivalParts";
+import baseUrl from "../../services/base-url";
 
 const getAuthToken = () => localStorage.getItem("access_token");
 
@@ -36,7 +37,7 @@ function HomePage() {
     setError("");
     try {
       const res = await axios.get(
-        `/api/search?original_part_item_code=${encodeURIComponent(
+        `${baseUrl}/search?original_part_item_code=${encodeURIComponent(
           query
         )}`,
         { headers: { Authorization: `Bearer ${token}` } }

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./App.css";
+import baseUrl from "../../services/base-url";
 
 export default function TextSearchPage() {
   const navigate = useNavigate();
