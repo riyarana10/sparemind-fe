@@ -1,15 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PartDetailsCard from "./PartDetailsCard";
 import DecisionSection from "./DecisionSection";
 import "./ComparisonSection.css";
 import NoImage from ".././assets/img/no_image.jpg";
-import Icon from "../assets/img/Icon.svg"; // adjust path as needed
+import Icon from "../assets/img/Icon.svg"; 
 import axios from "axios";
 import baseUrl from "../services/base-url";
-
-const token = localStorage.getItem("access_token");
-const payload = token ? JSON.parse(atob(token.split(".")[1])) : {};
-const role = payload.role || "user"; // Default to 'user' if not specified
 
 const ComparisonSection = ({
   original,
@@ -17,11 +13,31 @@ const ComparisonSection = ({
   formatPrice,
   SpecsComparison,
 }) => {
+
   const [expandedCard, setExpandedCard] = useState(null);
   const [busy, setBusy] = useState(false);
   const [commentText, setCommentText] = useState("");
+  const [role, setRole] = useState("user");
 
-  // Track decisions for each replacement
+  useEffect(() => {
+    const updateRole = () => {
+      const token = localStorage.getItem("access_token");
+      const payload = token ? JSON.parse(atob(token.split(".")[1])) : {};
+      setRole(payload.role || "user"); 
+    };
+
+    updateRole(); 
+
+    const handleStorageChange = (e) => {
+      if (e.key === "access_token") {
+        updateRole();
+      }
+    };
+    window.addEventListener("storage", handleStorageChange);
+
+    return () => window.removeEventListener("storage", handleStorageChange);
+  }, []);
+
   const [decisions, setDecisions] = useState(() => {
     const initialDecisions = {};
     replacements.forEach((rep) => {
@@ -102,7 +118,7 @@ const ComparisonSection = ({
                 original.original_part_price - b.replacement_part_price;
               return savingsB - savingsA; // Descending order
             })
-            // Then map the sorted array
+
             .map((rep) => (
               <div
                 key={rep.replacement_part_item_code}
@@ -113,7 +129,7 @@ const ComparisonSection = ({
                 }`}
                 // onClick={() => toggleCard(rep.replacement_part_item_code)}
               >
-                {/* Rest of your card content remains the same */}
+
                 <div className="stock-badge">
                   {rep.replacement_part_stock}{" "}
                   {rep.replacement_part_stock > 1 ? "Units" : "Unit"}
