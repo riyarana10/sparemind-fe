@@ -64,7 +64,7 @@ const ZoomImage = ({ src }) => {
         ref={imageRef}
         src={src || NoImage}
         style={{
-          height: "200px",
+          height: "180px",
           width: "200px",
           objectFit: "contain",
           cursor: src ? "zoom-in" : "default",
