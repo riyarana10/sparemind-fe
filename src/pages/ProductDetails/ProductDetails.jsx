@@ -11,6 +11,7 @@ import { pdfLinks } from "../../productConstants";
 import { formatPrice } from "../../productUtils";
 import ChatBot from "../../components/Chatbot/ConversationBot";
 import baseUrl from "../../services/base-url";
+import { Spin } from "antd";
 
 const ProductDetails = () => {
   const { code } = useParams();
@@ -110,7 +111,9 @@ const ProductDetails = () => {
     }
   };
 
-  if (loading) return <p>Loading part...</p>;
+  if (loading) return <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "60vh" }}>
+  <Spin size="large" tip="Loading part..." />
+  </div>;
   if (error) return <p className="error-message">{error}</p>;
 
   if (!original) {
@@ -137,10 +140,13 @@ const ProductDetails = () => {
       {/* SearchBar Above Container */}
       <div
         className="searchbar-wrapper"
-        style={{ width: "100%", padding: "16px" }}
+        style={{ width: "100%", padding: "0px 40px", boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.04)" }}
       >
         <SearchBar />
-        <BreadcrumbNav />
+      </div>
+
+      <div>
+      <BreadcrumbNav />
       </div>
 
       <div className="product-details-container">
