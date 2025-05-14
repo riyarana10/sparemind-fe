@@ -24,11 +24,10 @@
   /* Main container */
   .chatbot-container {
     position: fixed;
-    top: 96px; /* Offset below the navbar */
+    top: 97px; /* Offset below the navbar */
     right: 0;
-    width: 100%;
-    max-width: 400px;
-    height: calc(100% - 64px); /* Take rest of the viewport height */
+    width: 30%;
+    height: calc(100% - 97px); /* Take rest of the viewport height */
     background-color: #ffffff;
     display: flex;
     flex-direction: column;
