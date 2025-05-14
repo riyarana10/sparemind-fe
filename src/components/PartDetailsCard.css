@@ -199,7 +199,7 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 8px 12px;
+  padding: 10px 24px;
   background-color: #E3EDFF;
   color: #0b62fb;
   border: none;
@@ -210,6 +210,7 @@
   transition: background-color 0.2s;
   margin-top: auto;
   width: 90%;
+  text-decoration: none;
 }
 
 .download-button:hover {
