@@ -67,25 +67,25 @@ const CategoryPage = () => {
   };
 
   return (
-        <div style={{ display: "flex" }}>
+    <div style={{ display: "flex" }}>
       <div
         className="category-product-container"
         style={{ width: isOpen ? "70%" : "100%", transition: "width 0.3s" }}
       >
         <h2 className="category-title">
           {name
-              .split(" ")
-              .map(
-                (word) =>
-                  word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
-              )
+            .split(" ")
+            .map(
+              (word) =>
+                word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+            )
             .join(" ")}{" "}
           – Original Parts
         </h2>
         {isLoading ? (
           <>
-          <div style={{ display: "flex", justifyContent: "center", padding: "2rem" }}> <Spin size="large"/> </div> 
-          <p style={{textAlign:"center"}}>Loading original parts</p>
+            <div style={{ display: "flex", justifyContent: "center", padding: "2rem" }}> <Spin size="large" /> </div>
+            <p style={{ textAlign: "center" }}>Loading original parts</p>
           </>
         ) : error ? (
           <p className="error-message">{error}</p>
@@ -109,8 +109,8 @@ const CategoryPage = () => {
                   <div className="category-product-details">
                     <div className="category-product-main">
                       <h3 className="category-product-name">
-                        {item.original_part_name},{" "}
-                        {item.category
+                        <div style={{ width: "100%" }}>{item.original_part_name},{" "}</div>
+                        <div style={{ width: "100%" }}>{item.category
                           .split(" ")
                           .map(
                             (word) =>
@@ -118,27 +118,29 @@ const CategoryPage = () => {
                               word.slice(1).toLowerCase()
                           )
                           .join(" ")}
-                        , {item.brand}
+                          , {item.brand}</div>
                       </h3>
-                      <span
-                        className={`stock-tag ${
-                          item.original_part_stock > 20
+                      <div className="stock-replacement">
+                        <span
+                          className={`stock-tag ${item.original_part_stock > 20
                             ? "stock-green"
                             : "stock-yellow"
-                        }`}
-                      >
-                        In stock: {item.original_part_stock}{" "}
-                        {item.original_part_stock > 1 ? "Units" : "Unit"}
-                      </span>
-                      {item.total_replacement > 0 && (
-                        <span className="category-product-replacement-tag">
-                          {item.total_replacement}{" "}
-                          {item.total_replacement > 1
-                            ? "replacements"
-                            : "replacement"}{" "}
-                          available
+                            }`}
+                        >
+                          In stock: {item.original_part_stock}{" "}
+                          {item.original_part_stock > 1 ? "Units" : "Unit"}
                         </span>
-                      )}
+                        {item.total_replacement > 0 && (
+                          <span className="category-product-replacement-tag">
+                            {item.total_replacement}{" "}
+                            {item.total_replacement > 1
+                              ? "replacements"
+                              : "replacement"}{" "}
+                            available
+                          </span>
+                        )}
+                      </div>
+
                     </div>
 
                     <div>
@@ -206,8 +208,8 @@ const CategoryPage = () => {
         </h2>
         {isLoading ? (
           <>
-          <div style={{ display: "flex", justifyContent: "center", padding: "2rem" }}> <Spin size="large"/> </div> 
-          <p style={{textAlign:"center"}}>Loading replacement parts</p>
+            <div style={{ display: "flex", justifyContent: "center", padding: "2rem" }}> <Spin size="large" /> </div>
+            <p style={{ textAlign: "center" }}>Loading replacement parts</p>
           </>
         ) : error ? (
           <p className="error-message">{error}</p>
@@ -231,8 +233,8 @@ const CategoryPage = () => {
                   <div className="category-product-details">
                     <div className="category-product-main">
                       <h3 className="category-product-name">
-                        {item.replacement_part_name},{" "}
-                        {item.category
+                        <div style={{ width: "100%" }}>{item.replacement_part_name},{" "}</div>
+                        <div style={{ width: "100%" }}>{item.category
                           .split(" ")
                           .map(
                             (word) =>
@@ -240,14 +242,14 @@ const CategoryPage = () => {
                               word.slice(1).toLowerCase()
                           )
                           .join(" ")}
-                        , {item.brand}
+                        , {item.brand}</div>
                       </h3>
+                      <div className="stock-replacement">
                       <span
-                        className={`stock-tag ${
-                          item.replacement_part_stock > 20
-                            ? "stock-green"
-                            : "stock-yellow"
-                        }`}
+                        className={`stock-tag ${item.replacement_part_stock > 20
+                          ? "stock-green"
+                          : "stock-yellow"
+                          }`}
                       >
                         In stock: {item.replacement_part_stock}{" "}
                         {item.replacement_part_stock > 1 ? "Units" : "Unit"}
@@ -261,6 +263,7 @@ const CategoryPage = () => {
                           available
                         </span>
                       )}
+                      </div>
                     </div>
 
                     <div>
