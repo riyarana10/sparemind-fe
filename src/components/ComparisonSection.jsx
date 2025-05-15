@@ -121,9 +121,9 @@ const ComparisonSection = ({
               return savingsB - savingsA; // Descending order
             })
 
-            .map((rep) => (
+            .map((rep, i) => (
               <div
-                key={rep.replacement_part_item_code}
+                key={i}
                 className={`replacement-card ${expandedCard === rep.replacement_part_item_code
                   ? "active"
                   : ""
@@ -165,7 +165,7 @@ const ComparisonSection = ({
                       </p>
                     </div>
                     <div className="savings-column">
-                      <p
+                          <p
                         className={`rep-savings ${original.original_part_price -
                           rep.replacement_part_price <
                           0

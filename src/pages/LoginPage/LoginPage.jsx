@@ -55,7 +55,7 @@ const LoginPage = () => {
       <div className="login-bg">
         <div className="login-modal">
           <h1>
-            Welcome to <span className="highlight">PartsGENIE</span>
+            Welcome to <span className="highlight"><span style={{color:"#2D3394"}}>Parts</span><span style={{color:"#FF0000"}}>GENIE</span></span>
           </h1>
           <p>Powered by SHORTHILLS AI STUDIO</p>
           <form onSubmit={handleLogin}>
