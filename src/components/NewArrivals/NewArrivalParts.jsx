@@ -38,7 +38,7 @@ const NewArrivalParts = ({ token }) => {
     const fetchCats = async () => {
       try {
         setIsLoadingCategory(true);
-        const resp = await axios.get(`${baseUrl}/categories?size=3`, {
+        const resp = await axios.get(`${baseUrl}/categories?size=5`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setRecentCategories(resp.data.categories || []);
