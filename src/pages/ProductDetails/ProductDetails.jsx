@@ -141,7 +141,7 @@ const ProductDetails = () => {
 
   return (
     <div style={{display:"flex"}}>
-    <div style={{ width: isOpen ? "85%" : "100%", transition: "width 0.3s" }}>
+    <div style={{ width: isOpen ? "75%" : "100%", transition: "width 0.3s" }}>
       {/* SearchBar Above Container */}
       <div
         className="searchbar-wrapper"
@@ -198,7 +198,7 @@ const ProductDetails = () => {
       )
     }
     <div style={{
-        width: isOpen ? "30%" : "0",
+        width: isOpen ? "25%" : "0",
         transition: "width 0.3s",
         display: "flex",
         flexDirection: "column",
