@@ -209,7 +209,7 @@
   cursor: pointer;
   transition: background-color 0.2s;
   margin-top: auto;
-  width: 90%;
+  width: 100%;
   text-decoration: none;
 }
 
@@ -270,6 +270,12 @@
     align-items: center;
   }
 
+  .part-actions-container{
+    min-width: 100%;
+    border-radius: 0px;
+    padding: 12px;
+  }
+
   .part-details {
     padding: 32px;
   }
@@ -282,6 +288,7 @@
   .part-actions {
     align-items: flex-start;
     margin-top: 20px;
+    border-radius: 8px;
   }
 }
 

@@ -9,13 +9,15 @@ import baseUrl from "../services/base-url";
 import { BiBorderAll } from "react-icons/bi";
 import cmpr from "../assets/img/cmprr.svg"
 
+
 const ComparisonSection = ({
   original,
   replacements,
   formatPrice,
   SpecsComparison,
 }) => {
-
+  
+  const expandedRef = React.useRef(null);
   const [expandedCard, setExpandedCard] = useState(null);
   const [busy, setBusy] = useState(false);
   const [commentText, setCommentText] = useState("");
@@ -39,6 +41,20 @@ const ComparisonSection = ({
 
     return () => window.removeEventListener("storage", handleStorageChange);
   }, []);
+
+  useEffect(() => {
+    if (expandedCard && expandedRef.current) {
+      // Scroll slightly above the element for better UX
+      const yOffset = -100; // adjust this to match your header/nav height if any
+      const y =
+        expandedRef.current.getBoundingClientRect().top +
+        window.pageYOffset +
+        yOffset;
+  
+      window.scrollTo({ top: y, behavior: "smooth" });
+    }
+  }, [expandedCard]);
+  
 
   const [decisions, setDecisions] = useState(() => {
     const initialDecisions = {};
@@ -202,7 +218,7 @@ const ComparisonSection = ({
       </div>
 
       {expandedCard && (
-        <div className="expanded-details">
+        <div className="expanded-details" ref={expandedRef}>
           {(() => {
             const rep = replacements.find(
               (r) => r.replacement_part_item_code === expandedCard
