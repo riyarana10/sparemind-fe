@@ -58,7 +58,7 @@ const NewArrivalParts = ({ token }) => {
     const codes = [
       "MA00F0RE001",
       "MA00F0DI002",
-      "MA0US005000",
+      "MA0BN03K001",
       "MA00F10N001",
       "M4A06010087",
     ];
@@ -66,21 +66,61 @@ const NewArrivalParts = ({ token }) => {
     const fetchData = async () => {
       setIsLoadingProduct(true);
       try {
+        // const responses = await Promise.all(
+        //   codes.map((code) => {
+        //     return axios.get(
+        //       `${baseUrl}/search?original_part_item_code=${encodeURIComponent(
+        //         code
+        //       )}`,
+        //       { headers: { Authorization: `Bearer ${token}` } }
+        //     );
+        //   })
+        // );
+
+        // console.log("***********Responses:", responses);
+        // const all = responses.flatMap((r) => r.data.results || []);
+        // console.log("***********All results:", all);
+        // const sorted = all.sort(
+        //   (a, b) => (b.price_difference || 0) - (a.price_difference || 0)
+        // );
+        // console.log("***********Sorted results:", sorted);
+        // setRecentCodeResults(sorted.slice(0, 5));
+
         const responses = await Promise.all(
           codes.map((code) => {
             return axios.get(
-              `${baseUrl}/search?original_part_item_code=${encodeURIComponent(
-                code
-              )}`,
+              `${baseUrl}/search?original_part_item_code=${encodeURIComponent(code)}`,
               { headers: { Authorization: `Bearer ${token}` } }
             );
           })
         );
+        
+        console.log("***********Responses:", responses);
+        
         const all = responses.flatMap((r) => r.data.results || []);
-        const sorted = all.sort(
+        console.log("***********All results:", all);
+        
+        // Filter to keep only one item per unique original_part_item_code
+        const uniqueByPartCode = [];
+        const seenCodes = new Set();
+        
+        for (const item of all) {
+          const code = item.original_part_item_code;
+          if (code && !seenCodes.has(code)) {
+            seenCodes.add(code);
+            uniqueByPartCode.push(item);
+          }
+        }
+        
+        console.log("***********Unique results:", uniqueByPartCode);
+        
+        // Sort by price_difference descending
+        const sorted = uniqueByPartCode.sort(
           (a, b) => (b.price_difference || 0) - (a.price_difference || 0)
         );
-        setRecentCodeResults(sorted.slice(0, 5));
+        console.log("***********Sorted unique results:", sorted);
+        const topProducts = sorted.length > 5 ? sorted.slice(0, 5) : sorted;
+        setRecentCodeResults(topProducts);
       } catch (err) {
         console.error("[DEBUG popular] error fetching popular parts:", err);
       } finally {

@@ -110,9 +110,7 @@ const SearchBar = () => {
                   setSearchTerm(suggestion.original_part_item_code);
                   setShowSuggestions(false);
                   navigate(
-                    `/search?query=${encodeURIComponent(
-                      suggestion.original_part_item_code
-                    )}`
+                    `/original/${suggestion.original_part_item_code}`
                   );
                 }}
               >

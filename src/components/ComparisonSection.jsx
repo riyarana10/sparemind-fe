@@ -279,7 +279,9 @@ const ComparisonSection = ({
                     replacementPart={rep}
                   />
 
-                  <DecisionSection
+                  {
+                    role !== "user" && (
+                      <DecisionSection
                     original={original}
                     replacement={rep}
                     decision={
@@ -292,6 +294,8 @@ const ComparisonSection = ({
                     onDecision={sendDecision}
                     onReview={onReview}
                   />
+                    )
+                  }
                 </div>
               </>
             );

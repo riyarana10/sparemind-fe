@@ -74,8 +74,8 @@ export default function SearchPage() {
       })
       .then((fuzzyRes) => {
         if (fuzzyRes && fuzzyRes.data) {
-          setOriginals(fuzzyRes.data.originals || []);
-          setCategories(fuzzyRes.data.categories || []);
+          setOriginals(fuzzyRes.data.originals.slice(0,5) || []);
+          setCategories(fuzzyRes.data.categories.slice(0,5) || []);
           setReplacements(fuzzyRes.data.replacements || []);
         }
       })
