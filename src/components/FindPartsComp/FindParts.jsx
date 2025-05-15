@@ -106,7 +106,7 @@ const FindParts = () => {
             onSelect={(value) => {
               setSearchTerm(value);
               setShowSuggestions(false);
-              navigate(`/search?query=${encodeURIComponent(value)}`);
+              navigate(`/original/${value}`);
             }}
             onSearch={(value) => setSearchTerm(value)}
             onKeyDown={(e) => {
