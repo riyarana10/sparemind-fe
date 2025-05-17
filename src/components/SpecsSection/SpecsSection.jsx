@@ -1,5 +1,5 @@
 import React from "react";
-import { parseSpecs } from "../productUtils";
+import { parseSpecs } from "../../productUtils";
 
 const SpecsSection = ({ specsJson, rawSpecs, title }) => {
   const hasSpecs = (specsJson && Object.keys(specsJson).length > 0) || rawSpecs;

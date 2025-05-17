@@ -1,10 +1,9 @@
 import React, { useMemo, useState } from "react";
-import ZoomImage from "./ZoomImage";
-import { FaDownload, FaMapMarkerAlt, FaPaperclip } from "react-icons/fa";
-import { parseSpecs, buildSpecsObject } from "../utils/specsParser";
+import ZoomImage from "../ZoomImage/ZoomImage";
+import { parseSpecs, buildSpecsObject } from "../../utils/specsParser";
 import "./PartDetailsCard.css";
-import location from "../assets/img/location.svg";
-import file from "../assets/img/file.svg"
+import location from "../../assets/img/location.svg";
+import file from "../../assets/img/file.svg"
 
 const PartDetailsCard = ({
   part,
@@ -155,6 +154,7 @@ const PartDetailsCard = ({
                             {blk.items.map((item, j) => (
                               <li key={j}>
                                 {typeof item === "string"
+                                // eslint-disable-next-line
                                   ? item.replace(/^[•\-]\s*/, "")?.trim() ??
                                     item
                                   : JSON.stringify(item)}

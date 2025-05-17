@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./ProfilePage.css";
-import BreadcrumbNav from "../../components/BreadcrumbNav";
+import BreadcrumbNav from "../../components/BreadcrumbNav/BreadcrumbNav";
 import baseUrl from "../../services/base-url";
 import { Spin } from "antd";
 
