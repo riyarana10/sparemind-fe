@@ -80,6 +80,7 @@ const NewArrivalParts = ({ token }) => {
   }, [token]);
 
   const handleClickViewDetails = (product) => {
+    localStorage.setItem("categoryId", product.category)
     navigate(`/original/${product.original_part_item_code}`, {
       state: { query, results },
     });

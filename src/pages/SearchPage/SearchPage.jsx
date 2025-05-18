@@ -100,6 +100,7 @@ export default function SearchPage() {
   const topReplacements = replacements.slice(0, 8);
 
   const handleView = (part, page) => {
+    localStorage.setItem("categoryId", part.category);
     const code =
       page === "original"
         ? part.original_part_item_code
