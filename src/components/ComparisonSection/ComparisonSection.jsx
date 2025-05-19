@@ -3,11 +3,10 @@ import PartDetailsCard from "../PartDetailsCard/PartDetailsCard";
 import DecisionSection from "../DecisionSection/DecisionSection";
 import "./ComparisonSection.css";
 import NoImage from "../../assets/img/no_image.jpg";
-import Icon from "../../assets/img/Icon.svg"; 
+import Icon from "../../assets/img/Icon.svg";
 import axios from "axios";
 import baseUrl from "../../services/base-url";
-import cmpr from "../../assets/img/cmprr.svg"
-
+import cmpr from "../../assets/img/cmprr.svg";
 
 const ComparisonSection = ({
   original,
@@ -15,7 +14,6 @@ const ComparisonSection = ({
   formatPrice,
   SpecsComparison,
 }) => {
-  
   const expandedRef = React.useRef(null);
   const [expandedCard, setExpandedCard] = useState(null);
   const [role, setRole] = useState("user");
@@ -24,10 +22,10 @@ const ComparisonSection = ({
     const updateRole = () => {
       const token = localStorage.getItem("access_token");
       const payload = token ? JSON.parse(atob(token.split(".")[1])) : {};
-      setRole(payload.role || "user"); 
+      setRole(payload.role || "user");
     };
 
-    updateRole(); 
+    updateRole();
 
     const handleStorageChange = (e) => {
       if (e.key === "access_token") {
@@ -47,11 +45,10 @@ const ComparisonSection = ({
         expandedRef.current.getBoundingClientRect().top +
         window.pageYOffset +
         yOffset;
-  
+
       window.scrollTo({ top: y, behavior: "smooth" });
     }
   }, [expandedCard]);
-  
 
   const [decisions, setDecisions] = useState(() => {
     const initialDecisions = {};
@@ -97,7 +94,6 @@ const ComparisonSection = ({
           lastComment: comment,
         },
       }));
-
     } catch (err) {
       console.error(err);
       alert("Failed to save your decision.");
@@ -134,13 +130,12 @@ const ComparisonSection = ({
             .map((rep, i) => (
               <div
                 key={i}
-                className={`replacement-card ${expandedCard === rep.replacement_part_item_code
-                  ? "active"
-                  : ""
-                  }`}
-              // onClick={() => toggleCard(rep.replacement_part_item_code)}
+                className={`replacement-card ${
+                  expandedCard === rep.replacement_part_item_code
+                    ? "active"
+                    : ""
+                }`}
               >
-
                 <div className="stock-badge">
                   {rep.replacement_part_stock}{" "}
                   {rep.replacement_part_stock > 1 ? "Units" : "Unit"}
@@ -175,25 +170,26 @@ const ComparisonSection = ({
                       </p>
                     </div>
                     <div className="savings-column">
-                          <p
-                        className={`rep-savings ${original.original_part_price -
-                          rep.replacement_part_price <
+                      <p
+                        className={`rep-savings ${
+                          original.original_part_price -
+                            rep.replacement_part_price <
                           0
-                          ? "negative-savings"
-                          : ""
-                          }`}
+                            ? "negative-savings"
+                            : ""
+                        }`}
                       >
                         {original.original_part_price -
                           rep.replacement_part_price <
-                          0
+                        0
                           ? `Extra Cost: ₹${formatPrice(
-                            rep.replacement_part_price-
-                            original.original_part_price
-                          )}`
+                              rep.replacement_part_price -
+                                original.original_part_price
+                            )}`
                           : `Save: ₹${formatPrice(
-                            original.original_part_price -
-                            rep.replacement_part_price
-                          )}`}
+                              original.original_part_price -
+                                rep.replacement_part_price
+                            )}`}
                       </p>
                     </div>
                   </div>
@@ -236,7 +232,7 @@ const ComparisonSection = ({
                       // padding: "2.5rem",
                       marginTop: "2rem",
                       marginBottom: "2.5rem",
-                      fontFamily: "DM Sans"
+                      fontFamily: "DM Sans",
                     }}
                   >
                     <img
@@ -273,23 +269,23 @@ const ComparisonSection = ({
                     replacementPart={rep}
                   />
 
-                  {
-                    role !== "user" && (
-                      <DecisionSection
-                    original={original}
-                    replacement={rep}
-                    decision={
-                      decisions[rep.replacement_part_item_code]?.decision || null
-                    }
-                    lastComment={
-                      decisions[rep.replacement_part_item_code]?.lastComment || ""
-                    }
-                    role={role}
-                    onDecision={sendDecision}
-                    onReview={onReview}
-                  />
-                    )
-                  }
+                  {role !== "user" && (
+                    <DecisionSection
+                      original={original}
+                      replacement={rep}
+                      decision={
+                        decisions[rep.replacement_part_item_code]?.decision ||
+                        null
+                      }
+                      lastComment={
+                        decisions[rep.replacement_part_item_code]
+                          ?.lastComment || ""
+                      }
+                      role={role}
+                      onDecision={sendDecision}
+                      onReview={onReview}
+                    />
+                  )}
                 </div>
               </>
             );

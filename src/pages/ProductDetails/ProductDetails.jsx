@@ -7,8 +7,8 @@ import PartDetailsCard from "../../components/PartDetailsCard/PartDetailsCard";
 import ComparisonSection from "../../components/ComparisonSection/ComparisonSection";
 import SpecsComparison from "../../components/SpecsComp/SpecsComp";
 import SearchBar from "../../components/SearchBar/SearchBar";
-import { pdfLinks } from "../../productConstants";
-import { formatPrice } from "../../productUtils";
+import { pdfLinks } from "../../constants/productConstants";
+import { formatPrice } from "../../utils/productUtils";
 import ChatBot from "../../components/Chatbot/ConversationBot";
 import baseUrl from "../../services/base-url";
 import { Spin } from "antd";
@@ -17,8 +17,8 @@ const ProductDetails = () => {
   const { code } = useParams();
   const navigate = useNavigate();
   const token = localStorage.getItem("access_token");
-  const[isOpen, setIsOpen] = useState(false)
-  const [stage, setStage] = useState("choose")
+  const [isOpen, setIsOpen] = useState(false);
+  const [stage, setStage] = useState("choose");
 
   const [productState, setProductState] = useState({
     original: null,
@@ -32,13 +32,7 @@ const ProductDetails = () => {
     compareOther: {},
   });
 
-  const {
-    original,
-    replacements,
-    loading,
-    error,
-    compareOther,
-  } = productState;
+  const { original, replacements, loading, error, compareOther } = productState;
 
   // Fetch part details
   useEffect(() => {
@@ -77,14 +71,22 @@ const ProductDetails = () => {
       });
   }, [code, token]);
 
-  if (loading) return (
-    <>
-  <div style={{ display: "flex", justifyContent: "center", alignItems: "center",marginTop:"50px" }}>
-  <Spin size="large" tip="Loading part..." />
-  </div>
-  <p style={{textAlign:"center"}}>Loading product details</p>
-  </>
-  );
+  if (loading)
+    return (
+      <>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            marginTop: "50px",
+          }}
+        >
+          <Spin size="large" tip="Loading part..." />
+        </div>
+        <p style={{ textAlign: "center" }}>Loading product details</p>
+      </>
+    );
   if (error) return <p className="error-message">{error}</p>;
 
   if (!original) {
@@ -101,76 +103,85 @@ const ProductDetails = () => {
   const resourceLink = pdfLinks[category];
 
   const handleChatToggle = () => {
-    setIsOpen(!isOpen)
+    setIsOpen(!isOpen);
     setStage("choose");
   };
 
   return (
-    <div style={{display:"flex"}}>
-    <div style={{ width: isOpen ? "75%" : "100%", transition: "width 0.3s" }}>
-      {/* SearchBar Above Container */}
-      <div
-        className="searchbar-wrapper"
-        style={{ width: "100%", padding: "0px 40px", boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.04)" }}
-      >
-        <SearchBar />
-      </div>
+    <div style={{ display: "flex" }}>
+      <div style={{ width: isOpen ? "75%" : "100%", transition: "width 0.3s" }}>
+        {/* SearchBar Above Container */}
+        <div
+          className="searchbar-wrapper"
+          style={{
+            width: "100%",
+            padding: "0px 40px",
+            boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.04)",
+          }}
+        >
+          <SearchBar />
+        </div>
 
-      <div>
-      <BreadcrumbNav />
-      </div>
+        <div>
+          <BreadcrumbNav />
+        </div>
 
-      <div className="product-details-container">
-        <div className="main-content">
-          <div className="product-card">
-            <div className="card-details">
-              <PartDetailsCard
-                part={original}
-                isOriginal={true}
-                formatPrice={formatPrice}
-                resourceLink={pdfLinks[original.category?.toUpperCase().trim()]}
-              />
+        <div className="product-details-container">
+          <div className="main-content">
+            <div className="product-card">
+              <div className="card-details">
+                <PartDetailsCard
+                  part={original}
+                  isOriginal={true}
+                  formatPrice={formatPrice}
+                  resourceLink={
+                    pdfLinks[original.category?.toUpperCase().trim()]
+                  }
+                />
+              </div>
             </div>
+
+            {/* Replacement Comparison */}
+            {replacements.length > 0 && (
+              <ComparisonSection
+                original={original}
+                replacements={replacements}
+                compareOther={compareOther}
+                setCompareOther={(value) =>
+                  setProductState((prev) => ({ ...prev, compareOther: value }))
+                }
+                formatPrice={formatPrice}
+                SpecsComparison={SpecsComparison}
+              />
+            )}
           </div>
-
-          {/* Replacement Comparison */}
-          {replacements.length > 0 && (
-            <ComparisonSection
-              original={original}
-              replacements={replacements}
-              compareOther={compareOther}
-              setCompareOther={(value) =>
-                setProductState((prev) => ({ ...prev, compareOther: value }))
-              }
-              formatPrice={formatPrice}
-              SpecsComparison={SpecsComparison}
-            />
-          )}
-
-          {/* Back Button */}
-          {/* <button className="back-button" onClick={() => navigate(-1)}>
-            Back
-          </button> */}
         </div>
       </div>
-    </div>
-    {!isOpen && resourceLink && (
+      {!isOpen && resourceLink && (
         <button className="chatbot-toggle" onClick={() => setIsOpen(!isOpen)}>
-        Know more about {original.category
-    .split(' ')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ')}
-    </button>
-      )
-    }
-    <div style={{
-        width: isOpen ? "25%" : "0",
-        transition: "width 0.3s",
-        display: "flex",
-        flexDirection: "column",
-      }}>
-        <ChatBot isOpen={isOpen} setIsOpen={setIsOpen} stage={stage} setStage={setStage} toggleChat={handleChatToggle} />
-    </div>
+          Know more about{" "}
+          {original.category
+            .split(" ")
+            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(" ")}
+        </button>
+      )}
+      <div
+        style={{
+          width: isOpen ? "25%" : "0",
+          transition: "width 0.3s",
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        <ChatBot
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+          stage={stage}
+          setStage={setStage}
+          toggleChat={handleChatToggle}
+        />
+      </div>
     </div>
   );
 };

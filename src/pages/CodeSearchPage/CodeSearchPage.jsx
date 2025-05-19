@@ -97,7 +97,8 @@ export default function CodeSearchPage() {
           ) : (
             <>
               <p className="in-stock">
-                In Stock: {original.original_part_stock} {original.original_part_stock > 1 ? "Units" : "Unit"}
+                In Stock: {original.original_part_stock}{" "}
+                {original.original_part_stock > 1 ? "Units" : "Unit"}
               </p>
               <p>
                 <strong>Location:</strong> {original.original_part_location}

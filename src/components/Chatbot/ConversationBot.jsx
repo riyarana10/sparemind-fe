@@ -22,12 +22,13 @@ const ChatBot = ({ isOpen, setIsOpen, stage, setStage, toggleChat }) => {
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
 
-  const formattedCategory = categoryName !== null
-  ? categoryName
-      .split(" ")
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(" ")
-  : "";
+  const formattedCategory =
+    categoryName !== null
+      ? categoryName
+          .split(" ")
+          .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+          .join(" ")
+      : "";
 
   const defaultMessages = [
     {
@@ -280,22 +281,23 @@ const ChatBot = ({ isOpen, setIsOpen, stage, setStage, toggleChat }) => {
               </div>
 
               <div className="stage-buttons">
-  <button onClick={handleContinue} disabled={isExistingChatLoading || isNewChatLoading}>
-    {isExistingChatLoading ? (
-      <div className="spinner"></div>
-    ) : (
-      "Continue"
-    )}
-  </button>
-  <button onClick={handleNewChat} disabled={isNewChatLoading || isExistingChatLoading}>
-    {isNewChatLoading ? (
-      <div className="spinner"></div>
-    ) : (
-      "New"
-    )}
-  </button>
-</div>
-
+                <button
+                  onClick={handleContinue}
+                  disabled={isExistingChatLoading || isNewChatLoading}
+                >
+                  {isExistingChatLoading ? (
+                    <div className="spinner"></div>
+                  ) : (
+                    "Continue"
+                  )}
+                </button>
+                <button
+                  onClick={handleNewChat}
+                  disabled={isNewChatLoading || isExistingChatLoading}
+                >
+                  {isNewChatLoading ? <div className="spinner"></div> : "New"}
+                </button>
+              </div>
             </div>
           ) : (
             <>

@@ -74,8 +74,8 @@ export default function SearchPage() {
       })
       .then((fuzzyRes) => {
         if (fuzzyRes && fuzzyRes.data) {
-          setOriginals(fuzzyRes.data.originals.slice(0,5) || []);
-          setCategories(fuzzyRes.data.categories.slice(0,5) || []);
+          setOriginals(fuzzyRes.data.originals.slice(0, 5) || []);
+          setCategories(fuzzyRes.data.categories.slice(0, 5) || []);
           setReplacements(fuzzyRes.data.replacements || []);
         }
       })
@@ -87,12 +87,23 @@ export default function SearchPage() {
   }, [q, token]);
 
   if (!q) return <p>Please enter a search term.</p>;
-  if (loading) return( 
-    <>
-<div style={{ display: "flex", justifyContent: "center", padding: "2rem", marginTop:"50px" }}> <Spin size="large" tip="Loading parts..." /> </div>
-<p style={{textAlign:"center"}}>Searching for “{q}"</p>
-</>
-);
+  if (loading)
+    return (
+      <>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            padding: "2rem",
+            marginTop: "50px",
+          }}
+        >
+          {" "}
+          <Spin size="large" tip="Loading parts..." />{" "}
+        </div>
+        <p style={{ textAlign: "center" }}>Searching for “{q}"</p>
+      </>
+    );
   if (error) return <p className="error-message">{error}</p>;
 
   const topOriginals = originals.slice(0, 8);
@@ -111,102 +122,6 @@ export default function SearchPage() {
   };
 
   return (
-    // <div className="home-container">
-    //   {topOriginals.length > 0 && (
-    //     <section className="cards-section">
-    //       <h2>Original Parts</h2>
-    //       <div className="cards-grid">
-    //         {topOriginals.map((o, i) => (
-    //           <div key={i} className="replacement-card">
-    //             <h3>{o.original_part_name}</h3>
-    //             <p>
-    //               <strong>Item Code:</strong> {o.original_part_item_code}
-    //             </p>
-    //             <p>
-    //               <strong>Location:</strong> {o.original_part_location}
-    //             </p>
-    //             <p>
-    //               <strong>Stock:</strong> {o.original_part_stock} Unit
-    //             </p>
-    //             <p>
-    //               <strong>Price:</strong> ₹
-    //               {Math.round(o.original_part_price).toLocaleString("en-IN")}
-    //             </p>
-    //             <p>
-    //               <strong>Part Description:</strong>
-    //               <br />
-    //               {o.original_part_name_breakdown_definition}
-    //             </p>
-    //             <p>
-    //               <strong>Brand:</strong> {o.brand}
-    //             </p>
-    //             <button onClick={() => handleView(o, "original")}>
-    //               View Details
-    //             </button>
-    //           </div>
-    //         ))}
-    //       </div>
-    //     </section>
-    //   )}
-    //   {topCategories.length > 0 && (
-    //     <section className="cards-section">
-    //       <h2>Matched Categories</h2>
-    //       <div className="cards-grid">
-    //         {topCategories.map((c, i) => (
-    //           <div key={i} className="category-card-search">
-    //             <h3>{c}</h3>
-    //             <button
-    //               onClick={() => navigate(`/category/${encodeURIComponent(c)}`)}
-    //             >
-    //               View Category
-    //             </button>
-    //           </div>
-    //         ))}
-    //       </div>
-    //     </section>
-    //   )}
-    //   {topReplacements.length > 0 && (
-    //     <section className="cards-section">
-    //       <h2>Replacements</h2>
-    //       <div className="cards-grid">
-    //         {topReplacements.map((r, i) => (
-    //           <div key={i} className="replacement-card">
-    //             <h3>{r.replacement_part_name}</h3>
-    //             <p>
-    //               <strong>Item Code:</strong> {r.replacement_part_item_code}
-    //             </p>
-    //             <p>
-    //               <strong>Location:</strong> {r.replacement_part_location}
-    //             </p>
-    //             <p>
-    //               <strong>Stock:</strong> {r.replacement_part_stock} Unit
-    //             </p>
-    //             <p>
-    //               <strong>Price:</strong> ₹
-    //               {Math.round(r.replacement_part_price).toLocaleString("en-IN")}
-    //             </p>
-    //             <p>
-    //               <strong>Part Description:</strong>
-    //               <br />
-    //               {r.replacement_part_name_breakdown_definition}
-    //             </p>
-    //             <p>
-    //               <strong>Savings:</strong> ₹
-    //               {Math.round(r.price_difference).toLocaleString("en-IN")}
-    //             </p>
-    //             <button onClick={() => handleView(r, "replacement")}>
-    //               View Details
-    //             </button>
-    //           </div>
-    //         ))}
-    //       </div>
-    //     </section>
-    //   )}
-    //   {topOriginals.length === 0 &&
-    //     topCategories.length === 0 &&
-    //     topReplacements.length === 0 && <p>No results found for “{q}”.</p>}
-    // </div>
-
     <div>
       <div className="new-arrivals-container">
         {isLoadingProduct ? (
@@ -332,20 +247,6 @@ export default function SearchPage() {
                       </p>
                     </div>
                   </div>
-                  {/* <strong>PartsGenie Category : </strong>
-                <h3>
-                  {cat.name
-                    .split(" ")
-                    .map(
-                      (word) =>
-                        word.charAt(0).toUpperCase() +
-                        word.slice(1).toLowerCase()
-                    )
-                    .join(" ")}
-                </h3>
-                <p style={{ fontSize: "14px" }}>
-                  <strong>MSIL Category :</strong> {cat.msil_category.toUpperCase()}
-                </p> */}
                   <div className="view-all-spare-parts">
                     <p>
                       <strong>View all spare parts</strong>

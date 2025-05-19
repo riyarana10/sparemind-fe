@@ -3,7 +3,7 @@ import "./SearchBar.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import baseUrl from "../../services/base-url";
-import searchIcon from "../../assets/img/searchIcon.svg"
+import searchIcon from "../../assets/img/searchIcon.svg";
 
 const SearchBar = () => {
   const navigate = useNavigate();
@@ -86,7 +86,11 @@ const SearchBar = () => {
   return (
     <div className="search-container" ref={wrapperRef}>
       <div className="search-input-wrapper">
-        <img style={{width : "24px", height:"24px"}} src={searchIcon}  alt="saerch-img"/>
+        <img
+          style={{ width: "24px", height: "24px" }}
+          src={searchIcon}
+          alt="saerch-img"
+        />
         <input
           type="text"
           placeholder={placeholderText}
@@ -105,9 +109,7 @@ const SearchBar = () => {
                 onClick={() => {
                   setSearchTerm(suggestion.original_part_item_code);
                   setShowSuggestions(false);
-                  navigate(
-                    `/original/${suggestion.original_part_item_code}`
-                  );
+                  navigate(`/original/${suggestion.original_part_item_code}`);
                 }}
               >
                 <strong>{suggestion.original_part_item_code}</strong> —{" "}

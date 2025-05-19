@@ -58,7 +58,7 @@ const NewArrivalParts = ({ token }) => {
         responses.data.featured_parts.forEach((item) => {
           topProducts.push(item.original[0]);
         });
-        
+
         setRecentCodeResults(topProducts);
       } catch (err) {
         console.error("[DEBUG popular] error fetching popular parts:", err);
@@ -71,7 +71,7 @@ const NewArrivalParts = ({ token }) => {
   }, [token]);
 
   const handleClickViewDetails = (product) => {
-    localStorage.setItem("categoryId", product.category)
+    localStorage.setItem("categoryId", product.category);
     navigate(`/original/${product.original_part_item_code}`, {
       state: { query, results },
     });
@@ -82,7 +82,6 @@ const NewArrivalParts = ({ token }) => {
       <div className="new-arrivals-container">
         <div className="new-arrivals-header">
           <h2>SPARE PARTS</h2>
-          {/* <a href="/new-arrivals">View All</a> */}
         </div>
         {isLoadingProduct ? (
           <>
@@ -190,7 +189,6 @@ const NewArrivalParts = ({ token }) => {
       <section className="popular-categories">
         <div className="new-arrivals-header">
           <h2>CATEGORIES</h2>
-          {/* <a href="/new-arrivals">View All</a> */}
         </div>
         {isLoadingCategory ? (
           <>
