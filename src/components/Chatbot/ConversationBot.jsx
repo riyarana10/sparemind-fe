@@ -6,7 +6,7 @@ import bgImage from "../../assets/img/homePageBG.svg";
 import chatbotHomeLogo from "../../assets/img/chatbotHomeLogo.png";
 import botImage from "../../assets/img/bot_image.png";
 import baseUrl from "../../services/base-url";
-import "./bot.css";
+import "./ConversationBot.css";
 
 const ChatBot = ({ isOpen, setIsOpen, stage, setStage, toggleChat }) => {
   let categoryId = localStorage.getItem("categoryId");

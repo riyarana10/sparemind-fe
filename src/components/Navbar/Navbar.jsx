@@ -139,9 +139,10 @@ const Navbar = () => {
         {/* Desktop Account */}
         <div className="navbar-account desktop">
           <Dropdown
-            overlay={
-              <Menu items={accountMenuItems} onClick={handleAccountClick} />
-            }
+            menu={{
+              items: accountMenuItems,
+              onClick: handleAccountClick,
+            }}
             placement="bottomRight"
           >
             <span className="account-dropdown">
@@ -169,9 +170,10 @@ const Navbar = () => {
             />
             <div className="drawer-account">
               <Dropdown
-                overlay={
-                  <Menu items={accountMenuItems} onClick={handleAccountClick} />
-                }
+                menu={{
+                  items: accountMenuItems,
+                  onClick: handleAccountClick,
+                }}
                 placement="bottomLeft"
               >
                 <span className="account-dropdown">
