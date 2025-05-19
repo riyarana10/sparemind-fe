@@ -5,7 +5,7 @@ import noImage from "../../assets/img/No_image1.png";
 import "./CategoryPage.css";
 import ChatBot from "../../components/Chatbot/ConversationBot";
 import baseUrl from "../../services/base-url";
-import { Spin } from "antd"
+import { Spin } from "antd";
 
 const CategoryPage = () => {
   const { name } = useParams();
@@ -84,7 +84,16 @@ const CategoryPage = () => {
         </h2>
         {isLoading ? (
           <>
-            <div style={{ display: "flex", justifyContent: "center", padding: "2rem" }}> <Spin size="large" /> </div>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                padding: "2rem",
+              }}
+            >
+              {" "}
+              <Spin size="large" />{" "}
+            </div>
             <p style={{ textAlign: "center" }}>Loading original parts</p>
           </>
         ) : error ? (
@@ -109,23 +118,28 @@ const CategoryPage = () => {
                   <div className="category-product-details">
                     <div className="category-product-main">
                       <h3 className="category-product-name">
-                        <div style={{ width: "100%" }}>{item.original_part_name},{" "}</div>
-                        <div style={{ width: "100%" }}>{item.category
-                          .split(" ")
-                          .map(
-                            (word) =>
-                              word.charAt(0).toUpperCase() +
-                              word.slice(1).toLowerCase()
-                          )
-                          .join(" ")}
-                          , {item.brand}</div>
+                        <div style={{ width: "100%" }}>
+                          {item.original_part_name},{" "}
+                        </div>
+                        <div style={{ width: "100%" }}>
+                          {item.category
+                            .split(" ")
+                            .map(
+                              (word) =>
+                                word.charAt(0).toUpperCase() +
+                                word.slice(1).toLowerCase()
+                            )
+                            .join(" ")}
+                          , {item.brand}
+                        </div>
                       </h3>
                       <div className="stock-replacement">
                         <span
-                          className={`stock-tag ${item.original_part_stock > 20
-                            ? "stock-green"
-                            : "stock-yellow"
-                            }`}
+                          className={`stock-tag ${
+                            item.original_part_stock > 20
+                              ? "stock-green"
+                              : "stock-yellow"
+                          }`}
                         >
                           In stock: {item.original_part_stock}{" "}
                           {item.original_part_stock > 1 ? "Units" : "Unit"}
@@ -140,7 +154,6 @@ const CategoryPage = () => {
                           </span>
                         )}
                       </div>
-
                     </div>
 
                     <div>
@@ -208,7 +221,16 @@ const CategoryPage = () => {
         </h2>
         {isLoading ? (
           <>
-            <div style={{ display: "flex", justifyContent: "center", padding: "2rem" }}> <Spin size="large" /> </div>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                padding: "2rem",
+              }}
+            >
+              {" "}
+              <Spin size="large" />{" "}
+            </div>
             <p style={{ textAlign: "center" }}>Loading replacement parts</p>
           </>
         ) : error ? (
@@ -233,36 +255,41 @@ const CategoryPage = () => {
                   <div className="category-product-details">
                     <div className="category-product-main">
                       <h3 className="category-product-name">
-                        <div style={{ width: "100%" }}>{item.replacement_part_name},{" "}</div>
-                        <div style={{ width: "100%" }}>{item.category
-                          .split(" ")
-                          .map(
-                            (word) =>
-                              word.charAt(0).toUpperCase() +
-                              word.slice(1).toLowerCase()
-                          )
-                          .join(" ")}
-                        , {item.brand}</div>
+                        <div style={{ width: "100%" }}>
+                          {item.replacement_part_name},{" "}
+                        </div>
+                        <div style={{ width: "100%" }}>
+                          {item.category
+                            .split(" ")
+                            .map(
+                              (word) =>
+                                word.charAt(0).toUpperCase() +
+                                word.slice(1).toLowerCase()
+                            )
+                            .join(" ")}
+                          , {item.brand}
+                        </div>
                       </h3>
                       <div className="stock-replacement">
-                      <span
-                        className={`stock-tag ${item.replacement_part_stock > 20
-                          ? "stock-green"
-                          : "stock-yellow"
+                        <span
+                          className={`stock-tag ${
+                            item.replacement_part_stock > 20
+                              ? "stock-green"
+                              : "stock-yellow"
                           }`}
-                      >
-                        In stock: {item.replacement_part_stock}{" "}
-                        {item.replacement_part_stock > 1 ? "Units" : "Unit"}
-                      </span>
-                      {item.total_replacement > 0 && (
-                        <span className="category-product-replacement-tag">
-                          {item.total_replacement}{" "}
-                          {item.total_replacement > 1
-                            ? "replacements"
-                            : "replacement"}{" "}
-                          available
+                        >
+                          In stock: {item.replacement_part_stock}{" "}
+                          {item.replacement_part_stock > 1 ? "Units" : "Unit"}
                         </span>
-                      )}
+                        {item.total_replacement > 0 && (
+                          <span className="category-product-replacement-tag">
+                            {item.total_replacement}{" "}
+                            {item.total_replacement > 1
+                              ? "replacements"
+                              : "replacement"}{" "}
+                            available
+                          </span>
+                        )}
                       </div>
                     </div>
 

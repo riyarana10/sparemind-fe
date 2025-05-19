@@ -121,7 +121,6 @@ const Navbar = () => {
               window.scrollTo({ top: 0, behavior: "smooth" });
             }}
           >
-
             <img src={partsGenieLogo} alt="partsGeneie-logo" />
           </div>
 
@@ -145,7 +144,10 @@ const Navbar = () => {
             }
             placement="bottomRight"
           >
-            <span className="account-dropdown">MY ACCOUNT <img style={{ marginLeft: "14px" }} src={dropdownIcon} /></span>
+            <span className="account-dropdown">
+              MY ACCOUNT{" "}
+              <img style={{ marginLeft: "14px" }} src={dropdownIcon} />
+            </span>
           </Dropdown>
         </div>
 
@@ -172,7 +174,9 @@ const Navbar = () => {
                 }
                 placement="bottomLeft"
               >
-                <span className="account-dropdown">MY ACCOUNT <img src={dropdownIcon} /></span>
+                <span className="account-dropdown">
+                  MY ACCOUNT <img src={dropdownIcon} />
+                </span>
               </Dropdown>
             </div>
           </Drawer>

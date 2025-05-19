@@ -176,7 +176,6 @@
 
 .specs-grid {
   display: grid;
-  /* grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); */
   gap: 24px;
   font-family: IBM Plex Sans Condensed;
 }
@@ -323,11 +322,6 @@
     background: #f1f1f1;
   }
 }
-
-/* .category-cell:first-child {
-  background-color: #f0f7ff !important;
-  color: #0056b3;
-} */
 
 .part-image {
   max-width: 200px;

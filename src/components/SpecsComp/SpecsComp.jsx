@@ -124,12 +124,6 @@ const SpecsComparison = ({
         </div>
       </div>
 
-
-      {/* <div className="table-toggle" onClick={toggleTable}>
-        <strong>{isTableOpen ? "Collapse Table" : "Expand Table"}</strong>
-        <span>{isTableOpen ? "▲" : "▼"}</span>
-      </div> */}
-
       {isTableOpen && (
         <div className="table-scroll-wrapper">
           <table className="spec-table">
@@ -144,24 +138,25 @@ const SpecsComparison = ({
                     {originalPart.original_part_price &&
                       replacementPart.replacement_part_price && (
                         <span
-                          className={`savings-value ${originalPart.original_part_price -
-                            replacementPart.replacement_part_price >=
+                          className={`savings-value ${
+                            originalPart.original_part_price -
+                              replacementPart.replacement_part_price >=
                             0
-                            ? "positive"
-                            : "negative"
-                            }`}
+                              ? "positive"
+                              : "negative"
+                          }`}
                         >
                           {originalPart.original_part_price -
                             replacementPart.replacement_part_price >=
-                            0
+                          0
                             ? `Savings: ₹ ${formatPrice(
-                              originalPart.original_part_price -
-                              replacementPart.replacement_part_price
-                            )}`
+                                originalPart.original_part_price -
+                                  replacementPart.replacement_part_price
+                              )}`
                             : `Extra Cost: ₹ ${formatPrice(
-                              replacementPart.replacement_part_price -
-                              originalPart.original_part_price
-                            )}`}
+                                replacementPart.replacement_part_price -
+                                  originalPart.original_part_price
+                              )}`}
                         </span>
                       )}
                   </div>
@@ -201,13 +196,21 @@ const SpecsComparison = ({
                 .map((section) => {
                   const origLines = originalSpecsBySection[section] || [];
                   const repLines = replacementSpecsBySection[section] || [];
-                  const rowCount = Math.max(origLines.length, repLines.length, 1);
+                  const rowCount = Math.max(
+                    origLines.length,
+                    repLines.length,
+                    1
+                  );
 
                   const rows = [];
 
                   for (let rowIdx = 0; rowIdx < rowCount; rowIdx++) {
-                    const { attr: oAttr, val: oVal } = parseLine(origLines[rowIdx]);
-                    const { attr: rAttr, val: rVal } = parseLine(repLines[rowIdx]);
+                    const { attr: oAttr, val: oVal } = parseLine(
+                      origLines[rowIdx]
+                    );
+                    const { attr: rAttr, val: rVal } = parseLine(
+                      repLines[rowIdx]
+                    );
                     const labelAttr = oAttr || rAttr || "—";
                     const isDiff = oVal !== rVal;
 
@@ -237,22 +240,21 @@ const SpecsComparison = ({
                   // Inject the correct rowSpan for the first cell
                   if (rows.length > 0) {
                     const firstRow = rows[0];
-                    const withRowSpan = React.cloneElement(
-                      firstRow,
-                      {},
-                      [
-                        <td rowSpan={rows.length} className="category-cell" key="cat-cell">
-                          {section}
-                        </td>,
-                        ...firstRow.props.children.slice(1)
-                      ]
-                    );
+                    const withRowSpan = React.cloneElement(firstRow, {}, [
+                      <td
+                        rowSpan={rows.length}
+                        className="category-cell"
+                        key="cat-cell"
+                      >
+                        {section}
+                      </td>,
+                      ...firstRow.props.children.slice(1),
+                    ]);
                     rows[0] = withRowSpan;
                   }
 
                   return rows;
                 })}
-
             </tbody>
           </table>
         </div>

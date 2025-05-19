@@ -1,18 +1,7 @@
-/* ProductDetails.css */
-
 /* Base container styles */
 .product-details-container {
   margin: 0 40px;
 }
-
-/* Main content area */
-/* .main-content {
-  width: 100%;
-  background: white;
-  border-radius: 0.5rem;
-  box-shadow: var(--shadow-medium);
-  padding: 2rem;
-} */
 
 /* Product card styling */
 .product-card {
@@ -39,11 +28,7 @@
   .product-details-container {
     margin: 0px;
   }
-  
-  /* .main-content {
-    padding: 1rem;
-  } */
-  
+
   .card-header {
     flex-direction: column;
     gap: 1rem;

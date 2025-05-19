@@ -88,7 +88,10 @@ const AllCategoryPage = () => {
               if (selectedLetter && selectedLetter !== letter) return null;
               return (
                 <section key={letter} className="category-section">
-                  <Title level={5} style={{ fontSize: "20px", color: "#2D3394" }}>
+                  <Title
+                    level={5}
+                    style={{ fontSize: "20px", color: "#2D3394" }}
+                  >
                     {letter}
                   </Title>
                   {grouped[letter]

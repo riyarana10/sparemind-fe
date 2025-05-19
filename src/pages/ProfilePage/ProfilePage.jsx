@@ -69,9 +69,6 @@ export default function ProfilePage() {
           <BreadcrumbNav />
         </div>
         <div className="profile-container">
-          {/* <button className="back-button" onClick={() => navigate(-1)}>
-          ← Back
-        </button> */}
           <h1 className="profile-title">MY PROFILE</h1>
           <div className="profile-stats">
             <div>

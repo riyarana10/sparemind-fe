@@ -3,7 +3,7 @@ import ZoomImage from "../ZoomImage/ZoomImage";
 import { parseSpecs, buildSpecsObject } from "../../utils/specsParser";
 import "./PartDetailsCard.css";
 import location from "../../assets/img/location.svg";
-import file from "../../assets/img/file.svg"
+import file from "../../assets/img/file.svg";
 
 const PartDetailsCard = ({
   part,
@@ -65,7 +65,11 @@ const PartDetailsCard = ({
       {/* Center: Details */}
       <div className="part-details">
         <div className="part-header">
-          <h1 className="part-name">{`${partData.name}, ${partData.category.replace(/\b\w/g, char => char.toUpperCase())}, ${partData.brand}` || "No name available"}</h1>
+          <h1 className="part-name">
+            {`${partData.name}, ${partData.category.replace(/\b\w/g, (char) =>
+              char.toUpperCase()
+            )}, ${partData.brand}` || "No name available"}
+          </h1>
         </div>
 
         <div className="details-grid">
@@ -87,7 +91,10 @@ const PartDetailsCard = ({
               </span>
             </div>
           </div>
-          <div className="detail-row double-column" style={{display:"flex", flexDirection:"row", gap:"30px"}}>
+          <div
+            className="detail-row double-column"
+            style={{ display: "flex", flexDirection: "row", gap: "30px" }}
+          >
             <div className="detail-group">
               <span className="detail-label">PartsGenie Category</span>
               <span className="detail-value">
@@ -154,8 +161,8 @@ const PartDetailsCard = ({
                             {blk.items.map((item, j) => (
                               <li key={j}>
                                 {typeof item === "string"
-                                // eslint-disable-next-line
-                                  ? item.replace(/^[•\-]\s*/, "")?.trim() ??
+                                  ? // eslint-disable-next-line
+                                    item.replace(/^[•\-]\s*/, "")?.trim() ??
                                     item
                                   : JSON.stringify(item)}
                               </li>
@@ -211,9 +218,22 @@ const PartDetailsCard = ({
                 alt="Location"
                 className="location-icon w-10 h-10 text-gray-500"
               />
-              <div style={{fontFamily:"IBM Plex Sans Condensed"}}>
-                <p className="text-gray-500 text-sm font-sans" style={{fontSize:"16px", fontWeight:"400", color:"#000000", opacity:"50%"}}>Location</p>
-                <p className="font-sans font-extrabold text-gray-900 text-base leading-tight" style={{fontSize:"18px", fontWeight:"700"}}> 
+              <div style={{ fontFamily: "IBM Plex Sans Condensed" }}>
+                <p
+                  className="text-gray-500 text-sm font-sans"
+                  style={{
+                    fontSize: "16px",
+                    fontWeight: "400",
+                    color: "#000000",
+                    opacity: "50%",
+                  }}
+                >
+                  Location
+                </p>
+                <p
+                  className="font-sans font-extrabold text-gray-900 text-base leading-tight"
+                  style={{ fontSize: "18px", fontWeight: "700" }}
+                >
                   {partData.location || "N/A"}
                 </p>
               </div>
@@ -227,12 +247,12 @@ const PartDetailsCard = ({
               rel="noopener noreferrer"
               className="download-button"
             >
-              <img src={file} alt=""/>
+              <img src={file} alt="" />
               Download PDF Specs
             </a>
           ) : (
             <button className="download-button" disabled>
-              <img src={file} alt=""/>
+              <img src={file} alt="" />
               No PDF Docs
             </button>
           )}

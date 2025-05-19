@@ -53,13 +53,10 @@
   font-weight: 500;
   color: #111;
   margin-bottom: 4px;
-  /* overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis; */
   min-width: 20%;
 }
 
-.stock-replacement{
+.stock-replacement {
   display: flex;
   flex-direction: row;
   gap: 12px;
@@ -253,6 +250,7 @@
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }
@@ -264,6 +262,7 @@
     height: 90vh;
   }
 }
+
 @media (max-width: 1024px) {
   .chatbot-split-view {
     width: 44%;
