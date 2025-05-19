@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import BreadcrumbNav from "../../components/BreadcrumbNav";
+import BreadcrumbNav from "../../components/BreadcrumbNav/BreadcrumbNav";
 import axios from "axios";
 import "./ProductDetails.css";
-import PartDetailsCard from "../../components/PartDetailsCard";
-import ComparisonSection from "../../components/ComparisonSection";
+import PartDetailsCard from "../../components/PartDetailsCard/PartDetailsCard";
+import ComparisonSection from "../../components/ComparisonSection/ComparisonSection";
 import SpecsComparison from "../../components/SpecsComp/SpecsComp";
-import SearchBar from "../../components/SearchBar";
+import SearchBar from "../../components/SearchBar/SearchBar";
 import { pdfLinks } from "../../productConstants";
 import { formatPrice } from "../../productUtils";
 import ChatBot from "../../components/Chatbot/ConversationBot";
@@ -17,8 +17,6 @@ const ProductDetails = () => {
   const { code } = useParams();
   const navigate = useNavigate();
   const token = localStorage.getItem("access_token");
-  const payload = token ? JSON.parse(atob(token.split(".")[1])) : {};
-  const role = payload.role || "user";
   const[isOpen, setIsOpen] = useState(false)
   const [stage, setStage] = useState("choose")
 
@@ -39,10 +37,6 @@ const ProductDetails = () => {
     replacements,
     loading,
     error,
-    commentText,
-    lastComment,
-    decision,
-    busy,
     compareOther,
   } = productState;
 
@@ -81,36 +75,7 @@ const ProductDetails = () => {
       .finally(() => {
         setProductState((prev) => ({ ...prev, loading: false }));
       });
-  }, [code]);
-
-  const handleDecision = async (accepted, rejected, comment) => {
-    setProductState((prev) => ({ ...prev, busy: true }));
-    try {
-      await axios.post(
-        `${baseUrl}/decision`,
-        {
-          original_part_item_code: original.original_part_item_code,
-          replacement_part_item_code: "",
-          accepted,
-          rejected,
-          comment,
-        },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-
-      setProductState((prev) => ({
-        ...prev,
-        decision: accepted ? "accepted" : rejected ? "rejected" : null,
-        lastComment: comment,
-        commentText: "",
-      }));
-    } catch (err) {
-      console.error(err);
-      alert("Failed to save your decision.");
-    } finally {
-      setProductState((prev) => ({ ...prev, busy: false }));
-    }
-  };
+  }, [code, token]);
 
   if (loading) return (
     <>

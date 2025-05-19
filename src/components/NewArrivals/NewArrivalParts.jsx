@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import noImage from "../../assets/img/No_image1.png";
@@ -21,17 +21,9 @@ const NewArrivalParts = ({ token }) => {
   const [recentCodeResults, setRecentCodeResults] = useState([]);
   const initialQuery = location.state?.query || "";
   const initialResults = location.state?.results || [];
-  const [query, setQuery] = useState(initialQuery);
-  const [results, setResults] = useState(initialResults);
-
-  const [expandedIndexes, setExpandedIndexes] = useState([]);
+  const [query] = useState(initialQuery);
+  const [results] = useState(initialResults);
   const [expandedCardIndex, setExpandedCardIndex] = useState(null);
-
-  const toggleExpanded = (index) => {
-    setExpandedIndexes((prev) =>
-      prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
-    );
-  };
 
   // Fetch top‐5 categories from backend
   useEffect(() => {
@@ -63,11 +55,10 @@ const NewArrivalParts = ({ token }) => {
         });
 
         let topProducts = [];
-        responses.data.featured_parts = responses.data.featured_parts.map(
-          (item) => {
-            topProducts.push(item.original[0]);
-          }
-        );
+        responses.data.featured_parts.forEach((item) => {
+          topProducts.push(item.original[0]);
+        });
+        
         setRecentCodeResults(topProducts);
       } catch (err) {
         console.error("[DEBUG popular] error fetching popular parts:", err);
@@ -230,6 +221,7 @@ const NewArrivalParts = ({ token }) => {
                         borderRadius: "4px",
                       }}
                       src={cat.image === "" ? noImage : cat.image}
+                      alt="category=img"
                     />
                   </div>
                   <div>

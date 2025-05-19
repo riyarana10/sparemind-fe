@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
-import PartDetailsCard from "./PartDetailsCard";
-import DecisionSection from "./DecisionSection";
+import PartDetailsCard from "../PartDetailsCard/PartDetailsCard";
+import DecisionSection from "../DecisionSection/DecisionSection";
 import "./ComparisonSection.css";
-import NoImage from ".././assets/img/no_image.jpg";
-import Icon from "../assets/img/Icon.svg"; 
+import NoImage from "../../assets/img/no_image.jpg";
+import Icon from "../../assets/img/Icon.svg"; 
 import axios from "axios";
-import baseUrl from "../services/base-url";
-import { BiBorderAll } from "react-icons/bi";
-import cmpr from "../assets/img/cmprr.svg"
+import baseUrl from "../../services/base-url";
+import cmpr from "../../assets/img/cmprr.svg"
 
 
 const ComparisonSection = ({
@@ -19,8 +18,6 @@ const ComparisonSection = ({
   
   const expandedRef = React.useRef(null);
   const [expandedCard, setExpandedCard] = useState(null);
-  const [busy, setBusy] = useState(false);
-  const [commentText, setCommentText] = useState("");
   const [role, setRole] = useState("user");
 
   useEffect(() => {
@@ -78,7 +75,6 @@ const ComparisonSection = ({
     comment,
     replacement
   ) => {
-    setBusy(true);
     try {
       const token = localStorage.getItem("access_token");
       await axios.post(
@@ -102,12 +98,10 @@ const ComparisonSection = ({
         },
       }));
 
-      setCommentText("");
     } catch (err) {
       console.error(err);
       alert("Failed to save your decision.");
     } finally {
-      setBusy(false);
     }
   };
 

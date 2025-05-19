@@ -1,15 +1,13 @@
 import React, { useEffect, useState, useRef } from "react";
 import "./SearchBar.css";
-import { FaSearch } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import baseUrl from "../services/base-url";
-import searchIcon from "../assets/img/searchIcon.svg"
+import baseUrl from "../../services/base-url";
+import searchIcon from "../../assets/img/searchIcon.svg"
 
 const SearchBar = () => {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const token = localStorage.getItem("access_token");
@@ -75,10 +73,8 @@ const SearchBar = () => {
   const handleSearch = (e) => {
     e.preventDefault();
     if (!searchTerm.trim()) return;
-    setIsLoading(true);
     navigate(`/search?query=${encodeURIComponent(searchTerm.trim())}`);
     setShowSuggestions(false);
-    setIsLoading(false);
   };
 
   const handleKeyDown = (e) => {
@@ -90,7 +86,7 @@ const SearchBar = () => {
   return (
     <div className="search-container" ref={wrapperRef}>
       <div className="search-input-wrapper">
-        <img style={{width : "24px", height:"24px"}} src={searchIcon}/>
+        <img style={{width : "24px", height:"24px"}} src={searchIcon}  alt="saerch-img"/>
         <input
           type="text"
           placeholder={placeholderText}
