@@ -64,6 +64,7 @@ const Navbar = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("access_token");
+    localStorage.removeItem("categoryId");
     navigate("/login");
     window.location.reload();
   };

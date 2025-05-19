@@ -22,15 +22,19 @@ const ChatBot = ({ isOpen, setIsOpen, stage, setStage, toggleChat }) => {
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
 
+  const formattedCategory = categoryName !== null
+  ? categoryName
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ")
+  : "";
+
   const defaultMessages = [
     {
       sender: "bot",
       text: location.pathname.startsWith("/dashboard")
         ? `How can i help you ?`
-        : `Hi there! I'm your automobile parts assistant. Ask me anything about spare parts manuals ${categoryName
-            .split(" ")
-            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-            .join(" ")}.`,
+        : `Hi there! I'm your automobile parts assistant. Ask me anything about spare parts manuals ${formattedCategory}.`,
     },
   ];
 
