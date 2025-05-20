@@ -58,7 +58,7 @@ const ChatBot = ({ isOpen, setIsOpen, stage, setStage, toggleChat }) => {
     if (location.pathname.startsWith("/dashboard")) {
       setIsLoading(false);
       try {
-        const res = await fetch(`${baseUrl}/vanaa_chat/history`, {
+        const res = await fetch(`${baseUrl}/vanna_chat/history`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
