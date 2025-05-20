@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useEffect, useRef} from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -17,6 +17,21 @@ import ProductDetails from "./pages/ProductDetails/ProductDetails";
 
 export default function App() {
   const token = localStorage.getItem("access_token");
+  const previousWidth = useRef(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const currentWidth = window.innerWidth;
+      if (previousWidth.current !== currentWidth) {
+        previousWidth.current = currentWidth;
+        window.location.reload(); // Refresh only if width changed
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
   return (
     <Router>
       <Routes>

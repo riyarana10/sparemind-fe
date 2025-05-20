@@ -25,7 +25,7 @@ const FindParts = () => {
     const updatePlaceholder = () => {
       setPlaceholderText(
         window.innerWidth < 768
-          ? "Search parts"
+          ? "Search parts..."
           : "Search by part name, code, machine type, issue etc.."
       );
     };
