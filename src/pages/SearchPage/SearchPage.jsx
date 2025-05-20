@@ -99,7 +99,7 @@ export default function SearchPage() {
           }}
         >
           {" "}
-          <Spin size="large" tip="Loading parts..." />{" "}
+          <Spin size="large" />{" "}
         </div>
         <p style={{ textAlign: "center" }}>Searching for “{q}"</p>
       </>

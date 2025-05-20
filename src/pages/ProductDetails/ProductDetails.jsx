@@ -82,7 +82,7 @@ const ProductDetails = () => {
             marginTop: "50px",
           }}
         >
-          <Spin size="large" tip="Loading part..." />
+          <Spin size="large" />
         </div>
         <p style={{ textAlign: "center" }}>Loading product details</p>
       </>
