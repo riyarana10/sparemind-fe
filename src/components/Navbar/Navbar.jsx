@@ -92,6 +92,10 @@ const Navbar = () => {
       window.scrollTo({ top: 0, behavior: "smooth" });
       return;
     }
+    if (e.key === "rca-bot") {
+      window.open("http://15.168.192.43:8001/", "_blank");
+      return;
+    }
     navigate(`/${e.key}`);
   };
 

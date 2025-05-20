@@ -1,9 +1,11 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect, use } from "react";
 import ZoomImage from "../ZoomImage/ZoomImage";
 import { parseSpecs, buildSpecsObject } from "../../utils/specsParser";
 import "./PartDetailsCard.css";
+import { Modal, Button, List } from "antd";
 import location from "../../assets/img/location.svg";
 import file from "../../assets/img/file.svg";
+import axios from "axios";
 
 const PartDetailsCard = ({
   part,
@@ -18,6 +20,7 @@ const PartDetailsCard = ({
   showSpecs = true,
 }) => {
   const [showAllSpecs, setShowAllSpecs] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const partData = {
     item_code: isOriginal
@@ -242,7 +245,13 @@ const PartDetailsCard = ({
 
           {resourceLink ? (
             <a
-              href={resourceLink}
+              onClick={() => {
+                if (resourceLink.length > 1) {
+                  setIsModalOpen(true);
+                } else {
+                  window.open(resourceLink[0], "_blank");
+                }
+              }}
               target="_blank"
               rel="noopener noreferrer"
               className="download-button"
@@ -258,6 +267,31 @@ const PartDetailsCard = ({
           )}
         </div>
       </div>
+
+      {/* modal for multiple pdf links  */}
+      <Modal
+        title={`Attachments`}
+        open={isModalOpen}
+        onCancel={() => setIsModalOpen(false)}
+        footer={[
+          <Button key="close" onClick={() => setIsModalOpen(false)}>
+            Close
+          </Button>,
+        ]}
+      >
+        <List
+          dataSource={resourceLink}
+          renderItem={(link, index) => (
+            <List.Item key={index}>
+              <div style={{ wordBreak: 'break-all', maxWidth: '100%' }}>
+                <a href={link} target="_blank" rel="noopener noreferrer">
+                  {link}
+                </a>
+              </div>
+            </List.Item>
+          )}
+        />
+      </Modal>
     </div>
   );
 };

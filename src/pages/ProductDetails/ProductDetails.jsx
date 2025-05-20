@@ -19,6 +19,8 @@ const ProductDetails = () => {
   const token = localStorage.getItem("access_token");
   const [isOpen, setIsOpen] = useState(false);
   const [stage, setStage] = useState("choose");
+  const [resourceLink, setResourceLink] = useState(null);
+  const categoryId = localStorage.getItem("categoryId");
 
   const [productState, setProductState] = useState({
     original: null,
@@ -47,6 +49,7 @@ const ProductDetails = () => {
       .then((res) => {
         const { original, replacements } = res.data;
         localStorage.setItem("categoryId", original.category);
+        localStorage.setItem("sereiesName", original.series_name);
         setProductState((prev) => ({
           ...prev,
           original,
@@ -70,6 +73,29 @@ const ProductDetails = () => {
         setProductState((prev) => ({ ...prev, loading: false }));
       });
   }, [code, token]);
+
+  const fetchPdfLink = async (category) => {
+    try {
+      const token = localStorage.getItem("access_token");
+      const res = await axios.get(`${baseUrl}/pdf_link`, {
+        params: {
+          series_name: localStorage.getItem("sereiesName"),
+          category_id: category.replace(/\s+/g, "-")
+        },
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+
+      setResourceLink(res.data.pdf_links);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  useEffect(() =>{
+    fetchPdfLink(categoryId);
+  },[])
 
   if (loading)
     return (
@@ -100,7 +126,6 @@ const ProductDetails = () => {
   }
 
   const category = original.category?.toUpperCase().trim();
-  const resourceLink = pdfLinks[category];
 
   const handleChatToggle = () => {
     setIsOpen(!isOpen);
@@ -135,7 +160,7 @@ const ProductDetails = () => {
                   isOriginal={true}
                   formatPrice={formatPrice}
                   resourceLink={
-                    pdfLinks[original.category?.toUpperCase().trim()]
+                    resourceLink
                   }
                 />
               </div>
