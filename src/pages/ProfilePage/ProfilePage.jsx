@@ -153,6 +153,7 @@ export default function ProfilePage() {
         acc[u].savings += t.price_difference || 0;
       } else if (t.status === "rejected") {
         acc[u].rejected++;
+        acc[u].savings -= t.price_difference || 0;
       } else {
         acc[u].commented++;
       }

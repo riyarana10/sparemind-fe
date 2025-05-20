@@ -32,7 +32,7 @@ const Dashboard = () => {
 
       {!isOpen && (
         <button className="chatbot-toggle" onClick={() => setIsOpen(!isOpen)}>
-          Ask me anything
+          Know more about part replacements 
         </button>
       )}
       <div

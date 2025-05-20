@@ -34,7 +34,7 @@ const ChatBot = ({ isOpen, setIsOpen, stage, setStage, toggleChat }) => {
     {
       sender: "bot",
       text: location.pathname.startsWith("/dashboard")
-        ? `How can i help you ?`
+        ? `Interact with dashboard data to know more about part replacements.`
         : `Hi there! I'm your automobile parts assistant. Ask me anything about spare parts manuals ${formattedCategory}.`,
     },
   ];
