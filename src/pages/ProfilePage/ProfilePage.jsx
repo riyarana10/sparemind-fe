@@ -49,7 +49,7 @@ export default function ProfilePage() {
         style={{ display: "flex", justifyContent: "center", padding: "2rem" }}
       >
         {" "}
-        <Spin size="large" tip="Loading profile..." />{" "}
+        <Spin size="large" />{" "}
       </div>
     );
   }
