@@ -76,6 +76,7 @@ const Navbar = () => {
     { key: "home", label: "HOME" },
     { key: "all-categories", label: "ALL CATEGORIES" },
     { key: "dashboard", label: "DASHBOARD" },
+    { key: "rca-bot", label: "RCA BOT" },
   ];
 
   const accountMenuItems = [
