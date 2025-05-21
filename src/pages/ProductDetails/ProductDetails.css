@@ -34,3 +34,21 @@
     gap: 1rem;
   }
 }
+
+.no-replacements-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 150px;
+  text-align: center;
+  border: 1px solid #e5e7eb;
+  margin: 20px 0px;
+  background: #ffffff;
+  border-radius: 24px;
+}
+
+.no-replacements-text {
+  font-size: 1rem;
+  color: #6b7280; 
+  font-weight: 500;
+}
