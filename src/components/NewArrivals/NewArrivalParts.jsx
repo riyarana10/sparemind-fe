@@ -162,7 +162,7 @@ const NewArrivalParts = ({ token }) => {
                         {product.original_part_name_breakdown_definition}
                       </p>
                       {product.original_part_name_breakdown_definition.length >
-                        60 && (
+                        40 && (
                         <button
                           className="read-more-btn"
                           onClick={(e) => {
