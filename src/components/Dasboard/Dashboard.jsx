@@ -22,7 +22,7 @@ const Dashboard = () => {
               title="Maruti Dashboard"
               width="100%"
               height="750"
-              src="https://app.powerbi.com/reportEmbed?reportId=f8506fb5-e9ad-4325-bb10-63666efca919&autoAuth=true&ctid=85a77b6c-a790-4bcf-8fd6-c1f891dd360b%22https://app.powerbi.com/reportEmbed?reportId=0e762fc3-6c90-48a8-9801-be2b507eb729&autoAuth=true&ctid=85a77b6c-a790-4bcf-8fd6-c1f891dd360b"
+              src="https://app.powerbi.com/reportEmbed?reportId=f8506fb5-e9ad-4325-bb10-63666efca919&autoAuth=true&ctid=85a77b6c-a790-4bcf-8fd6-c1f891dd360b"
               frameborder="0"
               allowFullScreen="true"
             ></iframe>
