@@ -104,8 +104,8 @@ export default function ProfilePage() {
                   <tr key={i}>
                     <td>{new Date(d.updated_at).toLocaleString()}</td>
                     <td>
-                      {d.original_part_item_code} →{" "}
-                      {d.replacement_part_item_code}
+                      {d.original_part_name} →{" "}
+                      {d.replacement_part_name}
                     </td>
                     <td
                       className={
@@ -187,7 +187,7 @@ export default function ProfilePage() {
                   <td>{new Date(d.updated_at).toLocaleString()}</td>
                   <td>{d.user_id}</td>
                   <td>
-                    {d.original_part_item_code} → {d.replacement_part_item_code}
+                    {d.original_part_name} → {d.replacement_part_name}
                   </td>
                   <td
                     className={
