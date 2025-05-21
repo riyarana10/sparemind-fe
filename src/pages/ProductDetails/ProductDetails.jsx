@@ -84,8 +84,8 @@ const ProductDetails = () => {
           category_id: category.replace(/\s+/g, "-")
         },
         headers: {
-          Authorization: `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       });
 
       setResourceLink(res.data.pdf_links);
@@ -156,15 +156,13 @@ const ProductDetails = () => {
                   part={original}
                   isOriginal={true}
                   formatPrice={formatPrice}
-                  resourceLink={
-                    resourceLink
-                  }
+                  resourceLink={resourceLink}
                 />
               </div>
             </div>
 
             {/* Replacement Comparison */}
-            {replacements.length > 0 && (
+            {replacements.length > 0 ? (
               <ComparisonSection
                 original={original}
                 replacements={replacements}
@@ -175,6 +173,12 @@ const ProductDetails = () => {
                 formatPrice={formatPrice}
                 SpecsComparison={SpecsComparison}
               />
+            ) : (
+              <div className="no-replacements-box">
+                <p className="no-replacements-text">
+                  No replacements found for this product.
+                </p>
+              </div>
             )}
           </div>
         </div>
