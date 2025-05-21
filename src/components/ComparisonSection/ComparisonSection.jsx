@@ -17,6 +17,30 @@ const ComparisonSection = ({
   const expandedRef = React.useRef(null);
   const [expandedCard, setExpandedCard] = useState(null);
   const [role, setRole] = useState("user");
+  const [resourceLink, setResourceLink] = useState(null);
+
+  const fetchPdfLink = async (category,sereiesName) => {
+    try {
+      const token = localStorage.getItem("access_token");
+      const res = await axios.get(`${baseUrl}/pdf_link`, {
+        params: {
+          series_name: sereiesName,
+          category_id: category.replace(/\s+/g, "-")
+        },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      setResourceLink(res.data.pdf_links);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  useEffect(() =>{
+    fetchPdfLink(original.category,original.series_name);
+  },[])
 
   useEffect(() => {
     const updateRole = () => {
@@ -217,7 +241,7 @@ const ComparisonSection = ({
               <>
                 <div className="comparison-grid">
                   <div className="replacement-part">
-                    <PartDetailsCard part={rep} formatPrice={formatPrice} />
+                    <PartDetailsCard part={rep} isOriginal={false} formatPrice={formatPrice} resourceLink={resourceLink} />
                   </div>
                 </div>
                 <div className="lower-comparison-grid">
