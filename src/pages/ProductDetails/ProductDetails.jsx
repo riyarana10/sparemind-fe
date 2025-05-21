@@ -61,6 +61,7 @@ const ProductDetails = () => {
             ? "rejected"
             : null,
         }));
+        fetchPdfLink(original.category,original.series_name);
       })
       .catch((err) => {
         console.error("Load failed:", err);
@@ -74,12 +75,12 @@ const ProductDetails = () => {
       });
   }, [code, token]);
 
-  const fetchPdfLink = async (category) => {
+  const fetchPdfLink = async (category,sereiesName) => {
     try {
       const token = localStorage.getItem("access_token");
       const res = await axios.get(`${baseUrl}/pdf_link`, {
         params: {
-          series_name: localStorage.getItem("sereiesName"),
+          series_name: sereiesName,
           category_id: category.replace(/\s+/g, "-")
         },
         headers: {
@@ -92,10 +93,6 @@ const ProductDetails = () => {
       console.error(e);
     }
   };
-
-  useEffect(() =>{
-    fetchPdfLink(categoryId);
-  },[])
 
   if (loading)
     return (
