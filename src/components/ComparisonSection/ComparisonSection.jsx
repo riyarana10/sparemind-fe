@@ -77,7 +77,7 @@ const ComparisonSection = ({
   const [decisions, setDecisions] = useState(() => {
     const initialDecisions = {};
     replacements.forEach((rep) => {
-      initialDecisions[rep.replacement_part_item_code] = {
+      initialDecisions[rep.replacement_part_name] = {
         decision: rep.accepted ? "accepted" : rep.rejected ? "rejected" : null,
         lastComment: rep.comment || "",
       };
@@ -101,8 +101,8 @@ const ComparisonSection = ({
       await axios.post(
         `${baseUrl}/decision`,
         {
-          original_part_item_code: original.original_part_item_code,
-          replacement_part_item_code: replacement.replacement_part_item_code,
+          original_part_name: original.original_part_name,
+          replacement_part_name: replacement.replacement_part_name,
           accepted,
           rejected,
           comment,
@@ -113,7 +113,7 @@ const ComparisonSection = ({
       // Update the decision state for this specific replacement
       setDecisions((prev) => ({
         ...prev,
-        [replacement.replacement_part_item_code]: {
+        [replacement.replacement_part_name]: {
           decision: accepted ? "accepted" : "rejected",
           lastComment: comment,
         },
@@ -128,9 +128,9 @@ const ComparisonSection = ({
   const onReview = async (original, replacement) => {
     setDecisions((prev) => ({
       ...prev,
-      [replacement.replacement_part_item_code]: {
+      [replacement.replacement_part_name]: {
         decision: null,
-        lastComment: prev[replacement.replacement_part_item_code].lastComment,
+        lastComment: prev[replacement.replacement_part_name].lastComment,
       },
     }));
   };
@@ -155,7 +155,7 @@ const ComparisonSection = ({
               <div
                 key={i}
                 className={`replacement-card ${
-                  expandedCard === rep.replacement_part_item_code
+                  expandedCard === rep.replacement_part_name
                     ? "active"
                     : ""
                 }`}
@@ -182,7 +182,7 @@ const ComparisonSection = ({
                     </span>
                     <br />
                     <strong style={{ fontSize: "1rem", color: "#111827" }}>
-                      {rep.replacement_part_item_code}
+                      {rep.replacement_part_item_code === null ? "N/A (Web Research)" : rep.replacement_part_item_code}
                     </strong>
                   </p>
 
@@ -193,7 +193,9 @@ const ComparisonSection = ({
                         ₹{formatPrice(rep.replacement_part_price)}
                       </p>
                     </div>
-                    <div className="savings-column">
+                    {
+                      rep.replacement_part_item_code !== null && (
+                         <div className="savings-column">
                       <p
                         className={`rep-savings ${
                           original.original_part_price -
@@ -216,12 +218,14 @@ const ComparisonSection = ({
                             )}`}
                       </p>
                     </div>
+                      )
+                    }
                   </div>
                 </div>
 
                 <button
                   className="compare-button"
-                  onClick={() => toggleCard(rep.replacement_part_item_code)}
+                  onClick={() => toggleCard(rep.replacement_part_name)}
                 >
                   <img src={cmpr} alt="compare icon" />
                   Compare
@@ -235,7 +239,7 @@ const ComparisonSection = ({
         <div className="expanded-details" ref={expandedRef}>
           {(() => {
             const rep = replacements.find(
-              (r) => r.replacement_part_item_code === expandedCard
+              (r) => r.replacement_part_name === expandedCard
             );
             return (
               <>
@@ -298,11 +302,11 @@ const ComparisonSection = ({
                       original={original}
                       replacement={rep}
                       decision={
-                        decisions[rep.replacement_part_item_code]?.decision ||
+                        decisions[rep.replacement_part_name]?.decision ||
                         null
                       }
                       lastComment={
-                        decisions[rep.replacement_part_item_code]
+                        decisions[rep.replacement_part_name]
                           ?.lastComment || ""
                       }
                       role={role}
