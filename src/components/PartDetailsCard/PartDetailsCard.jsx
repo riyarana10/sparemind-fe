@@ -40,7 +40,7 @@ const PartDetailsCard = ({
       : part?.replacement_part_image,
     brand: isOriginal ? 
            part?.brand
-           : part?.replacement_brand,
+           : part?.replacement_part_brand,
     category: part?.category,
     msil_category: part?.msil_category,
     source: part?.replacement_source,
