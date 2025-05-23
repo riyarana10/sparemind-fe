@@ -1,10 +1,6 @@
 import React, { useState } from "react";
+import { formatPrice } from "../../utils/utils";
 import "./SpecComp.css";
-
-const formatPrice = (price) => {
-  const num = typeof price === "string" ? parseFloat(price) : price;
-  return Math.round(num).toLocaleString("en-IN");
-};
 
 const SpecsComparison = ({
   originalSpecs = [],
@@ -12,12 +8,7 @@ const SpecsComparison = ({
   originalPart = {},
   replacementPart = {},
 }) => {
-  const [isTableOpen, setIsTableOpen] = useState(true);
   const [showOnlyDiff, setShowOnlyDiff] = useState(false);
-
-  const toggleTable = () => {
-    setIsTableOpen((prev) => !prev);
-  };
 
   // Custom renderer for image cells
   const renderImageCell = (imageUrl) => {
@@ -123,142 +114,135 @@ const SpecsComparison = ({
           </label>
         </div>
       </div>
-
-      {isTableOpen && (
-        <div className="table-scroll-wrapper">
-          <table className="spec-table">
-            <thead>
-              <tr>
-                <th>Category</th>
-                <th>Attribute</th>
-                <th>Original</th>
-                <th className="replacement-header">
-                  <div className="replacement-line">
-                    <span>Replacement </span>
-                    {originalPart.original_part_price &&
-                      replacementPart.replacement_part_price && (
-                        <span
-                          className={`savings-value ${
-                            originalPart.original_part_price -
-                              replacementPart.replacement_part_price >=
-                            0
-                              ? "positive"
-                              : "negative"
-                          }`}
-                        >
-                          {originalPart.original_part_price -
+      <div className="table-scroll-wrapper">
+        <table className="spec-table">
+          <thead>
+            <tr>
+              <th>Category</th>
+              <th>Attribute</th>
+              <th>Original</th>
+              <th className="replacement-header">
+                <div className="replacement-line">
+                  <span>Replacement </span>
+                  {originalPart.original_part_price &&
+                    replacementPart.replacement_part_price && (
+                      <span
+                        className={`savings-value ${
+                          originalPart.original_part_price -
                             replacementPart.replacement_part_price >=
                           0
-                            ? `Savings: ₹ ${formatPrice(
-                                originalPart.original_part_price -
-                                  replacementPart.replacement_part_price
-                              )}`
-                            : `Extra Cost: ₹ ${formatPrice(
-                                replacementPart.replacement_part_price -
-                                  originalPart.original_part_price
-                              )}`}
-                        </span>
-                      )}
-                  </div>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {/* General Information Rows */}
-              <tr className="general-info-header">
-                <td
-                  rowSpan={generalInfoFields.length + 1}
-                  className="category-cell"
-                >
-                  General Information
+                            ? "positive"
+                            : "negative"
+                        }`}
+                      >
+                        {originalPart.original_part_price -
+                          replacementPart.replacement_part_price >=
+                        0
+                          ? `Savings: ₹ ${formatPrice(
+                              originalPart.original_part_price -
+                                replacementPart.replacement_part_price
+                            )}`
+                          : `Extra Cost: ₹ ${formatPrice(
+                              replacementPart.replacement_part_price -
+                                originalPart.original_part_price
+                            )}`}
+                      </span>
+                    )}
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {/* General Information Rows */}
+            <tr className="general-info-header">
+              <td
+                rowSpan={generalInfoFields.length + 1}
+                className="category-cell"
+              >
+                General Information
+              </td>
+            </tr>
+
+            {generalInfoFields.map((field, index) => (
+              <tr key={`general-${index}`}>
+                <td>{field.label}</td>
+                <td className={field.isImage ? "image-cell" : ""}>
+                  {field.isImage
+                    ? renderImageCell(field.original)
+                    : field.original || "N/A"}
+                </td>
+                <td className={field.isImage ? "image-cell" : ""}>
+                  {field.isImage
+                    ? renderImageCell(field.replacement)
+                    : field.replacement || "N/A"}
                 </td>
               </tr>
+            ))}
 
-              {generalInfoFields.map((field, index) => (
-                <tr key={`general-${index}`}>
-                  <td>{field.label}</td>
-                  <td className={field.isImage ? "image-cell" : ""}>
-                    {field.isImage
-                      ? renderImageCell(field.original)
-                      : field.original || "N/A"}
-                  </td>
-                  <td className={field.isImage ? "image-cell" : ""}>
-                    {field.isImage
-                      ? renderImageCell(field.replacement)
-                      : field.replacement || "N/A"}
-                  </td>
-                </tr>
-              ))}
+            {/* Technical Specifications */}
+            {allSections
+              .filter((section) => section !== "General Information")
+              .map((section) => {
+                const origLines = originalSpecsBySection[section] || [];
+                const repLines = replacementSpecsBySection[section] || [];
+                const rowCount = Math.max(origLines.length, repLines.length, 1);
 
-              {/* Technical Specifications */}
-              {allSections
-                .filter((section) => section !== "General Information")
-                .map((section) => {
-                  const origLines = originalSpecsBySection[section] || [];
-                  const repLines = replacementSpecsBySection[section] || [];
-                  const rowCount = Math.max(
-                    origLines.length,
-                    repLines.length,
-                    1
+                const rows = [];
+
+                for (let rowIdx = 0; rowIdx < rowCount; rowIdx++) {
+                  const { attr: oAttr, val: oVal } = parseLine(
+                    origLines[rowIdx]
                   );
+                  const { attr: rAttr, val: rVal } = parseLine(
+                    repLines[rowIdx]
+                  );
+                  const labelAttr = oAttr || rAttr || "—";
+                  const isDiff = oVal !== rVal;
 
-                  const rows = [];
+                  if (showOnlyDiff && !isDiff) continue;
 
-                  for (let rowIdx = 0; rowIdx < rowCount; rowIdx++) {
-                    const { attr: oAttr, val: oVal } = parseLine(
-                      origLines[rowIdx]
-                    );
-                    const { attr: rAttr, val: rVal } = parseLine(
-                      repLines[rowIdx]
-                    );
-                    const labelAttr = oAttr || rAttr || "—";
-                    const isDiff = oVal !== rVal;
-
-                    if (showOnlyDiff && !isDiff) continue;
-
-                    rows.push(
-                      <tr
-                        key={`${section}-${rowIdx}`}
-                        className={isDiff ? "highlight-row" : ""}
-                      >
-                        {rows.length === 0 && (
-                          <td rowSpan="REPLACE_ME" className="category-cell">
-                            {section}
-                          </td>
-                        )}
-                        <td>{labelAttr}</td>
-                        <td className={isDiff ? "highlight-diff" : ""}>
-                          {oVal || "N/A"}
+                  rows.push(
+                    <tr
+                      key={`${section}-${rowIdx}`}
+                      className={isDiff ? "highlight-row" : ""}
+                    >
+                      {rows.length === 0 && (
+                        <td rowSpan="REPLACE_ME" className="category-cell">
+                          {section}
                         </td>
-                        <td className={isDiff ? "highlight-diff" : ""}>
-                          {rVal || "N/A"}
-                        </td>
-                      </tr>
-                    );
-                  }
+                      )}
+                      <td>{labelAttr}</td>
+                      <td className={isDiff ? "highlight-diff" : ""}>
+                        {oVal || "N/A"}
+                      </td>
+                      <td className={isDiff ? "highlight-diff" : ""}>
+                        {rVal || "N/A"}
+                      </td>
+                    </tr>
+                  );
+                }
 
-                  // Inject the correct rowSpan for the first cell
-                  if (rows.length > 0) {
-                    const firstRow = rows[0];
-                    const withRowSpan = React.cloneElement(firstRow, {}, [
-                      <td
-                        rowSpan={rows.length}
-                        className="category-cell"
-                        key="cat-cell"
-                      >
-                        {section}
-                      </td>,
-                      ...firstRow.props.children.slice(1),
-                    ]);
-                    rows[0] = withRowSpan;
-                  }
+                // Inject the correct rowSpan for the first cell
+                if (rows.length > 0) {
+                  const firstRow = rows[0];
+                  const withRowSpan = React.cloneElement(firstRow, {}, [
+                    <td
+                      rowSpan={rows.length}
+                      className="category-cell"
+                      key="cat-cell"
+                    >
+                      {section}
+                    </td>,
+                    ...firstRow.props.children.slice(1),
+                  ]);
+                  rows[0] = withRowSpan;
+                }
 
-                  return rows;
-                })}
-            </tbody>
-          </table>
-        </div>
-      )}
+                return rows;
+              })}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

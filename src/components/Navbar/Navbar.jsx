@@ -1,66 +1,15 @@
-import React, { useState, useRef, useEffect } from "react";
+import { useState } from "react";
 import { MenuOutlined } from "@ant-design/icons";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
-import axios from "axios";
 import { Button, Drawer, Dropdown, Menu } from "antd";
 import partsGenieLogo from "../../assets/img/partsGenieLogo.svg";
 import "./Navbar.css";
-import baseUrl from "../../services/base-url";
 import dropdownIcon from "../../assets/img/dropdownIcon.svg";
 
 const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const isDashboard = location.pathname === "/dashboard";
   const [visible, setVisible] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [suggestions, setSuggestions] = useState([]);
-  const [showSuggestions, setShowSuggestions] = useState(false);
-  const token = localStorage.getItem("access_token");
-  const wrapperRef = useRef(null);
-
-  useEffect(() => {
-    if (searchTerm.length < 2) {
-      setSuggestions([]);
-      return;
-    }
-    const handle = setTimeout(async () => {
-      try {
-        const url = `${baseUrl}/autocomplete?query=${encodeURIComponent(
-          searchTerm
-        )}`;
-        const config = token
-          ? { headers: { Authorization: `Bearer ${token}` } }
-          : {};
-        const { data } = await axios.get(url, config);
-        setSuggestions(data.suggestions || []);
-        setShowSuggestions(true);
-      } catch (err) {
-        setSuggestions([]);
-      }
-    }, 300);
-    return () => clearTimeout(handle);
-  }, [searchTerm, token]);
-
-  useEffect(() => {
-    const onClick = (e) => {
-      if (wrapperRef.current && !wrapperRef.current.contains(e.target)) {
-        setShowSuggestions(false);
-      }
-    };
-    document.addEventListener("click", onClick);
-    return () => document.removeEventListener("click", onClick);
-  }, []);
-
-  const handleSearch = (e) => {
-    e.preventDefault();
-    if (!searchTerm.trim()) return;
-    setIsLoading(true);
-    navigate(`/search?query=${encodeURIComponent(searchTerm.trim())}`);
-    setShowSuggestions(false);
-    setIsLoading(false);
-  };
 
   const handleLogout = () => {
     localStorage.removeItem("access_token");
@@ -152,7 +101,11 @@ const Navbar = () => {
           >
             <span className="account-dropdown">
               MY ACCOUNT{" "}
-              <img style={{ marginLeft: "14px" }} src={dropdownIcon} />
+              <img
+                style={{ marginLeft: "14px" }}
+                src={dropdownIcon}
+                alt="dropdown-icon"
+              />
             </span>
           </Dropdown>
         </div>
@@ -182,7 +135,7 @@ const Navbar = () => {
                 placement="bottomLeft"
               >
                 <span className="account-dropdown">
-                  MY ACCOUNT <img src={dropdownIcon} />
+                  MY ACCOUNT <img src={dropdownIcon} alt="dropdown-icon" />
                 </span>
               </Dropdown>
             </div>

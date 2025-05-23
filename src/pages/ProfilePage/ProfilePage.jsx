@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./ProfilePage.css";
@@ -104,8 +104,7 @@ export default function ProfilePage() {
                   <tr key={i}>
                     <td>{new Date(d.updated_at).toLocaleString()}</td>
                     <td>
-                      {d.original_part_name} →{" "}
-                      {d.replacement_part_name}
+                      {d.original_part_name} → {d.replacement_part_name}
                     </td>
                     <td
                       className={

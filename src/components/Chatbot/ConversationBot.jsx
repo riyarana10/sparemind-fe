@@ -1,10 +1,7 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import Markdown from "react-markdown";
-import partsgenieLogo from "../../assets/img/partsGenieLogo.svg";
-import bgImage from "../../assets/img/homePageBG.svg";
 import chatbotHomeLogo from "../../assets/img/chatbotHomeLogo.png";
-import botImage from "../../assets/img/bot_image.png";
 import baseUrl from "../../services/base-url";
 import "./ConversationBot.css";
 
@@ -20,7 +17,6 @@ const ChatBot = ({ isOpen, setIsOpen, stage, setStage, toggleChat }) => {
   const [isExistingChatLoading, setisExistingChatLoading] = useState(false);
   const [isNewChatLoading, setisNewChatLoading] = useState(false);
   const messagesEndRef = useRef(null);
-  const inputRef = useRef(null);
 
   const formattedCategory =
     categoryName !== null
@@ -235,10 +231,6 @@ const ChatBot = ({ isOpen, setIsOpen, stage, setStage, toggleChat }) => {
         setIsLoading(false);
       }
     }
-  };
-
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter") handleSend();
   };
 
   return (

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import BreadcrumbNav from "../../components/BreadcrumbNav/BreadcrumbNav";
 import axios from "axios";
@@ -7,8 +7,7 @@ import PartDetailsCard from "../../components/PartDetailsCard/PartDetailsCard";
 import ComparisonSection from "../../components/ComparisonSection/ComparisonSection";
 import SpecsComparison from "../../components/SpecsComp/SpecsComp";
 import SearchBar from "../../components/SearchBar/SearchBar";
-import { pdfLinks } from "../../constants/productConstants";
-import { formatPrice } from "../../utils/productUtils";
+import { formatPrice } from "../../utils/utils";
 import ChatBot from "../../components/Chatbot/ConversationBot";
 import baseUrl from "../../services/base-url";
 import { Spin } from "antd";
@@ -20,7 +19,6 @@ const ProductDetails = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [stage, setStage] = useState("choose");
   const [resourceLink, setResourceLink] = useState(null);
-  const categoryId = localStorage.getItem("categoryId");
 
   const [productState, setProductState] = useState({
     original: null,
@@ -31,10 +29,9 @@ const ProductDetails = () => {
     lastComment: "",
     decision: null,
     busy: false,
-    compareOther: {},
   });
 
-  const { original, replacements, loading, error, compareOther } = productState;
+  const { original, replacements, loading, error } = productState;
 
   // Fetch part details
   useEffect(() => {
@@ -61,7 +58,7 @@ const ProductDetails = () => {
             ? "rejected"
             : null,
         }));
-        fetchPdfLink(original.category,original.series_name);
+        fetchPdfLink(original.category, original.series_name);
       })
       .catch((err) => {
         console.error("Load failed:", err);
@@ -75,13 +72,13 @@ const ProductDetails = () => {
       });
   }, [code, token]);
 
-  const fetchPdfLink = async (category,sereiesName) => {
+  const fetchPdfLink = async (category, sereiesName) => {
     try {
       const token = localStorage.getItem("access_token");
       const res = await axios.get(`${baseUrl}/pdf_link`, {
         params: {
           series_name: sereiesName,
-          category_id: category.replace(/\s+/g, "-")
+          category_id: category.replace(/\s+/g, "-"),
         },
         headers: {
           Authorization: `Bearer ${token}`,
@@ -121,8 +118,6 @@ const ProductDetails = () => {
       </div>
     );
   }
-
-  const category = original.category?.toUpperCase().trim();
 
   const handleChatToggle = () => {
     setIsOpen(!isOpen);
@@ -166,10 +161,6 @@ const ProductDetails = () => {
               <ComparisonSection
                 original={original}
                 replacements={replacements}
-                compareOther={compareOther}
-                setCompareOther={(value) =>
-                  setProductState((prev) => ({ ...prev, compareOther: value }))
-                }
                 formatPrice={formatPrice}
                 SpecsComparison={SpecsComparison}
               />

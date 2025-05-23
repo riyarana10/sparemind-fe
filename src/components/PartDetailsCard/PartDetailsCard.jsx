@@ -1,22 +1,18 @@
-import React, { useMemo, useState, useEffect, use } from "react";
+import { useMemo, useState } from "react";
 import ZoomImage from "../ZoomImage/ZoomImage";
-import { parseSpecs, buildSpecsObject } from "../../utils/specsParser";
+import { parseSpecs, buildSpecsObject } from "../../utils/utils";
 import "./PartDetailsCard.css";
 import { Modal, Button, List } from "antd";
 import location from "../../assets/img/location.svg";
 import file from "../../assets/img/file.svg";
-import axios from "axios";
 
 const PartDetailsCard = ({
   part,
   isOriginal = false,
-  formatPrice = (p) => {
-    const n = parseFloat(p);
-    return isNaN(n) ? "N/A" : Math.round(n).toLocaleString("en-IN");
-  },
+  formatPrice,
+  resourceLink,
   isSelectable = false,
   isSelected = false,
-  resourceLink,
   showSpecs = true,
 }) => {
   const [showAllSpecs, setShowAllSpecs] = useState(false);
@@ -244,7 +240,7 @@ const PartDetailsCard = ({
           </div>
 
           {resourceLink ? (
-            <a
+            <button
               onClick={() => {
                 if (resourceLink.length > 1) {
                   setIsModalOpen(true);
@@ -258,7 +254,7 @@ const PartDetailsCard = ({
             >
               <img src={file} alt="" />
               Download PDF Specs
-            </a>
+            </button>
           ) : (
             <button className="download-button" disabled>
               <img src={file} alt="" />
@@ -283,7 +279,7 @@ const PartDetailsCard = ({
           dataSource={resourceLink}
           renderItem={(link, index) => (
             <List.Item key={index}>
-              <div style={{ wordBreak: 'break-all', maxWidth: '100%' }}>
+              <div style={{ wordBreak: "break-all", maxWidth: "100%" }}>
                 <a href={link} target="_blank" rel="noopener noreferrer">
                   {link}
                 </a>

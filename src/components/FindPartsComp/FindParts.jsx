@@ -1,6 +1,5 @@
-import React, { useEffect, useState, useRef } from "react";
-import { AutoComplete, Button } from "antd";
-import { SearchOutlined } from "@ant-design/icons";
+import { useEffect, useState } from "react";
+import { AutoComplete } from "antd";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import lightImg from "../../assets/img/lightImg.svg";
@@ -12,11 +11,8 @@ const FindParts = () => {
   const navigate = useNavigate();
 
   const [searchTerm, setSearchTerm] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   const [suggestions, setSuggestions] = useState([]);
-  const [showSuggestions, setShowSuggestions] = useState(false);
   const token = localStorage.getItem("access_token");
-  const wrapperRef = useRef(null);
   const [placeholderText, setPlaceholderText] = useState(
     "Search by part name, code, machine type, issue etc.."
   );
@@ -38,7 +34,6 @@ const FindParts = () => {
   useEffect(() => {
     if (searchTerm.length < 2) {
       setSuggestions([]);
-      setShowSuggestions(false);
       return;
     }
 
@@ -52,33 +47,19 @@ const FindParts = () => {
           : {};
         const { data } = await axios.get(url, config);
         setSuggestions(data.suggestions || []);
-        setShowSuggestions(true);
       } catch (err) {
         setSuggestions([]);
-        setShowSuggestions(false);
       }
     }, 300);
 
     return () => clearTimeout(delayDebounce);
   }, [searchTerm, token]);
 
-  useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (wrapperRef.current && !wrapperRef.current.contains(e.target)) {
-        setShowSuggestions(false);
-      }
-    };
-    document.addEventListener("click", handleClickOutside);
-    return () => document.removeEventListener("click", handleClickOutside);
-  }, []);
-
   const handleSearch = (e) => {
     e.preventDefault();
     if (!searchTerm.trim()) return;
-    setIsLoading(true);
     navigate(`/search?query=${encodeURIComponent(searchTerm.trim())}`);
-    setShowSuggestions(false);
-    setIsLoading(false);
+
   };
 
   return (
@@ -87,7 +68,7 @@ const FindParts = () => {
         <h1>FIND SPARE PARTS</h1>
         <div className="search-input-wrapper-home-page">
           {/* <SearchOutlined className="search-icon" /> */}
-          <img className="search-icon-home-page" src={searchIcon} />
+          <img className="search-icon-home-page" src={searchIcon} alt="search-icon" />
           <AutoComplete
             className="search-input-home-page"
             style={{ flex: 1 }}
@@ -105,7 +86,6 @@ const FindParts = () => {
             onChange={(value) => setSearchTerm(value)}
             onSelect={(value) => {
               setSearchTerm(value);
-              setShowSuggestions(false);
               navigate(`/original/${value}`);
             }}
             onSearch={(value) => setSearchTerm(value)}
@@ -121,7 +101,7 @@ const FindParts = () => {
           FIND
         </button>
         <p className="powered-by">
-          <img src={lightImg} alt="lightning" className="lightning-icon" />
+          <img src={lightImg} alt="lightning-icon" className="lightning-icon" />
           Powered by SHORTHILLS AI STUDIO
         </p>
       </div>

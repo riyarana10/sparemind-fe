@@ -19,13 +19,13 @@ const ComparisonSection = ({
   const [role, setRole] = useState("user");
   const [resourceLink, setResourceLink] = useState(null);
 
-  const fetchPdfLink = async (category,sereiesName) => {
+  const fetchPdfLink = async (category, sereiesName) => {
     try {
       const token = localStorage.getItem("access_token");
       const res = await axios.get(`${baseUrl}/pdf_link`, {
         params: {
           series_name: sereiesName,
-          category_id: category.replace(/\s+/g, "-")
+          category_id: category.replace(/\s+/g, "-"),
         },
         headers: {
           Authorization: `Bearer ${token}`,
@@ -38,9 +38,9 @@ const ComparisonSection = ({
     }
   };
 
-  useEffect(() =>{
-    fetchPdfLink(original.category,original.series_name);
-  },[])
+  useEffect(() => {
+    fetchPdfLink(original.category, original.series_name);
+  }, [original.category, original.series_name]);
 
   useEffect(() => {
     const updateRole = () => {
@@ -155,9 +155,7 @@ const ComparisonSection = ({
               <div
                 key={i}
                 className={`replacement-card ${
-                  expandedCard === rep.replacement_part_name
-                    ? "active"
-                    : ""
+                  expandedCard === rep.replacement_part_name ? "active" : ""
                 }`}
               >
                 <div className="stock-badge">
@@ -182,7 +180,9 @@ const ComparisonSection = ({
                     </span>
                     <br />
                     <strong style={{ fontSize: "1rem", color: "#111827" }}>
-                      {rep.replacement_part_item_code === null ? "N/A (Web Research)" : rep.replacement_part_item_code}
+                      {rep.replacement_part_item_code === null
+                        ? "N/A (Web Research)"
+                        : rep.replacement_part_item_code}
                     </strong>
                   </p>
 
@@ -193,33 +193,31 @@ const ComparisonSection = ({
                         ₹{formatPrice(rep.replacement_part_price)}
                       </p>
                     </div>
-                    {
-                      rep.replacement_part_item_code !== null && (
-                         <div className="savings-column">
-                      <p
-                        className={`rep-savings ${
-                          original.original_part_price -
+                    {rep.replacement_part_item_code !== null && (
+                      <div className="savings-column">
+                        <p
+                          className={`rep-savings ${
+                            original.original_part_price -
+                              rep.replacement_part_price <
+                            0
+                              ? "negative-savings"
+                              : ""
+                          }`}
+                        >
+                          {original.original_part_price -
                             rep.replacement_part_price <
                           0
-                            ? "negative-savings"
-                            : ""
-                        }`}
-                      >
-                        {original.original_part_price -
-                          rep.replacement_part_price <
-                        0
-                          ? `Extra Cost: ₹${formatPrice(
-                              rep.replacement_part_price -
-                                original.original_part_price
-                            )}`
-                          : `Save: ₹${formatPrice(
-                              original.original_part_price -
-                                rep.replacement_part_price
-                            )}`}
-                      </p>
-                    </div>
-                      )
-                    }
+                            ? `Extra Cost: ₹${formatPrice(
+                                rep.replacement_part_price -
+                                  original.original_part_price
+                              )}`
+                            : `Save: ₹${formatPrice(
+                                original.original_part_price -
+                                  rep.replacement_part_price
+                              )}`}
+                        </p>
+                      </div>
+                    )}
                   </div>
                 </div>
 
@@ -245,7 +243,12 @@ const ComparisonSection = ({
               <>
                 <div className="comparison-grid">
                   <div className="replacement-part">
-                    <PartDetailsCard part={rep} isOriginal={false} formatPrice={formatPrice} resourceLink={resourceLink} />
+                    <PartDetailsCard
+                      part={rep}
+                      isOriginal={false}
+                      formatPrice={formatPrice}
+                      resourceLink={resourceLink}
+                    />
                   </div>
                 </div>
                 <div className="lower-comparison-grid">
@@ -302,12 +305,10 @@ const ComparisonSection = ({
                       original={original}
                       replacement={rep}
                       decision={
-                        decisions[rep.replacement_part_name]?.decision ||
-                        null
+                        decisions[rep.replacement_part_name]?.decision || null
                       }
                       lastComment={
-                        decisions[rep.replacement_part_name]
-                          ?.lastComment || ""
+                        decisions[rep.replacement_part_name]?.lastComment || ""
                       }
                       role={role}
                       onDecision={sendDecision}

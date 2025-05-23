@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import NoImage from "../../assets/img/no_image.jpg";
 
 const ZoomImage = ({ src }) => {
