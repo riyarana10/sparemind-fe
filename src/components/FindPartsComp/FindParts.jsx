@@ -2,14 +2,18 @@ import { useEffect, useState } from "react";
 import { AutoComplete } from "antd";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import lightImg from "../../assets/img/lightImg.svg";
-import searchIcon from "../../assets/img/searchIcon.svg";
+import rawLightImg from "../../assets/img/lightImg.svg";
+import rawSearchIcon from "../../assets/img/searchIcon.svg";
+import getCachedImageUrl from "../../utils/getCachedImageUrl";
+import homeBg from "../../assets/img/homeBg.webp";
 import "./FindParts.css";
 import baseUrl from "../../services/base-url";
 
 const FindParts = () => {
   const navigate = useNavigate();
-
+  const homeBgUrl = getCachedImageUrl(homeBg);
+  const lightImgUrl = getCachedImageUrl(rawLightImg);
+  const searchIconUrl = getCachedImageUrl(rawSearchIcon);
   const [searchTerm, setSearchTerm] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const token = localStorage.getItem("access_token");
@@ -59,16 +63,24 @@ const FindParts = () => {
     e.preventDefault();
     if (!searchTerm.trim()) return;
     navigate(`/search?query=${encodeURIComponent(searchTerm.trim())}`);
-
   };
 
   return (
-    <div className="find-parts-section">
+    <div
+      className="find-parts-section"
+      style={{
+        backgroundImage: `url(${homeBgUrl})`,
+      }}
+    >
       <div className="search-box-home-page">
         <h1>FIND SPARE PARTS</h1>
         <div className="search-input-wrapper-home-page">
           {/* <SearchOutlined className="search-icon" /> */}
-          <img className="search-icon-home-page" src={searchIcon} alt="search-icon" />
+          <img
+            className="search-icon-home-page"
+            src={searchIconUrl}
+            alt="search-icon"
+          />
           <AutoComplete
             className="search-input-home-page"
             style={{ flex: 1 }}
@@ -101,7 +113,7 @@ const FindParts = () => {
           FIND
         </button>
         <p className="powered-by">
-          <img src={lightImg} alt="lightning-icon" className="lightning-icon" />
+          <img src={lightImgUrl} alt="lightning-icon" className="lightning-icon" />
           Powered by SHORTHILLS AI STUDIO
         </p>
       </div>

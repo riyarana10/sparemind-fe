@@ -3,6 +3,7 @@ import { MenuOutlined } from "@ant-design/icons";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import { Button, Drawer, Dropdown, Menu } from "antd";
 import partsGenieLogo from "../../assets/img/partsGenieLogo.svg";
+import getCachedImageUrl from "../../utils/getCachedImageUrl";
 import "./Navbar.css";
 import dropdownIcon from "../../assets/img/dropdownIcon.svg";
 
@@ -10,6 +11,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [visible, setVisible] = useState(false);
+  const partsGenieLogoUrl = getCachedImageUrl(partsGenieLogo);
 
   const handleLogout = () => {
     localStorage.removeItem("access_token");
@@ -75,7 +77,7 @@ const Navbar = () => {
               window.scrollTo({ top: 0, behavior: "smooth" });
             }}
           >
-            <img src={partsGenieLogo} alt="partsGeneie-logo" />
+            <img src={partsGenieLogoUrl} alt="partsGeneie-logo" />
           </div>
 
           {/* Desktop Menu */}

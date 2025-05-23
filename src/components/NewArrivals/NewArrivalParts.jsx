@@ -26,10 +26,33 @@ const NewArrivalParts = ({ token }) => {
     const fetchCats = async () => {
       try {
         setIsLoadingCategory(true);
+
+        const cached = localStorage.getItem("recentCategories");
+        const cacheTime = localStorage.getItem("recentCategoriesTime");
+
+        if (cached && cacheTime) {
+          const now = Date.now();
+          const age = now - parseInt(cacheTime, 10);
+
+          if (age < 12 * 60 * 60 * 1000) {
+            // less than 24 hours
+            setRecentCategories(JSON.parse(cached));
+            return;
+          } else {
+            // Clear old cache
+            localStorage.removeItem("recentCategories");
+            localStorage.removeItem("recentCategoriesTime");
+          }
+        }
+
         const resp = await axios.get(`${baseUrl}/categories?size=5`, {
           headers: { Authorization: `Bearer ${token}` },
         });
-        setRecentCategories(resp.data.categories || []);
+        const data = resp.data.categories || [];
+
+        setRecentCategories(data);
+        localStorage.setItem("recentCategories", JSON.stringify(data));
+        localStorage.setItem("recentCategoriesTime", Date.now().toString());
       } catch (err) {
         console.error("Failed to load categories", err);
       } finally {
@@ -41,21 +64,38 @@ const NewArrivalParts = ({ token }) => {
 
   // ── Fetch “popular” parts
   useEffect(() => {
-    if (!token) return;
-
-    const fetchData = async () => {
-      setIsLoadingProduct(true);
+    const fetchPopularParts = async () => {
       try {
-        const responses = await axios.get(`${baseUrl}/popular-parts`, {
+        setIsLoadingProduct(true);
+
+        const cached = localStorage.getItem("recentPopularParts");
+        const cacheTime = localStorage.getItem("recentPopularPartsTime");
+
+        if (cached && cacheTime) {
+          const now = Date.now();
+          const age = now - parseInt(cacheTime, 10);
+
+          if (age < 12 * 60 * 60 * 1000) {
+            setRecentCodeResults(JSON.parse(cached));
+            return;
+          } else {
+            localStorage.removeItem("recentPopularParts");
+            localStorage.removeItem("recentPopularPartsTime");
+          }
+        }
+
+        const resp = await axios.get(`${baseUrl}/popular-parts`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 
         let topProducts = [];
-        responses.data.featured_parts.forEach((item) => {
+        resp.data.featured_parts.forEach((item) => {
           topProducts.push(item.original[0]);
         });
 
         setRecentCodeResults(topProducts);
+        localStorage.setItem("recentPopularParts", JSON.stringify(topProducts));
+        localStorage.setItem("recentPopularPartsTime", Date.now().toString());
       } catch (err) {
         console.error("[DEBUG popular] error fetching popular parts:", err);
       } finally {
@@ -63,7 +103,7 @@ const NewArrivalParts = ({ token }) => {
       }
     };
 
-    fetchData();
+    if (token) fetchPopularParts();
   }, [token]);
 
   const handleClickViewDetails = (product) => {
