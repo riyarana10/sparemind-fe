@@ -38,7 +38,9 @@ const PartDetailsCard = ({
     image: isOriginal
       ? part?.original_part_image
       : part?.replacement_part_image,
-    brand: part?.brand,
+    brand: isOriginal ? 
+           part?.brand
+           : part?.replacement_brand,
     category: part?.category,
     msil_category: part?.msil_category,
     source: part?.replacement_source,
@@ -67,7 +69,7 @@ const PartDetailsCard = ({
           <h1 className="part-name">
             {`${partData.name}, ${partData.category.replace(/\b\w/g, (char) =>
               char.toUpperCase()
-            )}, ${partData.brand}` || "No name available"}
+            )}, ${partData.brand === null ? "" : partData.brand}` || "No name available"}
           </h1>
         </div>
 
@@ -86,7 +88,7 @@ const PartDetailsCard = ({
             <div className="detail-group">
               <span className="detail-label">Brand</span>
               <span className="detail-value">
-                {partData.brand || "Unknown"}
+                {partData.brand === null ? "" : partData.brand}
               </span>
             </div>
           </div>
