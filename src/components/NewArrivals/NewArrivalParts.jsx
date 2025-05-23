@@ -1,15 +1,11 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import noImage from "../../assets/img/No_image1.png";
 import "./NewArrivalParts.css";
 import { Spin } from "antd";
 import baseUrl from "../../services/base-url";
-
-const formatPrice = (price) => {
-  const num = typeof price === "string" ? parseFloat(price) : price;
-  return Math.round(num).toLocaleString("en-IN");
-};
+import { formatPrice } from "../../utils/utils";
 
 const NewArrivalParts = ({ token }) => {
   const navigate = useNavigate();

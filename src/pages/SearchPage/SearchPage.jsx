@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import noImage from "../../assets/img/No_image1.png";
 import axios from "axios";
 import "./SearchPage.css";
 import baseUrl from "../../services/base-url";
 import { Spin } from "antd";
+import { formatPrice } from "../../utils/utils";
 
 export default function SearchPage() {
   const [params] = useSearchParams();
@@ -17,13 +18,6 @@ export default function SearchPage() {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [isLoadingProduct, setIsLoadingProdct] = useState(false);
-  const [isLoadingCategory, setIsLoadingCategory] = useState(false);
-
-  const formatPrice = (price) => {
-    const num = typeof price === "string" ? parseFloat(price) : price;
-    return Math.round(num).toLocaleString("en-IN");
-  };
 
   const Description = ({ text }) => {
     const [expanded, setExpanded] = useState(false);
@@ -108,7 +102,6 @@ export default function SearchPage() {
 
   const topOriginals = originals.slice(0, 8);
   const topCategories = categories.slice(0, 8);
-  const topReplacements = replacements.slice(0, 8);
 
   const handleView = (part, page) => {
     localStorage.setItem("categoryId", part.category);
@@ -124,9 +117,7 @@ export default function SearchPage() {
   return (
     <div>
       <div className="new-arrivals-container">
-        {isLoadingProduct ? (
-          <p>Loading products…</p>
-        ) : topOriginals.length > 0 ? (
+        {topOriginals.length > 0 ? (
           <>
             <div className="new-arrivals-header">
               <h2>Original Parts</h2>
@@ -204,58 +195,53 @@ export default function SearchPage() {
           <div className="new-arrivals-header">
             <h2>Matched Categories</h2>
           </div>
-          {isLoadingCategory ? (
-            <p>Loading Categories...</p>
-          ) : (
-            <div className="category-grid">
-              {topCategories.map((cat, index) => (
-                <div
-                  className={`search-category-card ${
-                    topCategories.length === 1 ? "single-card" : ""
-                  }`}
-                  key={index}
-                  onClick={() =>
-                    navigate(`/category/${encodeURIComponent(cat.name)}`)
-                  }
-                >
-                  <div className="category-card-details">
-                    <div>
-                      <img
-                        style={{
-                          width: "120px",
-                          height: "100px",
-                          border: "1px solid lightgray",
-                          borderRadius: "4px",
-                        }}
-                        src={cat.image === null ? noImage : cat.image}
-                      />
-                    </div>
-                    <div>
-                      <p className="item-code">PartsGenie Category</p>
-                      <p className="item-value">
-                        {cat.name.replace(/\b\w/g, (char) =>
-                          char.toUpperCase()
-                        )}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="item-code">MSIL Category</p>
-                      <p className="item-value">
-                        {cat.msil_category === null
-                          ? "Not Available"
-                          : cat.msil_category}
-                      </p>
-                    </div>
+          <div className="category-grid">
+            {topCategories.map((cat, index) => (
+              <div
+                className={`search-category-card ${
+                  topCategories.length === 1 ? "single-card" : ""
+                }`}
+                key={index}
+                onClick={() =>
+                  navigate(`/category/${encodeURIComponent(cat.name)}`)
+                }
+              >
+                <div className="category-card-details">
+                  <div>
+                    <img
+                      style={{
+                        width: "120px",
+                        height: "100px",
+                        border: "1px solid lightgray",
+                        borderRadius: "4px",
+                      }}
+                      src={cat.image === null ? noImage : cat.image}
+                      alt="category-img"
+                    />
                   </div>
-                  <div className="view-all-spare-parts">
-                    <p>
-                      <strong>View all spare parts</strong>
+                  <div>
+                    <p className="item-code">PartsGenie Category</p>
+                    <p className="item-value">
+                      {cat.name.replace(/\b\w/g, (char) => char.toUpperCase())}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="item-code">MSIL Category</p>
+                    <p className="item-value">
+                      {cat.msil_category === null
+                        ? "Not Available"
+                        : cat.msil_category}
                     </p>
                   </div>
                 </div>
-              ))}
-            </div>
-          )}
+                <div className="view-all-spare-parts">
+                  <p>
+                    <strong>View all spare parts</strong>
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
         </section>
       )}
     </div>

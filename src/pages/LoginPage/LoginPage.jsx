@@ -1,25 +1,13 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./LoginPage.css";
 import baseUrl from "../../services/base-url";
 
 const setAuthToken = (token) => localStorage.setItem("access_token", token);
-const getAuthToken = () => localStorage.getItem("access_token");
-
-const decodeJwt = (token) => {
-  try {
-    const base64Url = token.split(".")[1];
-    const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-    return JSON.parse(decodeURIComponent(escape(window.atob(base64))));
-  } catch {
-    return null;
-  }
-};
 
 const LoginPage = () => {
   const navigate = useNavigate();
-  const [token, setToken] = useState(getAuthToken() || "");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState("");
@@ -38,8 +26,6 @@ const LoginPage = () => {
       const res = await axios.post(`${baseUrl}/login`, params, {
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
       });
-
-      setToken(res.data.access_token);
       setAuthToken(res.data.access_token);
       navigate("/");
     } catch {

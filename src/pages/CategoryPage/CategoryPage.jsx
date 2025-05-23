@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import noImage from "../../assets/img/No_image1.png";
@@ -6,6 +6,7 @@ import "./CategoryPage.css";
 import ChatBot from "../../components/Chatbot/ConversationBot";
 import baseUrl from "../../services/base-url";
 import { Spin } from "antd";
+import { formatPrice } from "../../utils/utils";
 
 const CategoryPage = () => {
   const { name } = useParams();
@@ -46,11 +47,6 @@ const CategoryPage = () => {
 
     fetchByCategory();
   }, [name, token]);
-
-  const formatPrice = (price) => {
-    const num = typeof price === "string" ? parseFloat(price) : price;
-    return Math.round(num).toLocaleString("en-IN");
-  };
 
   const handleView = (r, page) => {
     const path =
