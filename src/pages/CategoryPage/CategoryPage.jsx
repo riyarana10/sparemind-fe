@@ -263,7 +263,7 @@ const CategoryPage = () => {
                                 word.slice(1).toLowerCase()
                             )
                             .join(" ")}
-                          , {item.brand}
+                          , {item.replacement_brand}
                         </div>
                       </h3>
                       <div className="stock-replacement">
@@ -320,7 +320,7 @@ const CategoryPage = () => {
 
                       <div>
                         <p className="product-info-title">Brand</p>
-                        <p className="product-info-value">{item.brand}</p>
+                        <p className="product-info-value">{item.replacement_brand}</p>
                       </div>
 
                       <div className="category-product-status">
