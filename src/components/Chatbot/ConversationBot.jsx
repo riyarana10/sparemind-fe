@@ -5,7 +5,7 @@ import chatbotHomeLogo from "../../assets/img/chatbotHomeLogo.png";
 import baseUrl from "../../services/base-url";
 import "./ConversationBot.css";
 
-const ChatBot = ({ isOpen, setIsOpen, stage, setStage, toggleChat }) => {
+const ChatBot = ({ isOpen, setIsOpen, stage, setStage, toggleChat, seriesName = null }) => {
   let categoryId = localStorage.getItem("categoryId");
   let categoryName = localStorage.getItem("categoryId");
   if (categoryId) {
@@ -216,6 +216,7 @@ const ChatBot = ({ isOpen, setIsOpen, stage, setStage, toggleChat }) => {
     const messagePayload = {
       query: text,
       page_context: categoryName.toLowerCase(),
+      series_name: seriesName || null,
     };
 
     const setupWebSocket = () => {
