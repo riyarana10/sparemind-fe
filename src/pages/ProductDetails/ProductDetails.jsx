@@ -140,7 +140,11 @@ const ProductDetails = () => {
         </div>
 
         <div>
-          <BreadcrumbNav />
+          <BreadcrumbNav 
+          category={original.category
+            .split(" ")
+            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(" ")}/>
         </div>
 
         <div className="product-details-container">
