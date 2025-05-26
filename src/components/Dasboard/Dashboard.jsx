@@ -30,12 +30,12 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* {!isOpen && (
+      {!isOpen && (
         <button className="chatbot-toggle" onClick={() => setIsOpen(!isOpen)}>
           Know more about part replacements 
         </button>
-      )} */}
-      {/* <div
+      )}
+      <div
         style={{
           width: isOpen ? "25%" : "0",
           transition: "width 0.3s",
@@ -50,7 +50,7 @@ const Dashboard = () => {
           setStage={setStage}
           toggleChat={handleChatToggle}
         />
-      </div> */}
+      </div>
     </div>
   );
 };
