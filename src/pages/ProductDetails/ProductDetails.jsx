@@ -47,6 +47,7 @@ const ProductDetails = () => {
         const { original, replacements } = res.data;
         localStorage.setItem("categoryId", original.category);
         localStorage.setItem("sereiesName", original.series_name);
+        localStorage.setItem("seriesName", original.series_name);
         setProductState((prev) => ({
           ...prev,
           original,
