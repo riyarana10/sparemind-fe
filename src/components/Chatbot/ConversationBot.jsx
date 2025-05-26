@@ -392,8 +392,8 @@ const ChatBot = ({ isOpen, setIsOpen, stage, setStage, toggleChat }) => {
                 />
                 <button
                   onClick={handleSend}
-                  style={{ cursor: `${isLoading ? "none" : "pointer"}` }}
                   disabled={isLoading}
+                  style={{ opacity: isLoading ? 0.5 : 1, cursor: isLoading ? 'not-allowed' : 'pointer' }}
                 >
                   Send
                 </button>
