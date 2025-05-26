@@ -89,18 +89,6 @@
   font-family: IBM Plex Sans Condensed;
 }
 
-.toggle-all-specs {
-  color: #0066cc;
-  font-size: 13px;
-  font-weight: 500;
-  margin-top: 10px;
-  cursor: pointer;
-}
-
-.read-more:hover {
-  text-decoration: underline;
-}
-
 /* Actions section */
 .part-actions-container {
   display: flex;
