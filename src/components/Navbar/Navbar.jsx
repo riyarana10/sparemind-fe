@@ -17,7 +17,6 @@ const Navbar = () => {
     localStorage.removeItem("access_token");
     localStorage.removeItem("categoryId");
     navigate("/login");
-    window.location.reload();
   };
 
   const showDrawer = () => setVisible(true);

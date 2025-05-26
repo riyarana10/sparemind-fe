@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import {
   Routes,
@@ -20,7 +20,6 @@ import baseUrl from "./services/base-url";
 
 export default function App() {
   const token = localStorage.getItem("access_token");
-  const previousWidth = useRef(window.innerWidth);
   const navigate = useNavigate();
   const [checkingToken, setCheckingToken] = useState(true);
 
@@ -58,19 +57,6 @@ export default function App() {
 
     verifyToken();
   }, [token, navigate]);
-
-  useEffect(() => {
-    const handleResize = () => {
-      const currentWidth = window.innerWidth;
-      if (previousWidth.current !== currentWidth) {
-        previousWidth.current = currentWidth;
-        window.location.reload();
-      }
-    };
-
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
 
   if (checkingToken) {
     return null; // or a loading spinner

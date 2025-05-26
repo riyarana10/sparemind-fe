@@ -62,14 +62,14 @@ const ChatBot = ({ isOpen, setIsOpen, stage, setStage, toggleChat }) => {
     setIsLoading(true);
     if (location.pathname.startsWith("/dashboard")) {
       setIsLoading(false);
-    try {
-      const res = await fetch(`${baseUrl}/vanna_chat/history`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-        },
-      });
+      try {
+        const res = await fetch(`${baseUrl}/vanna_chat/history`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          },
+        });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const { history } = await res.json();
         setMessages([defaultMessages[0], ...history]);
@@ -90,17 +90,17 @@ const ChatBot = ({ isOpen, setIsOpen, stage, setStage, toggleChat }) => {
             Authorization: `Bearer ${localStorage.getItem("access_token")}`,
           },
         });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const { history } = await res.json();
-      setMessages([defaultMessages[0], ...history]);
-    } catch (err) {
-      console.error("Failed to load history:", err);
-      setMessages(defaultMessages);
-    } finally {
-      setStage("chat");
-      setIsLoading(false);
-      setisExistingChatLoading(false);
-    }
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const { history } = await res.json();
+        setMessages([defaultMessages[0], ...history]);
+      } catch (err) {
+        console.error("Failed to load history:", err);
+        setMessages(defaultMessages);
+      } finally {
+        setStage("chat");
+        setIsLoading(false);
+        setisExistingChatLoading(false);
+      }
     }
   };
 
@@ -123,15 +123,15 @@ const ChatBot = ({ isOpen, setIsOpen, stage, setStage, toggleChat }) => {
     setStage("chat");
     clearFrontendChat();
     if (location.pathname.startsWith("/dashboard")) {
-    try {
+      try {
         const res = await fetch(`${baseUrl}/vanna_chat/reset`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-        },
-        body: JSON.stringify({}),
-      });
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          },
+          body: JSON.stringify({}),
+        });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         setisNewChatLoading(false);
       } catch (err) {
@@ -151,14 +151,14 @@ const ChatBot = ({ isOpen, setIsOpen, stage, setStage, toggleChat }) => {
           },
           body: JSON.stringify({}),
         });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
         setisNewChatLoading(false);
-    } catch (err) {
-      console.warn("Failed to reset backend chat:", err);
-    } finally {
-      setStage("chat");
-      setIsLoading(false);
-      setisNewChatLoading(false);
+      } catch (err) {
+        console.warn("Failed to reset backend chat:", err);
+      } finally {
+        setStage("chat");
+        setIsLoading(false);
+        setisNewChatLoading(false);
       }
     }
   };
@@ -170,6 +170,7 @@ const ChatBot = ({ isOpen, setIsOpen, stage, setStage, toggleChat }) => {
     setUserInput("");
     setIsLoading(true);
 
+    // 1. Handle dashboard flow via HTTP POST
     if (location.pathname.startsWith("/dashboard")) {
       try {
         const res = await fetch(`${baseUrl}/vanna-chat`, {
@@ -204,77 +205,91 @@ const ChatBot = ({ isOpen, setIsOpen, stage, setStage, toggleChat }) => {
       } finally {
         setIsLoading(false);
       }
-    } else {
-      try {
-        const wsUrl = `${baseUrl.replace(/^http/, "ws")}/ws?token=${localStorage.getItem(
-          "access_token"
-        )}`;
+      return;
+    }
 
-        if (!socketRef.current || socketRef.current.readyState !== WebSocket.OPEN) {
-          socketRef.current = new WebSocket(wsUrl);
+    // 2. Handle WebSocket flow
+    const wsUrl = `${baseUrl.replace(
+      /^https/,
+      "wss"
+    )}/ws?token=${localStorage.getItem("access_token")}`;
+    const messagePayload = {
+      query: text,
+      page_context: categoryName.toLowerCase(),
+    };
 
-          socketRef.current.onopen = () => {
-            socketRef.current.send(
-              JSON.stringify({
-                query: text,
-                page_context: categoryName.toLowerCase(),
-              })
-            );
-          };
+    const setupWebSocket = () => {
+      socketRef.current = new WebSocket(wsUrl);
 
-          socketRef.current.onmessage = (event) => {
-            const data = event.data;
-            if (data != "--[END]--"){
-              setMessages((prev) => {
-                const last = prev[prev.length - 1];
-                if (last?.sender === "bot" && !last.complete) {
-                  const updated = [...prev];
-                  updated[updated.length - 1].text += data;
-                  return updated;
-                } else {
-                  return [...prev, { sender: "bot", text: data, complete: false }];
-                }
-              });
-            }
-            else{
-              setIsLoading(false)
-            }
-          };
+      socketRef.current.onopen = () => {
+        socketRef.current.send(JSON.stringify(messagePayload));
+      };
 
-          socketRef.current.onerror = (err) => {
-            console.error("WebSocket error", err);
-            setMessages((prev) => [
-              ...prev,
-              { sender: "bot", text: "WebSocket connection error." },
-            ]);
-          };
-
-          socketRef.current.onclose = () => {
-            console.log("WebSocket closed");
-            setMessages((prev) => {
+      socketRef.current.onmessage = (event) => {
+        const data = event.data;
+        if (data !== "--[END]--") {
+          setMessages((prev) => {
+            const last = prev[prev.length - 1];
+            if (last?.sender === "bot" && !last.complete) {
               const updated = [...prev];
-              const last = updated[updated.length - 1];
-              if (last && last.sender === "bot") last.complete = true;
+              updated[updated.length - 1].text += data;
               return updated;
-            });
-            setIsLoading(false);
-          };
+            } else {
+              return [...prev, { sender: "bot", text: data, complete: false }];
+            }
+          });
         } else {
-          socketRef.current.send(
-            JSON.stringify({
-              query: text,
-              page_context: categoryName.toLowerCase(),
-            })
-          );
+          // Mark last bot message complete
+          setMessages((prev) => {
+            const updated = [...prev];
+            const last = updated[updated.length - 1];
+            if (last?.sender === "bot") last.complete = true;
+            return updated;
+          });
+          setIsLoading(false);
         }
-      } catch (err) {
-        console.error("WebSocket exception", err);
+      };
+
+      socketRef.current.onerror = (err) => {
+        console.error("WebSocket error", err);
         setMessages((prev) => [
           ...prev,
-          { sender: "bot", text: "Failed to connect to server." },
+          { sender: "bot", text: "WebSocket connection error." },
         ]);
         setIsLoading(false);
+      };
+
+      socketRef.current.onclose = () => {
+        console.log("WebSocket closed");
+        setIsLoading(false);
+      };
+    };
+
+    try {
+      if (
+        !socketRef.current ||
+        socketRef.current.readyState === WebSocket.CLOSED ||
+        socketRef.current.readyState === WebSocket.CLOSING
+      ) {
+        setupWebSocket();
+      } else if (socketRef.current.readyState === WebSocket.CONNECTING) {
+        socketRef.current.onopen = () => {
+          console.log(
+            "WebSocket connected (from CONNECTING). Sending message..."
+          );
+          socketRef.current.send(JSON.stringify(messagePayload));
+        };
+      } else if (socketRef.current.readyState === WebSocket.OPEN) {
+        console.log("WebSocket already open. Sending message...");
+        socketRef.current.send(JSON.stringify(messagePayload));
       }
+    } catch (err) {
+      console.error("WebSocket exception", err);
+      setMessages((prev) => [
+        ...prev,
+        { sender: "bot", text: "Failed to connect to server." },
+      ]);
+      setIsLoading(false);
     }
   };
 
@@ -287,7 +302,10 @@ const ChatBot = ({ isOpen, setIsOpen, stage, setStage, toggleChat }) => {
           <div className="chatbot-header">
             <span>
               <span style={{ color: "#2A2F92", fontWeight: "700" }}>Parts</span>
-              <span style={{ color: "#C1282E", fontWeight: "700" }}>GENIE</span> Chat
+              <span style={{ color: "#C1282E", fontWeight: "700" }}>
+                GENIE
+              </span>{" "}
+              Chat
             </span>
             <div className="chatbot-header-buttons">
               <button className="chatbot-close" onClick={() => toggleChat()}>
@@ -299,7 +317,13 @@ const ChatBot = ({ isOpen, setIsOpen, stage, setStage, toggleChat }) => {
           {/* Chat Messages */}
           {stage === "choose" ? (
             <div className="chat-stage-body">
-              <div style={{ display: "flex", justifyContent: "center", marginTop: "30px" }}>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  marginTop: "30px",
+                }}
+              >
                 <img
                   src={chatbotHomeLogo}
                   alt="Chatbot"
@@ -312,7 +336,11 @@ const ChatBot = ({ isOpen, setIsOpen, stage, setStage, toggleChat }) => {
                   onClick={handleContinue}
                   disabled={isExistingChatLoading || isNewChatLoading}
                 >
-                  {isExistingChatLoading ? <div className="spinner"></div> : "Continue"}
+                  {isExistingChatLoading ? (
+                    <div className="spinner"></div>
+                  ) : (
+                    "Continue"
+                  )}
                 </button>
                 <button
                   onClick={handleNewChat}
@@ -328,9 +356,15 @@ const ChatBot = ({ isOpen, setIsOpen, stage, setStage, toggleChat }) => {
                 {messages.map((msg, idx) => (
                   <div
                     key={idx}
-                    className={`chatbot-message ${msg.sender === "user" ? "user" : "bot"}`}
+                    className={`chatbot-message ${
+                      msg.sender === "user" ? "user" : "bot"
+                    }`}
                   >
-                    {msg.sender === "bot" ? <Markdown>{msg.text}</Markdown> : msg.text}
+                    {msg.sender === "bot" ? (
+                      <Markdown>{msg.text}</Markdown>
+                    ) : (
+                      msg.text
+                    )}
                   </div>
                 ))}
                 {isLoading && (
@@ -356,7 +390,13 @@ const ChatBot = ({ isOpen, setIsOpen, stage, setStage, toggleChat }) => {
                   placeholder="Ask anything..."
                   disabled={isLoading}
                 />
-                <button onClick={handleSend} style={{cursor:`${isLoading ? "none" : "pointer"}`}} disabled={isLoading}>Send</button>
+                <button
+                  onClick={handleSend}
+                  style={{ cursor: `${isLoading ? "none" : "pointer"}` }}
+                  disabled={isLoading}
+                >
+                  Send
+                </button>
               </>
             )}
           </div>

@@ -28,11 +28,11 @@ const LoginPage = () => {
       });
       setAuthToken(res.data.access_token);
       navigate("/");
-    } catch {
+    } catch(error) {
+      console.error("Login failed:", error);
       setLoginError("Invalid username or password");
     } finally {
       setLoading(false);
-      window.location.reload();
     }
   };
 
