@@ -1,20 +1,27 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import "./BreadcrumbNav.css";
 
-const BreadcrumbNav = () => {
+const BreadcrumbNav = ({category}) => {
   const location = useLocation();
   const navigate = useNavigate();
 
   const segments = location.pathname.split("/").filter(Boolean);
-
+  
   const buildPath = (index) => "/" + segments.slice(0, index + 1).join("/");
 
   return (
     <nav className="breadcrumb-nav">
       <span className="breadcrumb-item">
         <button onClick={() => navigate("/")}>Home</button>
-        {segments.length > 0 && <span className="breadcrumb-separator">›</span>}
+        {(category || segments.length > 0) && <span className="breadcrumb-separator">›</span>}
       </span>
+
+      {category && (
+        <span className="breadcrumb-item">
+          <button onClick={() => navigate(`/category/${category.toLowerCase()}`)}>{category}</button>
+          {segments.length > 0 && <span className="breadcrumb-separator">›</span>}
+        </span>
+      )}
 
       {segments.map((segment, index) => {
         const path = buildPath(index);
