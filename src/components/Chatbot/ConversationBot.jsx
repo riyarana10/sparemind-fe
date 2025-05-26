@@ -209,7 +209,7 @@ const ChatBot = ({ isOpen, setIsOpen, stage, setStage, toggleChat }) => {
     }
 
     // 2. Handle WebSocket flow
-    const wsUrl = `${baseUrl.replace(
+    const wsUrl = `${"https://msil.shorthills.ai".replace(
       /^https/,
       "wss"
     )}/ws?token=${localStorage.getItem("access_token")}`;
