@@ -5,12 +5,13 @@ import chatbotHomeLogo from "../../assets/img/chatbotHomeLogo.png";
 import baseUrl from "../../services/base-url";
 import "./ConversationBot.css";
 
-const ChatBot = ({ isOpen, setIsOpen, stage, setStage, toggleChat, seriesName = null }) => {
+const ChatBot = ({ isOpen, setIsOpen, stage, setStage, toggleChat }) => {
   let categoryId = localStorage.getItem("categoryId");
   let categoryName = localStorage.getItem("categoryId");
   if (categoryId) {
     categoryId = categoryId.replace(/\s+/g, "-");
   }
+  let seriesName = localStorage.getItem("seriesName");
   const location = useLocation();
   const [userInput, setUserInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);

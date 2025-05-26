@@ -20,6 +20,7 @@ const CategoryPage = () => {
 
   const token = localStorage.getItem("access_token");
   localStorage.setItem("categoryId", name);
+  localStorage.setItem("seriesName", null);
 
   useEffect(() => {
     const fetchByCategory = async () => {
