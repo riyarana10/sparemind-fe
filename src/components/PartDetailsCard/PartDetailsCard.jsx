@@ -97,7 +97,7 @@ const PartDetailsCard = ({
             style={{ display: "flex", flexDirection: "row", gap: "30px" }}
           >
             <div className="detail-group">
-              <span className="detail-label">PartsGenie Category</span>
+              <span className="detail-label">Category</span>
               <span className="detail-value">
                 <div className="">
                   {(partData.category || "Uncategorized")
@@ -111,12 +111,12 @@ const PartDetailsCard = ({
                 </div>
               </span>
             </div>
-            <div className="detail-group">
+            {/* <div className="detail-group">
               <span className="detail-label">MSIL Category</span>
               <span className="detail-value">
                 {partData.msil_category || "N/A"}
               </span>
-            </div>
+            </div> */}
           </div>
           <div className="detail-row">
             <div className="detail-group">

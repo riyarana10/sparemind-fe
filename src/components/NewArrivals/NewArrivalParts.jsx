@@ -259,7 +259,7 @@ const NewArrivalParts = ({ token }) => {
                     />
                   </div>
                   <div>
-                    <p className="item-code">PartsGenie Category</p>
+                    <p className="item-code">Category</p>
                     <p className="item-value">
                       {cat.name
                         .split(" ")
@@ -271,10 +271,10 @@ const NewArrivalParts = ({ token }) => {
                         .join(" ")}
                     </p>
                   </div>
-                  <div>
+                  {/* <div>
                     <p className="item-code">MSIL Category</p>
                     <p className="item-value">{cat.msil_category}</p>
-                  </div>
+                  </div> */}
                 </div>
                 <div className="view-all-spare-parts">
                   <p>
