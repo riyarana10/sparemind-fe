@@ -220,19 +220,19 @@ export default function SearchPage() {
                     />
                   </div>
                   <div>
-                    <p className="item-code">PartsGenie Category</p>
+                    <p className="item-code">Category</p>
                     <p className="item-value">
                       {cat.name.replace(/\b\w/g, (char) => char.toUpperCase())}
                     </p>
                   </div>
-                  <div>
+                  {/* <div>
                     <p className="item-code">MSIL Category</p>
                     <p className="item-value">
                       {cat.msil_category === null
                         ? "Not Available"
                         : cat.msil_category}
                     </p>
-                  </div>
+                  </div> */}
                 </div>
                 <div className="view-all-spare-parts">
                   <p>

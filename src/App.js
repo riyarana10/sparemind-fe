@@ -31,28 +31,28 @@ export default function App() {
         return;
       }
 
-      try {
-        const res = await axios.get(`${baseUrl}/verify-token`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+      // try {
+      //   const res = await axios.get(`${baseUrl}/verify-token`, {
+      //     headers: {
+      //       Authorization: `Bearer ${token}`,
+      //     },
+      //   });
 
-        if (res.status === 200) {
-          if (res.data.expired) {
-            localStorage.removeItem("access_token");
-            navigate("/login");
-          }
-        } else {
-          localStorage.removeItem("access_token");
-          navigate("/login");
-        }
-      } catch (error) {
-        localStorage.removeItem("access_token");
-        navigate("/login");
-      } finally {
-        setCheckingToken(false);
-      }
+      //   if (res.status === 200) {
+      //     if (res.data.expired) {
+      //       localStorage.removeItem("access_token");
+      //       navigate("/login");
+      //     }
+      //   } else {
+      //     localStorage.removeItem("access_token");
+      //     navigate("/login");
+      //   }
+      // } catch (error) {
+      //   localStorage.removeItem("access_token");
+      //   navigate("/login");
+      // } finally {
+      //   setCheckingToken(false);
+      // }
     }
 
     verifyToken();
