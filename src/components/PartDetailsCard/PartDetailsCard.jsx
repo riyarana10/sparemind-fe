@@ -198,7 +198,7 @@ const PartDetailsCard = ({
         <div className="part-actions">
           <div className="action-item">
             <div className="detail-label">MRP</div>
-            <div className="price-value">₹{formatPrice(partData.price)}</div>
+            <div className="price-value">${formatPrice(partData.price)}</div>
           </div>
 
           <div className="action-item">

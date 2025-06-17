@@ -84,7 +84,7 @@ export default function CodeSearchPage() {
             <strong>Brand:</strong> {original.brand}
           </p>
           <p>
-            <strong>Price:</strong> ₹{fmt(original.original_part_price)}
+            <strong>Price:</strong> ${fmt(original.original_part_price)}
           </p>
           <p>
             <strong>Part Description:</strong>{" "}
@@ -120,7 +120,7 @@ export default function CodeSearchPage() {
                 <strong>Item Code:</strong> {r.replacement_part_item_code}
               </p>
               <p>
-                <strong>Price:</strong> ₹{fmt(r.replacement_part_price)}
+                <strong>Price:</strong> ${fmt(r.replacement_part_price)}
               </p>
               <p>
                 <strong>Part Description:</strong>{" "}
@@ -129,7 +129,7 @@ export default function CodeSearchPage() {
               <p>
                 <strong>Savings:</strong>{" "}
                 <span className={cls}>
-                  ₹{Math.round(diff).toLocaleString("en-IN")}
+                  ${Math.round(diff).toLocaleString("en-IN")}
                 </span>
               </p>
               <button onClick={() => view(r)}>View Details</button>

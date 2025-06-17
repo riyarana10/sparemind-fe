@@ -181,7 +181,7 @@ const NewArrivalParts = ({ token }) => {
                     <div>
                       <p className="item-code">Price</p>
                       <p className="price">
-                        ₹{formatPrice(product.original_part_price)}
+                        ${formatPrice(product.original_part_price)}
                       </p>
                     </div>
                     <div>

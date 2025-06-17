@@ -46,8 +46,8 @@ const SpecsComparison = ({
     },
     {
       label: "Price",
-      original: `₹${formatPrice(originalPart.original_part_price)}`,
-      replacement: `₹${formatPrice(replacementPart.replacement_part_price)}`,
+      original: `$${formatPrice(originalPart.original_part_price)}`,
+      replacement: `$${formatPrice(replacementPart.replacement_part_price)}`,
     },
     {
       label: "Description",
@@ -138,11 +138,11 @@ const SpecsComparison = ({
                         {originalPart.original_part_price -
                           replacementPart.replacement_part_price >=
                         0
-                          ? `Savings: ₹ ${formatPrice(
+                          ? `Savings: $ ${formatPrice(
                               originalPart.original_part_price -
                                 replacementPart.replacement_part_price
                             )}`
-                          : `Extra Cost: ₹ ${formatPrice(
+                          : `Extra Cost: $ ${formatPrice(
                               replacementPart.replacement_part_price -
                                 originalPart.original_part_price
                             )}`}

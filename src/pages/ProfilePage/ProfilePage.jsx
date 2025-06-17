@@ -84,7 +84,7 @@ export default function ProfilePage() {
               <strong>Comments:</strong> {commented}
             </div>
             <div>
-              <strong>Total Savings:</strong> ₹{fmtMoney(totalSavings)}
+              <strong>Total Savings:</strong> ${fmtMoney(totalSavings)}
             </div>
           </div>
           <h2 className="section-title">History</h2>
@@ -119,7 +119,7 @@ export default function ProfilePage() {
                     </td>
                     <td>
                       {d.status === "accepted"
-                        ? `₹${fmtMoney(d.price_difference)}`
+                        ? `$${fmtMoney(d.price_difference)}`
                         : "-"}
                     </td>
                     <td className="comment-cell">{d.comment || "-"}</td>
@@ -201,7 +201,7 @@ export default function ProfilePage() {
                   </td>
                   <td>
                     {d.status === "accepted"
-                      ? `₹${fmtMoney(d.price_difference)}`
+                      ? `$${fmtMoney(d.price_difference)}`
                       : "-"}
                   </td>
                   <td className="comment-cell">{d.comment || "-"}</td>
@@ -230,7 +230,7 @@ export default function ProfilePage() {
                   <td className="accepted-cell">{u.accepted}</td>
                   <td className="rejected-cell">{u.rejected}</td>
                   <td>{u.commented}</td>
-                  <td className="accepted-cell">₹{fmtMoney(u.savings)}</td>
+                  <td className="accepted-cell">${fmtMoney(u.savings)}</td>
                 </tr>
               ))}
             </tbody>

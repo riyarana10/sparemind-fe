@@ -88,7 +88,7 @@ export default function TextSearchPage() {
                 <strong>Brand:</strong> {r.brand}
               </p>
               <p>
-                <strong>Price:</strong> ₹{fmt(r.replacement_part_price)}
+                <strong>Price:</strong> ${fmt(r.replacement_part_price)}
               </p>
               <p>
                 <strong>Part Description:</strong>{" "}
@@ -97,7 +97,7 @@ export default function TextSearchPage() {
               <p>
                 <strong>Savings:</strong>{" "}
                 <span className={cls}>
-                  ₹{Math.round(diff).toLocaleString("en-IN")}
+                  ${Math.round(diff).toLocaleString("en-IN")}
                 </span>
               </p>
               <button
