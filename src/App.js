@@ -20,7 +20,6 @@ import baseUrl from "./services/base-url";
 
 export default function App() {
   const token = localStorage.getItem("access_token");
-  console.log("Token:", token);
   const navigate = useNavigate();
   const [checkingToken, setCheckingToken] = useState(true);
 
