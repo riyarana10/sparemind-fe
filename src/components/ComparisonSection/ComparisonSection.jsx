@@ -190,7 +190,7 @@ const ComparisonSection = ({
                     <div className="price-column">
                       <p className="rep-mrp-label">MRP</p>
                       <p className="rep-price">
-                        ₹{formatPrice(rep.replacement_part_price)}
+                        ${formatPrice(rep.replacement_part_price)}
                       </p>
                     </div>
                     {rep.replacement_part_item_code !== null && (
@@ -207,11 +207,11 @@ const ComparisonSection = ({
                           {original.original_part_price -
                             rep.replacement_part_price <
                           0
-                            ? `Extra Cost: ₹${formatPrice(
+                            ? `Extra Cost: $${formatPrice(
                                 rep.replacement_part_price -
                                   original.original_part_price
                               )}`
-                            : `Save: ₹${formatPrice(
+                            : `Save: $${formatPrice(
                                 original.original_part_price -
                                   rep.replacement_part_price
                               )}`}

@@ -164,7 +164,7 @@ const CategoryPage = () => {
                       <div>
                         <p className="product-info-title">Price</p>
                         <p className="product-info-value">
-                          ₹{formatPrice(item.original_part_price)}
+                          ${formatPrice(item.original_part_price)}
                         </p>
                       </div>
 
@@ -301,7 +301,7 @@ const CategoryPage = () => {
                       <div>
                         <p className="product-info-title">Price</p>
                         <p className="product-info-value">
-                          ₹{formatPrice(item.replacement_part_price)}
+                          ${formatPrice(item.replacement_part_price)}
                         </p>
                       </div>
 

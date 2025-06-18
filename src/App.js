@@ -20,47 +20,48 @@ import baseUrl from "./services/base-url";
 
 export default function App() {
   const token = localStorage.getItem("access_token");
+  console.log("Token:", token);
   const navigate = useNavigate();
   const [checkingToken, setCheckingToken] = useState(true);
 
-  useEffect(() => {
-    async function verifyToken() {
-      if (!token) {
-        navigate("/login");
-        setCheckingToken(false);
-        return;
-      }
+  // useEffect(() => {
+  //   async function verifyToken() {
+  //     if (!token) {
+  //       navigate("/login");
+  //       setCheckingToken(false);
+  //       return;
+  //     }
 
-      // try {
-      //   const res = await axios.get(`${baseUrl}/verify-token`, {
-      //     headers: {
-      //       Authorization: `Bearer ${token}`,
-      //     },
-      //   });
+  //     // try {
+  //     //   const res = await axios.get(`${baseUrl}/verify-token`, {
+  //     //     headers: {
+  //     //       Authorization: `Bearer ${token}`,
+  //     //     },
+  //     //   });
 
-      //   if (res.status === 200) {
-      //     if (res.data.expired) {
-      //       localStorage.removeItem("access_token");
-      //       navigate("/login");
-      //     }
-      //   } else {
-      //     localStorage.removeItem("access_token");
-      //     navigate("/login");
-      //   }
-      // } catch (error) {
-      //   localStorage.removeItem("access_token");
-      //   navigate("/login");
-      // } finally {
-      //   setCheckingToken(false);
-      // }
-    }
+  //     //   if (res.status === 200) {
+  //     //     if (res.data.expired) {
+  //     //       localStorage.removeItem("access_token");
+  //     //       navigate("/login");
+  //     //     }
+  //     //   } else {
+  //     //     localStorage.removeItem("access_token");
+  //     //     navigate("/login");
+  //     //   }
+  //     // } catch (error) {
+  //     //   localStorage.removeItem("access_token");
+  //     //   navigate("/login");
+  //     // } finally {
+  //     //   setCheckingToken(false);
+  //     // }
+  //   }
 
-    verifyToken();
-  }, [token, navigate]);
+  //   verifyToken();
+  // }, [token, navigate]);
 
-  if (checkingToken) {
-    return null; // or a loading spinner
-  }
+  // if (checkingToken) {
+  //   return null; // or a loading spinner
+  // }
 
   return (
     <Routes>
