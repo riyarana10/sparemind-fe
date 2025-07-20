@@ -1,0 +1,38 @@
+.breadcrumb-nav {
+  font-size: 15px;
+  margin: 23px 40px;
+  color: #000000;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  font-weight: 400;
+  font-family: IBM Plex Sans Condensed;
+}
+
+.breadcrumb-item {
+  display: flex;
+  align-items: center;
+}
+
+.breadcrumb-item button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  font: inherit;
+}
+
+.breadcrumb-item button:hover {
+  color: #007bff;
+}
+
+.breadcrumb-current {
+  font-weight: 400;
+  color: #222;
+}
+
+.breadcrumb-separator {
+  margin: 0 6px;
+  color: #888;
+}
+  

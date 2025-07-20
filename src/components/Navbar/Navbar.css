@@ -1,0 +1,100 @@
+/* Navbar base */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 40px;
+  background-color: white;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  height: 96px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.04)
+}
+
+/* Logo and Title */
+.navbar-logo {
+  cursor: pointer;
+  height: 40px;
+  width: 160px;
+}
+
+.navbar-icon {
+  width: 40px;
+  height: 40px;
+  background-color: #2B2E83;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.navbar-title {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.title-blue {
+  color: #2B2E83;
+}
+
+.title-red {
+  color: #D52B1E;
+}
+
+/* Menu items */
+.navbar-menu .ant-menu {
+  display: flex;
+  gap: 10px;
+  border-bottom: none;
+}
+
+.navbar-menu .ant-menu-item {
+  font-weight: 600;
+}
+
+.nav-logo-menu-section {
+  display: flex;
+  gap: 30px;
+}
+
+/* Account Dropdown */
+.account-dropdown {
+  display: flex;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 18px;
+  font-family: 'IBM Plex Sans Condensed';
+}
+
+/* Mobile Styles */
+.mobile {
+  display: none;
+}
+
+.drawer-account {
+  margin-top: 20px;
+}
+
+.nav-menu-items {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .desktop {
+    display: none;
+  }
+
+  .mobile {
+    display: block;
+  }
+
+  .nav-menu-items .ant-menu-item {
+    padding-left: 0;
+  }
+}
